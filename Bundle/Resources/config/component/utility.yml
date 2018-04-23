@@ -1,0 +1,10 @@
+#
+# Brain Common Utility
+
+services:
+
+  brain.common.utility.factory.identity:
+    class: 'Brain\Common\Utility\UniqueIdentityFactory'
+    arguments:
+      - '@uuid'
+    public: false

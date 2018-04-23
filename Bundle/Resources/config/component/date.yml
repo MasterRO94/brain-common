@@ -1,0 +1,8 @@
+#
+# Brain Common Date
+
+services:
+
+  brain.common.date.factory:
+    class: 'Brain\Common\Date\DateTimeFactory'
+    public: false

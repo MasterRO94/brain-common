@@ -1,0 +1,10 @@
+#
+# Brain Common Translation
+
+services:
+
+  brain.common.translation.translator:
+    class: 'Brain\Common\Translation\Translator'
+    arguments:
+      - '@translator'
+    public: false

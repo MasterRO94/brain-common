@@ -1,0 +1,25 @@
+#
+# Brain Common Form
+
+services:
+
+  brain.common.form.handler:
+    class: 'Brain\Common\Form\Handler\FormHandler'
+    arguments:
+      - '@request_stack'
+      - '@brain.common.form.factory'
+      - '@brain.common.debug.stopwatch'
+#    public: false
+
+  brain.common.form.factory:
+    class: 'Brain\Common\Form\Handler\Builder\FormFactory'
+    arguments:
+      - '@form.registry'
+#    public: false
+
+  brain.common.form.entity.lookup:
+    class: 'Brain\Common\Form\Type\Entity\EntityLookupType'
+    arguments:
+      - '@brain.common.database'
+    tags:
+      - { name: form.type }

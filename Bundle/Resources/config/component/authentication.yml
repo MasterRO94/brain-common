@@ -1,0 +1,8 @@
+#
+# Brain Common Authentication
+
+services:
+
+  brain.common.authentication.storage:
+    class: 'Brain\Common\Authentication\SimpleAuthenticationStorage'
+    public: false

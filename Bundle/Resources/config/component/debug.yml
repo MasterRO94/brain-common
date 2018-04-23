@@ -1,0 +1,14 @@
+#
+# Brain Common Debug
+
+services:
+
+  brain.common.debug.stopwatch:
+    class: 'Brain\Common\Debug\Stopwatch'
+    arguments:
+      - '@debug.stopwatch'
+    public: false
+
+  brain.common.debug.stopwatch.null:
+    class: 'Brain\Common\Debug\NullStopwatch'
+    public: false

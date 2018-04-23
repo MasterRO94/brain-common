@@ -1,0 +1,15 @@
+#
+# Brain Common Response
+
+services:
+
+  brain.common.response.factory:
+    class: 'Brain\Common\Response\ResponseFactory'
+    public: false
+
+  brain.common.response.helper:
+    class: 'Brain\Common\Response\ResponseHelper'
+    arguments:
+      - '@brain.core.response.factory'
+      - '@request_stack'
+    pubic: false

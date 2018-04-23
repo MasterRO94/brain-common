@@ -1,0 +1,24 @@
+#
+# Brain Common Database
+
+parameters:
+  brain.common.database.paginator.default.page: 1
+  brain.common.database.paginator.default.limit: 10
+
+services:
+
+  brain.common.database:
+    class: 'Brain\Common\Database\Database'
+    arguments:
+      - '@doctrine'
+      - '@brain.common.database.paginator.factory'
+      - '@brain.common.authentication.storage'
+    public: false
+
+  brain.common.database.paginator.factory:
+    class: 'Brain\Common\Database\Pagination\PaginatorFactory'
+    arguments:
+      - '@request_stack'
+      - '%brain.common.database.paginator.default.page%'
+      - '%brain.common.database.paginator.default.limit%'
+    public: false
