@@ -11,6 +11,15 @@ services:
       - '@brain.common.debug.stopwatch'
 #    public: false
 
+  brain.common.form.handler.filter:
+    class: 'Brain\Common\Request\Filter\Handler\FilterHandler'
+    arguments:
+      - '@request_stack'
+      - '@brain.common.form.factory'
+      - '@brain.common.database.paginator.factory'
+      - '@lexik_form_filter.query_builder_updater'
+#    public: false
+
   brain.common.form.factory:
     class: 'Brain\Common\Form\Handler\Builder\FormFactory'
     arguments:

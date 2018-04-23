@@ -8,7 +8,7 @@ use Throwable;
 /**
  * A runtime exception for brain common.
  */
-abstract class AbstractBrainCommonRuntimeException extends RuntimeException
+abstract class AbstractBrainRuntimeException extends RuntimeException
 {
     /**
      * Constructor.
@@ -16,7 +16,7 @@ abstract class AbstractBrainCommonRuntimeException extends RuntimeException
      * @param string $message
      * @param Throwable|null $previous
      */
-    public function __construct(string $message, Throwable $previous = null)
+    public function __construct(string $message = '', Throwable $previous = null)
     {
         $code = 0;
 

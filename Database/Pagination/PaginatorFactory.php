@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Database\Pagination;
 
-use Brain\Bundle\Core\Exception\Database\PaginationException;
+use Brain\Common\Database\Exception\Paginator\InvalidLimitPaginationException;
+use Brain\Common\Database\Exception\Paginator\InvalidPagePaginationException;
 use Brain\Common\Database\Pagination\Adapter\PaginatorQueryBuilderAdapter;
 
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -43,6 +44,9 @@ final class PaginatorFactory
      * @param int|null $page
      * @param int|null $limit
      *
+     * @throws InvalidPagePaginationException if the "page" in the request is invalid.
+     * @throws InvalidLimitPaginationException if the "limit" in the request is invalid.
+     *
      * @return Paginator
      */
     public function create(AdapterInterface $adapter, int $page = null, int $limit = null): Paginator
@@ -51,12 +55,12 @@ final class PaginatorFactory
 
         $pageRequested = $request->query->get('page', 0);
         if (!is_numeric($pageRequested)) {
-            throw PaginationException::createForInvalidPageParameter();
+            throw new InvalidPagePaginationException();
         }
 
         $limitRequested = $request->query->get('limit', 0);
         if (!is_numeric($limitRequested)) {
-            throw PaginationException::createForInvalidLimitParameter();
+            throw new InvalidLimitPaginationException();
         }
 
         $paginator = new Paginator($adapter);

@@ -2,12 +2,12 @@
 
 namespace Brain\Common\Database\Exception;
 
-use Brain\Common\Exception\AbstractBrainCommonRuntimeException;
+use Brain\Common\Exception\AbstractBrainRuntimeException;
 
 /**
  * {@inheritdoc}
  */
-final class EntityRepositoryException extends AbstractBrainCommonRuntimeException
+final class EntityRepositoryException extends AbstractBrainRuntimeException
 {
     /**
      * @return EntityRepositoryException

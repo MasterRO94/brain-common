@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Brain\Common\Form\Handler;
 
-use Brain\Bundle\Core\Exception\FormValidationException;
-use Brain\Bundle\Core\Payload\PayloadHelper;
 use Brain\Common\Debug\StopwatchInterface;
+use Brain\Common\Form\Exception\FormValidationException;
 use Brain\Common\Form\Handler\Builder\FormFactory;
+use Brain\Common\Utility\PayloadHelper;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -76,9 +75,7 @@ final class FormHandler
         $this->handle($form, $payload);
 
         if (!$form->isValid()) {
-            throw FormValidationException::create(
-                $this->getFormErrors($form)
-            );
+            throw new FormValidationException($form);
         }
 
         return $form;
@@ -140,49 +137,5 @@ final class FormHandler
         $form->submit($payload, $missing);
 
         $this->stopwatch->stop('form.handle');
-    }
-
-    /**
-     * Return the form errors as an array.
-     *
-     * @param FormInterface $form
-     * @param string|null $parent
-     *
-     * @return array
-     */
-    private function getFormErrors(FormInterface $form, string $parent = null): array
-    {
-        $errors = [];
-
-        foreach ($form as $key => $child) {
-            /* @var Form $child */
-
-            if (is_null($parent)) {
-                $name = $key;
-            } else {
-                $name = implode('.', [$parent, $key]);
-            }
-
-            foreach ($child->getErrors() as $error) {
-                $errors[$name][] = $error->getMessage();
-            }
-
-            if (count($child) > 0) {
-                $childErrors = $this->getFormErrors($child, $name);
-
-                foreach ($childErrors as $childErrorKey => $childError) {
-                    if (!isset($errors[$childErrorKey])) {
-                        $errors[$childErrorKey] = $childError;
-                    }
-                }
-            }
-        }
-
-        $parent = $parent ?: '@form';
-        foreach ($form->getErrors() as $error) {
-            $errors[$parent][] = $error->getMessage();
-        }
-
-        return $errors;
     }
 }

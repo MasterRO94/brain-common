@@ -2,8 +2,6 @@
 
 namespace Brain\Common\Response;
 
-use Brain\Bundle\Core\Response\ResponseFactory;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
