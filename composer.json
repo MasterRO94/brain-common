@@ -4,7 +4,22 @@
 
   "require": {
     "php": ">=7.1",
-    "symfony/form": "~3.0 || ~4.0"
+
+    "symfony/form": "~3.0 || ~4.0",
+
+    "doctrine/orm": "~2.5",
+
+    "sensio/framework-extra-bundle": "^3.0.18",
+    "friendsofsymfony/rest-bundle": "^2.3.1",
+    "lexik/form-filter-bundle": "^5.0.4",
+
+    "white-october/pagerfanta-bundle": "^1.1.2",
+    "pagerfanta/pagerfanta": "^1.0.5",
+
+    "jms/serializer-bundle": "^2.0",
+    "jms/serializer": "^1.11",
+
+    "ramsey/uuid": "3.4.1"
   },
 
   "require-dev": {
@@ -14,6 +29,12 @@
   "autoload": {
     "psr-4": {
       "Brain\\Common\\": "."
+    }
+  },
+
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "0.1.x-dev"
     }
   }
 }
