@@ -59,8 +59,11 @@ final class FormHandler implements FormHandlerInterface
         $request = $request ?: $this->request;
         $payload = PayloadHelper::getJsonFromRequest($request);
 
+        //  Missing values are set to null if not patching.
+        $missing = ($this->request->getMethod() !== Request::METHOD_PATCH);
+
         $form = $this->create($type, $data, $options);
-        $this->handle($form, $payload);
+        $this->handle($form, $payload, $missing);
 
         if (!$form->isValid()) {
             throw new FormValidationException($form);
@@ -108,13 +111,12 @@ final class FormHandler implements FormHandlerInterface
      *
      * @param FormInterface $form
      * @param array $payload
+     * @param bool $missing
      */
-    private function handle(FormInterface $form, array $payload)
+    private function handle(FormInterface $form, array $payload, bool $missing = true)
     {
         $this->stopwatch->start('form.handle', 'form');
 
-        //  Missing values are set to null if not patch.
-        $missing = ($this->request->getMethod() !== Request::METHOD_PATCH);
         $form->submit($payload, $missing);
 
         $this->stopwatch->stop('form.handle');
