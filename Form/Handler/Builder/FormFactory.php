@@ -15,7 +15,10 @@ final class FormFactory extends BaseFormFactory
 {
     private $options = [
         'error_bubbling' => false,
-        'csrf_protection' => false,
+
+        //  This is removed as CSRF protection should be disabled in the framework configuration.
+        //  The more you know I guess.
+//        'csrf_protection' => false,
 
         //  Never set this at this point, this will prevent objects given to forms as preset data
         //  from being modified. Mainly we had an issue with job components not being added to a job
