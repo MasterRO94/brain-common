@@ -18,7 +18,7 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 /**
  * A helper for handling filters and sorts on repository query builders.
  */
-final class FilterHandler
+final class FilterHandler implements FilterHandlerInterface
 {
     private $requestStack;
     private $formFactory;
@@ -46,16 +46,10 @@ final class FilterHandler
     }
 
     /**
-     * Apply filters to the pagination given.
+     * {@inheritdoc}
      *
      * Note the pagination returned is a new paginator and should be used as a
      * replacement for the one provided. The one provided will not have its query modified.
-     *
-     * @param Paginator $paginator
-     * @param string|null $filter
-     * @param string|null $sort
-     *
-     * @return Paginator
      */
     public function filterForPaginator(Paginator $paginator, string $filter = null, string $sort = null): Paginator
     {
@@ -82,18 +76,10 @@ final class FilterHandler
     }
 
     /**
-     * Apply filter sot the query builder given.
+     * {@inheritdoc}
      *
      * Note the query builder returned is a new query builder and should be used as a
      * replacement for the one provided. The one provided not have its query modified.
-     *
-     * @param QueryBuilder $qb
-     * @param array $data
-     * @param string $type
-     *
-     * @throws FilterFormValidationException when validation fails.
-     *
-     * @return QueryBuilder
      */
     public function applyTypeAndDataForQueryBuilder(QueryBuilder $qb, array $data, string $type): QueryBuilder
     {

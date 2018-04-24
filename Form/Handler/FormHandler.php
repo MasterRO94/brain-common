@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * * csrf_protection
  * * error_bubbling
  */
-final class FormHandler
+final class FormHandler implements FormHandlerInterface
 {
     private $request;
     private $factory;
@@ -52,19 +52,7 @@ final class FormHandler
     }
 
     /**
-     * Create and handle the form for the request.
-     *
-     * The manage method tries to work around some of the limitation in the Symfony form component when working with
-     * type hints from PHP.
-     *
-     * @param string $type
-     * @param mixed $data
-     * @param array $options
-     * @param Request|null $request
-     *
-     * @throws FormValidationException when form fails validation.
-     *
-     * @return FormInterface
+     * {@inheritdoc}
      */
     public function manage(string $type, $data = null, array $options = [], Request $request = null): FormInterface
     {
@@ -82,14 +70,7 @@ final class FormHandler
     }
 
     /**
-     * Create and handle a form in in partial.
-     *
-     * @param string $type
-     * @param null $data
-     * @param array $options
-     * @param Request|null $request
-     *
-     * @return FormInterface
+     * {@inheritdoc}
      */
     public function partial(string $type, $data = null, array $options = [], Request $request = null): FormInterface
     {
