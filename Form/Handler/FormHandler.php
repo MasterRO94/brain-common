@@ -59,12 +59,7 @@ final class FormHandler implements FormHandlerInterface
         $request = $request ?: $this->request;
         $payload = PayloadHelper::getJsonFromRequest($request);
 
-        $form = $this->create($type, $data, $options);
-        $this->handle($form, $payload);
-
-        if (!$form->isValid()) {
-            throw new FormValidationException($form);
-        }
+        $form = $this->handle($type, $payload, $data, $options);
 
         return $form;
     }
@@ -78,6 +73,28 @@ final class FormHandler implements FormHandlerInterface
         $options['validation_groups'] = ['partial'];
 
         return $this->manage($type, $data, $options, $request);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handle(string $type, array $payload, $data = null, array $options = []): FormInterface
+    {
+        $form = $this->create($type, $data, $options);
+
+        $this->stopwatch->start('form.handle', 'form');
+
+        //  Missing values are set to null if not patch.
+        $missing = ($this->request->getMethod() !== Request::METHOD_PATCH);
+        $form->submit($payload, $missing);
+
+        $this->stopwatch->stop('form.handle');
+
+        if (!$form->isValid()) {
+            throw new FormValidationException($form);
+        }
+
+        return $form;
     }
 
     /**
@@ -101,22 +118,5 @@ final class FormHandler implements FormHandlerInterface
         $this->stopwatch->stop($type);
 
         return $form;
-    }
-
-    /**
-     * Handle the form and request.
-     *
-     * @param FormInterface $form
-     * @param array $payload
-     */
-    private function handle(FormInterface $form, array $payload)
-    {
-        $this->stopwatch->start('form.handle', 'form');
-
-        //  Missing values are set to null if not patch.
-        $missing = ($this->request->getMethod() !== Request::METHOD_PATCH);
-        $form->submit($payload, $missing);
-
-        $this->stopwatch->stop('form.handle');
     }
 }

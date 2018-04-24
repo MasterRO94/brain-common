@@ -34,4 +34,18 @@ interface FormHandlerInterface
      * @return FormInterface
      */
     public function partial(string $type, $data = null, array $options = [], Request $request = null): FormInterface;
+
+    /**
+     * Handle the form for the given payload.
+     *
+     * @param string $type
+     * @param array $payload
+     * @param null $data
+     * @param array $options
+     *
+     * @throws FormValidationException when form fails validation.
+     *
+     * @return FormInterface
+     */
+    public function handle(string $type, array $payload, $data = null, array $options = []): FormInterface;
 }
