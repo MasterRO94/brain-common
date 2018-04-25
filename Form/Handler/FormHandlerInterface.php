@@ -42,10 +42,11 @@ interface FormHandlerInterface
      * @param array $payload
      * @param null $data
      * @param array $options
+     * @param bool $missing
      *
      * @throws FormValidationException when form fails validation.
      *
      * @return FormInterface
      */
-    public function handle(string $type, array $payload, $data = null, array $options = []): FormInterface;
+    public function handle(string $type, array $payload, $data = null, array $options = [], bool $missing = true): FormInterface;
 }

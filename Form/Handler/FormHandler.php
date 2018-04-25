@@ -83,10 +83,9 @@ final class FormHandler implements FormHandlerInterface
      */
     public function handle(string $type, array $payload, $data = null, array $options = [], bool $missing = true): FormInterface
     {
-        $form = $this->create($type, $data, $options);
-
         $this->stopwatch->start('form.handle', 'form');
 
+        $form = $this->create($type, $data, $options);
         $form->submit($payload, $missing);
 
         $this->stopwatch->stop('form.handle');
@@ -116,6 +115,7 @@ final class FormHandler implements FormHandlerInterface
         $builder = $this->factory->createNamedBuilder('', $type, $data, $options);
 
         $form = $builder->getForm();
+
         $this->stopwatch->stop($type);
 
         return $form;
