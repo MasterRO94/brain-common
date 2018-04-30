@@ -22,4 +22,18 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
             sprintf('This was executed on the class "%s".', get_class($object)),
         ]));
     }
+
+    /**
+     * @param object $object
+     *
+     * @return PrototypeMethodException
+     */
+    public static function createForCreatedDateMissing($object): self
+    {
+        return new self(implode(' ', [
+            'The method "getCreated()" cannot be called because the created date is not available right now.',
+            'If you wish to test for the created date then make use of the "hasCreated()" method or capture this exception.',
+            sprintf('This was executed on the class "%s".', get_class($object)),
+        ]));
+    }
 }
