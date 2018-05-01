@@ -58,8 +58,8 @@ final class EntityLookupType extends AbstractType
             $this->handleDoctrineEntityLookup($event, $definitions, $options);
         };
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, $normaliser);
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, $fetcher);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, $normaliser, 1011);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, $fetcher, 1010);
     }
 
     /**
@@ -130,6 +130,10 @@ final class EntityLookupType extends AbstractType
     private function handleDoctrineEntityLookup(FormEvent $event, array $definitions, array $options): void
     {
         $data = $event->getData();
+
+        //  Initially the data is going to be a series of look up information.
+        //  This can be considered valid in some validation cases so lets make it null by default.
+        $event->setData(null);
 
         //  Fetching the repository through the brain database manager.
         $qb = $this->db->getRepository($options['class'])->createQueryBuilder('e');
