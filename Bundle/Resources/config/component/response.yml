@@ -10,6 +10,6 @@ services:
   brain.common.response.helper:
     class: 'Brain\Common\Response\ResponseHelper'
     arguments:
-      - '@brain.core.response.factory'
+      - '@brain.common.response.factory'
       - '@request_stack'
     public: false
