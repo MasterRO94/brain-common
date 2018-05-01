@@ -6,5 +6,9 @@ services:
   brain.common.utility.factory.identity:
     class: 'Brain\Common\Utility\UniqueIdentityFactory'
     arguments:
-      - '@uuid'
+      - '@brain.common.utility.factory.identity.uuid'
+    public: false
+
+  brain.common.utility.factory.identity.uuid:
+    class: 'Ramsey\Uuid\UuidFactory'
     public: false
