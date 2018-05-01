@@ -12,4 +12,4 @@ services:
     arguments:
       - '@brain.core.response.factory'
       - '@request_stack'
-    pubic: false
+    public: false
