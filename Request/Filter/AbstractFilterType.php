@@ -74,7 +74,7 @@ abstract class AbstractFilterType extends AbstractType
      * @param string $filter
      * @param bool $nullable
      */
-    protected function addChildFilter(string $field, string $column, string $filter, bool $nullable): void
+    protected function embed(string $field, string $column, string $filter, bool $nullable): void
     {
         $listener = function (FormEvent $event) use ($field, $column, $filter, $nullable) {
             /** @var array|string $data */
