@@ -2,8 +2,8 @@
 
 namespace Brain\Common\Request\Sort;
 
-use Brain\Common\Request\Filter\Helper\FilterDatabaseHelper;
 use Brain\Bundle\Core\Filter\Helper\EmbedFilterHelper;
+use Brain\Common\Request\Filter\Helper\FilterDatabaseHelper;
 use Brain\Common\Request\Sort\Enum\SortEnum;
 
 use Symfony\Component\Form\AbstractType;
