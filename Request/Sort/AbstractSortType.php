@@ -3,10 +3,13 @@
 namespace Brain\Common\Request\Sort;
 
 use Brain\Common\Request\Filter\Helper\FilterDatabaseHelper;
+use Brain\Bundle\Core\Filter\Helper\EmbedFilterHelper;
 use Brain\Common\Request\Sort\Enum\SortEnum;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -59,6 +62,44 @@ abstract class AbstractSortType extends AbstractType
     public function getParent()
     {
         return SharedableFilterType::class;
+    }
+
+    /**
+     * Add an embedded child form.
+     *
+     * @param string $field
+     * @param string $column
+     * @param string $filter
+     */
+    protected function embed(string $field, string $column, string $filter): void
+    {
+        $listener = function (FormEvent $event) use ($field, $column, $filter) {
+            /** @var array|string $data */
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            if (!is_array($data)) {
+                return;
+            }
+
+            if (!isset($data[$field])) {
+                return;
+            }
+
+            $value = $data[$field];
+
+            //  Empty strings can be ignored.
+            //  This should cause the form handler to throw a violation.
+            if ($value === '') {
+                return;
+            }
+
+            $form->add($field, $filter, [
+                'add_shared' => EmbedFilterHelper::embed($field, $column),
+            ]);
+        };
+
+        $this->builder->addEventListener(FormEvents::PRE_SUBMIT, $listener);
     }
 
     /**
