@@ -2,7 +2,7 @@
 
 namespace Brain\Common\Form\Handler;
 
-use Brain\Bundle\Core\Exception\FormValidationException;
+use Brain\Common\Form\Exception\FormValidationException;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
