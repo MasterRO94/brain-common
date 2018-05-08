@@ -8,7 +8,7 @@ use Brain\Common\Database\Repository\AbstractEntityRepository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * A custom database class for handling doctrine.
@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManager;
  */
 class Database
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $em;
     private $paginatorFactory;
     private $authenticationStorage;
@@ -42,9 +42,9 @@ class Database
     /**
      * Return the doctrine entity manager.
      *
-     * @return EntityManager
+     * @return EntityManagerInterface
      */
-    final public function getEntityManager(): EntityManager
+    final public function getEntityManager(): EntityManagerInterface
     {
         return $this->em;
     }
