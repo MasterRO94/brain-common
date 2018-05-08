@@ -12,10 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * A custom database class for handling doctrine.
- *
- * @api
  */
-class Database
+class Database implements DatabaseInterface
 {
     /** @var EntityManagerInterface */
     private $em;
@@ -40,33 +38,23 @@ class Database
     }
 
     /**
-     * Return the doctrine entity manager.
-     *
-     * @return EntityManagerInterface
+     * {@inheritdoc}
      */
-    final public function getEntityManager(): EntityManagerInterface
+    public function getEntityManager(): EntityManagerInterface
     {
         return $this->em;
     }
 
     /**
-     * Return the doctrine connection.
-     *
-     * @return Connection
+     * {@inheritdoc}
      */
-    final public function getConnection(): Connection
+    public function getConnection(): Connection
     {
         return $this->em->getConnection();
     }
 
     /**
-     * Return the entity repository for the given entity.
-     *
-     * @param string $entity
-     *
-     * @return AbstractEntityRepository
-     *
-     * @api
+     * {@inheritdoc}
      */
     public function getRepository(string $entity): AbstractEntityRepository
     {
