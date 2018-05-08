@@ -12,6 +12,8 @@ use FOS\RestBundle\View\View;
  * A response helper for creating common view instances.
  *
  * @api
+ *
+ * @deprecated Use one of the HTTP Factories available.
  */
 class ResponseHelper
 {

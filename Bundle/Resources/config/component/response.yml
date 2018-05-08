@@ -7,6 +7,25 @@ services:
     class: 'Brain\Common\Response\ResponseFactory'
     public: false
 
+  brain.common.response.generator:
+    class: 'Brain\Common\Response\ResponseGenerator'
+    arguments:
+      - '@brain.common.response.factory'
+      - '@request_stack'
+    public: false
+
+  brain.common.response.http.view_factory:
+    class: 'Brain\Common\Response\Http\HttpViewFactory'
+    arguments:
+      - '@brain.common.response.generator'
+    public: false
+
+  brain.common.response.http.response_factory:
+    class: 'Brain\Common\Response\Http\HttpResponseFactory'
+    arguments:
+      - '@brain.common.response.generator'
+    public: false
+
   brain.common.response.helper:
     class: 'Brain\Common\Response\ResponseHelper'
     arguments:

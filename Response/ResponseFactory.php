@@ -5,6 +5,7 @@ namespace Brain\Common\Response;
 use Brain\Common\Database\Pagination\Paginator;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\View\View;
 
@@ -27,7 +28,7 @@ class ResponseFactory
      */
     final public function view(Request $request, $data = [], array $groups, int $status): View
     {
-        $groups = $this->handleSerialisationGroups($groups);
+        $groups = $this->prepareSerialisationGroups($groups);
         $response = $data;
 
         //  HEAD requests should be empty.
@@ -47,13 +48,53 @@ class ResponseFactory
             $view->setHeader(Paginator::PAGINATION_RESULTS_PER_PAGE, $data->getMaxPerPage());
         }
 
-        $this->handleCrossOriginHeaders($data, $request, $view);
+        $view = $this->prepareResponseView($data, $request, $view);
 
         return $view;
     }
 
     /**
-     * Handle serialisation groups.
+     * Prepare the view response.
+     *
+     * @param mixed $data
+     * @param Request $request
+     * @param View $view
+     *
+     * @return View
+     */
+    public function prepareResponseView($data, Request $request, View $view): View
+    {
+        $headers = $this->getCrossOriginHeaders($data, $request);
+
+        foreach ($headers as $header => $value) {
+            $view->setHeader($header, $value);
+        }
+
+        return $view;
+    }
+
+    /**
+     * Prepare the symfony response.
+     *
+     * @param mixed $data
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return Response
+     */
+    public function prepareResponse($data, Request $request, Response $response): Response
+    {
+        $headers = $this->getCrossOriginHeaders($data, $request);
+
+        foreach ($headers as $header => $value) {
+            $response->headers->set($header, $value, true);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Prepare serialisation groups.
      *
      * @param string[] $groups
      *
@@ -61,7 +102,7 @@ class ResponseFactory
      *
      * @api
      */
-    protected function handleSerialisationGroups(array $groups): array
+    protected function prepareSerialisationGroups(array $groups): array
     {
         if (!in_array('global', $groups)) {
             $groups[] = 'global';
@@ -76,9 +117,10 @@ class ResponseFactory
      *
      * @param mixed $data
      * @param Request $request
-     * @param View $view
+     *
+     * @return string[]
      */
-    private function handleCrossOriginHeaders($data, Request $request, View $view): void
+    private function getCrossOriginHeaders($data, Request $request): array
     {
         $origin = $request->headers->get('origin', '*');
 
@@ -107,13 +149,15 @@ class ResponseFactory
             'UNLINK',
         ];
 
-        $view->setHeader('Access-Control-Allow-Origin', $origin);
-        $view->setHeader('Access-Control-Allow-Headers', implode(', ', $expose));
-        $view->setHeader('Access-Control-Expose-Headers', implode(', ', $expose));
-        $view->setHeader('Access-Control-Allow-Methods', implode(', ', $methods));
+        return [
+            'Access-Control-Allow-Origin' => $origin,
+            'Access-Control-Allow-Headers' => implode(',', $expose),
+            'Access-Control-Expose-Headers' => implode(',', $expose),
+            'Access-Control-Allow-Methods' => implode(',', $methods),
 
-        //  Don't request this endpoint for another hour.
-        $view->setHeader('Access-Control-Max-Age', 60 * 60);
+            //  Don't request this endpoint for another hour.
+            'Access-Control-Max-Age' => 60 * 60,
+        ];
     }
 
     /**
