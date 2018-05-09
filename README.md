@@ -10,6 +10,17 @@ All classes here follow a strict standard and can be used as components on their
 You can access the classes using their service definitions if you are using the bundle.
 When not using the bundle you can construct the classes manually or manually register them in your application.
 
+# Configuration
+
+All configuration is optional!
+
+```YAML
+brain_common:
+  response:
+    factory:
+      service: '@custom.response.factory'
+```
+
 ## Api and Extending
 
 You will notice that almost all classes in this library are concrete (delcared `final`) or abstract (declared `abstract`).
@@ -28,7 +39,3 @@ This is done by implementing its own property accessor and ignoring specific err
 
 It is recommended that you do not put the constraints against the data class and instead add them in the form.
 Make use of the validation groups to enable and disable them.
-
-# TODO
-
-* Bundle configuration.
