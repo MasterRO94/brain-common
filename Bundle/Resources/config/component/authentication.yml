@@ -4,5 +4,8 @@
 services:
 
   brain.common.authentication.storage:
+    alias: '%brain.common.api.authentication.storage.service%'
+
+  brain.common.authentication.storage.simple:
     class: 'Brain\Common\Authentication\SimpleAuthenticationStorage'
     public: false

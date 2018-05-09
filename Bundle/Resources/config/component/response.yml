@@ -10,7 +10,7 @@ services:
   brain.common.response.generator:
     class: 'Brain\Common\Response\ResponseGenerator'
     arguments:
-      - '%brain.common.api.response.factory.service%'
+      - '@brain.common.response.factory'
       - '@request_stack'
     public: false
 
