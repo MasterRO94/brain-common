@@ -13,7 +13,15 @@ final class BrainCommonExtension extends AbstractBundleExtension
     protected function getConfigurationFiles(): array
     {
         return [
-            'components',
+            'api',
+            'component/authentication',
+            'component/database',
+            'component/date',
+            'component/debug',
+            'component/form',
+            'component/response',
+            'component/translation',
+            'component/utility',
         ];
     }
 }

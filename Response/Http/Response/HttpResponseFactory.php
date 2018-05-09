@@ -1,7 +1,8 @@
 <?php
 
-namespace Brain\Common\Response\Http;
+namespace Brain\Common\Response\Http\Response;
 
+use Brain\Common\Response\Http\HttpResponseFactoryInterface;
 use Brain\Common\Response\ResponseGenerator;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -9,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * {@inheritdoc}
  */
-final class HttpResponseFactory implements HttpFactoryInterface
+final class HttpResponseFactory implements HttpResponseFactoryInterface
 {
     private $generator;
 
@@ -25,8 +26,6 @@ final class HttpResponseFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return Response
      */
     public function ok($data = null, array $groups = []): Response
     {
@@ -35,8 +34,6 @@ final class HttpResponseFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return Response
      */
     public function created($data, array $groups = []): Response
     {
@@ -45,8 +42,6 @@ final class HttpResponseFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return Response
      */
     public function noContent(): Response
     {
@@ -55,8 +50,6 @@ final class HttpResponseFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return Response
      */
     public function notModified(): Response
     {
@@ -65,11 +58,6 @@ final class HttpResponseFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param mixed $data
-     * @param array $groups
-     *
-     * @return Response
      */
     public function badRequest($data, array $groups = []): Response
     {

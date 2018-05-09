@@ -10,18 +10,18 @@ services:
   brain.common.response.generator:
     class: 'Brain\Common\Response\ResponseGenerator'
     arguments:
-      - '@brain.common.response.factory'
+      - '%brain.common.api.response.factory.service%'
       - '@request_stack'
     public: false
 
-  brain.common.response.http.view_factory:
-    class: 'Brain\Common\Response\Http\HttpViewFactory'
+  brain.common.response.http.view.factory:
+    class: 'Brain\Common\Response\Http\View\HttpViewFactory'
     arguments:
       - '@brain.common.response.generator'
     public: false
 
-  brain.common.response.http.response_factory:
-    class: 'Brain\Common\Response\Http\HttpResponseFactory'
+  brain.common.response.http.response.factory:
+    class: 'Brain\Common\Response\Http\Response\HttpResponseFactory'
     arguments:
       - '@brain.common.response.generator'
     public: false

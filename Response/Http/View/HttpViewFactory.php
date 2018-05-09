@@ -1,7 +1,8 @@
 <?php
 
-namespace Brain\Common\Response\Http;
+namespace Brain\Common\Response\Http\View;
 
+use Brain\Common\Response\Http\HttpViewFactoryInterface;
 use Brain\Common\Response\ResponseGenerator;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +12,7 @@ use FOS\RestBundle\View\View;
 /**
  * {@inheritdoc}
  */
-final class HttpViewFactory implements HttpFactoryInterface
+final class HttpViewFactory implements HttpViewFactoryInterface
 {
     private $generator;
 
@@ -27,8 +28,6 @@ final class HttpViewFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return View
      */
     public function ok($data = null, array $groups = []): View
     {
@@ -37,8 +36,6 @@ final class HttpViewFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return View
      */
     public function created($data, array $groups = []): View
     {
@@ -47,8 +44,6 @@ final class HttpViewFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return View
      */
     public function noContent(): View
     {
@@ -57,8 +52,6 @@ final class HttpViewFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return View
      */
     public function notModified(): View
     {
@@ -67,11 +60,6 @@ final class HttpViewFactory implements HttpFactoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param mixed $data
-     * @param array $groups
-     *
-     * @return View
      */
     public function badRequest($data, array $groups = []): View
     {

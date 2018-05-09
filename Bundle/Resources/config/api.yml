@@ -1,0 +1,8 @@
+#
+# Brain Common Configuration Parameters
+
+# These parameters should be written too through bundle configuration.
+# Do not override these in your application.
+
+parameters:
+  brain.common.api.response.factory.service: 'brain.common.response.factory'
