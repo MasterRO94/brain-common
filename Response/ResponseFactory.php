@@ -127,6 +127,7 @@ class ResponseFactory
         $expose = [
             'Authorization',
             'Content-Type',
+            'Location',
             'Date',
         ];
 
