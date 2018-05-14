@@ -118,6 +118,27 @@ abstract class AbstractFilterType extends AbstractType
                 return;
             }
 
+            if (is_string($value) && in_array(strtolower($value), ['not-null', 'true'])) {
+                //  Should the child filter not be nullable we can return.
+                //  This should cause the form handler to throw a violation.
+                if (!$nullable) {
+                    return;
+                }
+
+                //  This form is simply going to run the query builder.
+                $form->add($field, TextFilterType::class, [
+                    'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+                        $alias = FilterDatabaseHelper::getAliasFromColumn($field);
+                        $field = FilterDatabaseHelper::generateFieldName($alias, $column);
+
+                        $qb = $filter->getQueryBuilder();
+                        $qb->andWhere($qb->expr()->isNotNull($field));
+                    },
+                ]);
+
+                return;
+            }
+
             $form->add($field, $filter, [
                 'add_shared' => EmbedFilterHelper::embed($field, $column),
             ]);
