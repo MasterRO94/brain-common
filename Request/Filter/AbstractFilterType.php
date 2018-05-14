@@ -97,7 +97,7 @@ abstract class AbstractFilterType extends AbstractType
                 return;
             }
 
-            if (is_string($value) && in_array(strtolower($value), ['null', 'false'])) {
+            if (is_string($value) && (strtolower($value) === 'false')) {
                 //  Should the child filter not be nullable we can return.
                 //  This should cause the form handler to throw a violation.
                 if (!$nullable) {
@@ -118,7 +118,7 @@ abstract class AbstractFilterType extends AbstractType
                 return;
             }
 
-            if (is_string($value) && in_array(strtolower($value), ['not-null', 'true'])) {
+            if (is_string($value) && (strtolower($value) === 'true')) {
                 //  Should the child filter not be nullable we can return.
                 //  This should cause the form handler to throw a violation.
                 if (!$nullable) {
