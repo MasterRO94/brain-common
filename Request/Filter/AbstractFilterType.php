@@ -97,7 +97,9 @@ abstract class AbstractFilterType extends AbstractType
                 return;
             }
 
-            if (is_string($value) && in_array(strtolower($value), ['null', 'false'])) {
+            if (is_string($value) && in_array(strtolower($value), ['true', 'false'])) {
+                $value = strtolower($value);
+
                 //  Should the child filter not be nullable we can return.
                 //  This should cause the form handler to throw a violation.
                 if (!$nullable) {
@@ -106,12 +108,21 @@ abstract class AbstractFilterType extends AbstractType
 
                 //  This form is simply going to run the query builder.
                 $form->add($field, TextFilterType::class, [
-                    'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+                    'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $value) {
                         $alias = FilterDatabaseHelper::getAliasFromColumn($field);
                         $field = FilterDatabaseHelper::generateFieldName($alias, $column);
 
                         $qb = $filter->getQueryBuilder();
-                        $qb->andWhere($qb->expr()->isNull($field));
+
+                        if ($value === 'false') {
+                            $qb->andWhere($qb->expr()->isNull($field));
+                        } elseif ($value === 'true') {
+                            $qb->andWhere($qb->expr()->isNotNull($field));
+                        } else {
+                            throw new \RuntimeException(
+                                'Filter existence case is not covered!'
+                            );
+                        }
                     },
                 ]);
 
