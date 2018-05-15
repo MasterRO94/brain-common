@@ -12,7 +12,7 @@ services:
     arguments:
       - '@doctrine'
       - '@brain.common.database.paginator.factory'
-      - '@brain.common.authentication.storage'
+      - '' # replaced in configuration.
     public: false
 
   brain.common.database.paginator.factory:
