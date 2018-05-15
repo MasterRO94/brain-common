@@ -16,7 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 
@@ -131,36 +130,7 @@ abstract class AbstractFilterType extends AbstractType
      */
     protected function addIdentityFilter(): void
     {
-        $this->builder->add('id', TextFilterType::class, [
-            'condition_pattern' => FilterOperands::STRING_EQUALS,
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) {
-                $value = $values['value'];
-
-                if (!FilterValueHelper::isValidSearchTerm($value)) {
-                    return;
-                }
-
-                $alias = FilterDatabaseHelper::getAliasFromColumn($field);
-                $field = FilterDatabaseHelper::generateFieldName($alias, 'publicId');
-                $parameter = FilterDatabaseHelper::generateParameterName($field);
-
-                $qb = $filter->getQueryBuilder();
-                $qb->andWhere($qb->expr()->eq($field, sprintf(':%s', $parameter)));
-                $qb->setParameter($parameter, $value);
-            },
-            'constraints' => [
-                new Assert\Type([
-                    'type' => 'string',
-                    'message' => 'filter.id.type',
-                    'groups' => ['filtering'],
-                ]),
-                new Assert\Length([
-                    'min' => 5,
-                    'minMessage' => 'filter.id.length_min',
-                    'groups' => ['filtering'],
-                ]),
-            ],
-        ]);
+        $this->addTextFilter('id', 'publicId');
     }
 
     /**
@@ -168,36 +138,63 @@ abstract class AbstractFilterType extends AbstractType
      */
     protected function addAliasFilter(): void
     {
-        $this->builder->add('alias', TextFilterType::class, [
-            'condition_pattern' => FilterOperands::STRING_EQUALS,
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) {
+        $this->addTextFilter('alias', 'publicAlias');
+    }
+
+    /**
+     * Add a text filter.
+     *
+     * @param string $field
+     * @param string|null $column
+     */
+    protected function addTextFilter(string $field, ?string $column): void
+    {
+        $column = $column ?: $field;
+
+        $this->builder->add($field, TextFilterType::class, [
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
                 $value = $values['value'] ?? '';
 
-                if (!FilterValueHelper::isValidSearchTerm($value)) {
+                //  The value can sometimes come through as a string.
+                //  In this case we just return early.
+                if (is_null($value) || ($value === '')) {
                     return;
                 }
 
+                /** @var string[] $values */
+                $values = $value;
+
                 $alias = FilterDatabaseHelper::getAliasFromColumn($field);
-                $field = FilterDatabaseHelper::generateFieldName($alias, 'publicAlias');
+                $field = FilterDatabaseHelper::generateFieldName($alias, $column);
                 $parameter = FilterDatabaseHelper::generateParameterName($field);
 
                 $qb = $filter->getQueryBuilder();
-                $qb->andWhere($qb->expr()->eq($field, sprintf(':%s', $parameter)));
-                $qb->setParameter($parameter, $value);
+                $qb->andWhere($qb->expr()->in($field, sprintf(':%s', $parameter)));
+                $qb->setParameter($parameter, $values);
             },
-            'constraints' => [
-                new Assert\Type([
-                    'type' => 'string',
-                    'message' => 'filter.alias.type',
-                    'groups' => ['filtering'],
-                ]),
-                new Assert\Length([
-                    'min' => 5,
-                    'minMessage' => 'filter.alias.length_min',
-                    'groups' => ['filtering'],
-                ]),
-            ],
         ]);
+
+        //  Repair the data that is being sent.
+        //  In the cases where an array is not given we wrap the data in an array.
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            /** @var array|string $data */
+            $data = $event->getData();
+
+            //  Null must return here, sending anything but null will trigger validation.
+            //  Even if null is wrapped in an array.
+            if (is_null($data)) {
+                return;
+            }
+
+            //  An array of data is what we expect so return.
+            if (is_array($data)) {
+                return;
+            }
+
+            //  Otherwise wrap the data given in an array.
+            //  This simulates a multiple entry.
+            $event->setData([$data]);
+        });
     }
 
     /**
