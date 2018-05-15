@@ -57,7 +57,7 @@ abstract class AbstractEntityRepository extends EntityRepository
         $qb = $this->createQueryBuilder('entity');
         $qb->select('entity');
 
-        return $this->paginator()->createForQueryBuilder($qb);
+        return $this->getPaginatorFactory()->createForQueryBuilder($qb);
     }
 
     /**
