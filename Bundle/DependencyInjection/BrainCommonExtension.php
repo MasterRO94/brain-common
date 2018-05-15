@@ -19,6 +19,7 @@ final class BrainCommonExtension extends AbstractBundleExtension
 
         $config = $this->processConfiguration(new Configuration(), $configs);
 
+        $this->handleAuthenticationConfiguration($container, $config);
         $this->handleResponseConfiguration($container, $config);
     }
 
@@ -28,7 +29,6 @@ final class BrainCommonExtension extends AbstractBundleExtension
     protected function getConfigurationFiles(): array
     {
         return [
-            'component/authentication',
             'component/database',
             'component/date',
             'component/debug',
@@ -37,6 +37,21 @@ final class BrainCommonExtension extends AbstractBundleExtension
             'component/translation',
             'component/utility',
         ];
+    }
+
+    /**
+     * Handle the configuration for "authentication".
+     *
+     * @param ContainerBuilder $container
+     * @param array $config
+     */
+    private function handleAuthenticationConfiguration(ContainerBuilder $container, array $config): void
+    {
+        $service = $config['authentication']['storage']['service'];
+        $service = str_replace('@', '', $service);
+
+        $factory = $container->getDefinition('brain.common.database');
+        $factory->replaceArgument(2, new Reference($service));
     }
 
     /**

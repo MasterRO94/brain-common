@@ -20,9 +20,29 @@ final class Configuration implements ConfigurationInterface
 
         $root = $builder->root('brain_common');
 
+        $this->configureAuthenticationNode($root);
         $this->configureResponseNode($root);
 
         return $builder;
+    }
+
+    /**
+     * Configure the "authentication" area.
+     *
+     * @param ArrayNodeDefinition $root
+     */
+    private function configureAuthenticationNode(ArrayNodeDefinition $root): void
+    {
+        $authentication = $root->children()->arrayNode('authentication');
+        $authentication->addDefaultsIfNotSet();
+
+        //  .authentication.storage
+
+        $storage = $authentication->children()->arrayNode('storage');
+        $storage->addDefaultsIfNotSet();
+
+        $storage->children()
+            ->scalarNode('service');
     }
 
     /**
@@ -42,6 +62,6 @@ final class Configuration implements ConfigurationInterface
 
         $factory->children()
             ->scalarNode('service')
-                ->defaultNull();
+            ->defaultNull();
     }
 }
