@@ -28,4 +28,44 @@ final class Paginator extends Pagerfanta
      * The total page count.
      */
     const PAGINATION_PAGE_TOTAL = 'Pagination-Pages-Total';
+
+    /**
+     * Set the current page to the next page.
+     */
+    public function next(): bool
+    {
+        if (($this->getCurrentPage() + 1) > $this->getNbPages()) {
+            return false;
+        }
+
+        $page = $this->getCurrentPage();
+        $this->setCurrentPage($page + 1);
+
+        if ($page === $this->getCurrentPage()) {
+            throw new \RuntimeException(implode(' ', [
+                'For some unknown reason we cannot progress past the current page.',
+                'To debug this prepare coffee and sit in a padded room.',
+                'Trust me.',
+            ]));
+        }
+
+        return true;
+    }
+
+    /**
+     * Return the paginator results.
+     *
+     * @return mixed[]
+     */
+    public function getData(): array
+    {
+        /** @var \Traversable $traversable */
+        $traversable = $this->getIterator();
+
+        if ($traversable instanceof \Traversable) {
+            return iterator_to_array($traversable);
+        }
+
+        return (array) $traversable;
+    }
 }

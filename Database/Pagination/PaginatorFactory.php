@@ -44,10 +44,10 @@ final class PaginatorFactory
      * @param int|null $page
      * @param int|null $limit
      *
-     * @return Paginator
-     *
      * @throws InvalidPagePaginationException if the "page" in the request is invalid.
      * @throws InvalidLimitPaginationException if the "limit" in the request is invalid.
+     *
+     * @return Paginator
      */
     public function create(AdapterInterface $adapter, int $page = null, int $limit = null): Paginator
     {
@@ -72,7 +72,7 @@ final class PaginatorFactory
      */
     public function createForQueryBuilder(QueryBuilder $qb, int $page = null, int $limit = null): Paginator
     {
-        $adapter = new PaginatorQueryBuilderAdapter($qb);
+        $adapter = new PaginatorQueryBuilderAdapter($qb, true);
 
         return $this->create($adapter, $page, $limit);
     }
@@ -87,7 +87,9 @@ final class PaginatorFactory
      */
     public function recreateForQueryBuilder(Paginator $paginator, QueryBuilder $qb): Paginator
     {
-        $adapter = new PaginatorQueryBuilderAdapter($qb);
+        /** @var PaginatorQueryBuilderAdapter $adapter */
+        $adapter = $paginator->getAdapter();
+        $adapter = new PaginatorQueryBuilderAdapter($qb, $adapter->getFetchJoinCollection());
 
         return $this->create(
             $adapter,
@@ -99,9 +101,9 @@ final class PaginatorFactory
     /**
      * Return the request page parameter.
      *
-     * @return int|null
-     *
      * @throws InvalidPagePaginationException if the "page" in the request is invalid.
+     *
+     * @return int|null
      */
     private function getRequestPageParameter(): ?int
     {
@@ -125,9 +127,9 @@ final class PaginatorFactory
     /**
      * Return the request limit parameter.
      *
-     * @return int|null
-     *
      * @throws InvalidLimitPaginationException if the "limit" in the request is invalid.
+     *
+     * @return int|null
      */
     private function getRequestLimitParameter(): ?int
     {
