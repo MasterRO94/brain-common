@@ -497,4 +497,71 @@ abstract class AbstractFilterType extends AbstractType
             }
         });
     }
+
+    protected function addIdentityCollectionFilter(string $field, string $column = null): void
+    {
+        $column = $column ?: $field;
+
+        $this->builder->add($field, TextFilterType::class, [
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+                $value = $values['value'] ?? '';
+
+                //  The value can sometimes come through as a string.
+                //  In this case we just return early.
+                if (is_null($value) || ($value === '')) {
+                    return;
+                }
+
+                /** @var string[] $values */
+                $values = $value;
+
+                $alias = FilterDatabaseHelper::getAliasFromColumn($field);
+                $field = FilterDatabaseHelper::generateFieldName($alias, $column);
+                $parameter = FilterDatabaseHelper::generateParameterName($field);
+
+
+
+                $qb = $filter->getQueryBuilder();
+                $qb->andWhere($qb->expr()->in($field, sprintf(':%s', $parameter)));
+                $qb->setParameter($parameter, $values);
+
+
+                $value = $values['value'] ?? '';
+
+                if (!FilterValueHelper::isValidInput($value)) {
+                    return;
+                }
+
+                $alias = FilterDatabaseHelper::getAliasFromColumn($field);
+                $field = FilterDatabaseHelper::generateFieldName($alias, 'meta.group');
+                $parameter = FilterDatabaseHelper::generateParameterName($field);
+
+                $qb = $filter->getQueryBuilder();
+                $qb->andWhere($qb->expr()->eq($field, sprintf(':%s', $parameter)));
+                $qb->setParameter($parameter, $value);
+            },
+        ]);
+
+        //  Repair the data that is being sent.
+        //  In the cases where an array is not given we wrap the data in an array.
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            /** @var array|string $data */
+            $data = $event->getData();
+
+            //  Null must return here, sending anything but null will trigger validation.
+            //  Even if null is wrapped in an array.
+            if (is_null($data)) {
+                return;
+            }
+
+            //  An array of data is what we expect so return.
+            if (is_array($data)) {
+                return;
+            }
+
+            //  Otherwise wrap the data given in an array.
+            //  This simulates a multiple entry.
+            $event->setData([$data]);
+        });
+    }
 }
