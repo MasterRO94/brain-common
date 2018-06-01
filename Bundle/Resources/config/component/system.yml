@@ -1,0 +1,9 @@
+#
+# Brain Common System
+
+services:
+
+  brain.common.system.environment_checker:
+    class: 'Brain\Common\System\EnvironmentChecker'
+    arguments:
+      - '%kernel.environment%'
