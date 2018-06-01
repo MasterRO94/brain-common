@@ -11,12 +11,12 @@ final class EnvironmentChecker
         $this->environment = $environment;
     }
 
-    public function isProduction()
+    public function isProduction(): bool
     {
         return $this->environment === 'production';
     }
 
-    public function isNonProduction()
+    public function isNonProduction(): bool
     {
         return !$this->isProduction();
     }
