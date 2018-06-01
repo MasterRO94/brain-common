@@ -117,6 +117,10 @@ final class PaginatorFactory
         //  &page=10
         $page = $request->query->get('page', null);
 
+        if (is_null($page)) {
+            return null;
+        }
+
         if (is_numeric($page)) {
             return (int) $page;
         }
@@ -142,6 +146,10 @@ final class PaginatorFactory
 
         //  &limit=40
         $limit = $request->query->get('limit', null);
+
+        if (is_null($limit)) {
+            return null;
+        }
 
         if (is_numeric($limit)) {
             return (int) $limit;
