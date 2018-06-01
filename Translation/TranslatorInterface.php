@@ -8,11 +8,18 @@ namespace Brain\Common\Translation;
 interface TranslatorInterface
 {
     /**
+     * Return the current default locale.
+     *
+     * @return string
+     */
+    public function getLocale(): string;
+
+    /**
      * Translate the given message.
      *
      * @param string $domain #TranslationDomain
      * @param string $id #TranslationKey
-     * @param array $parameters
+     * @param string[] $parameters
      * @param string|null $locale
      *
      * @return string

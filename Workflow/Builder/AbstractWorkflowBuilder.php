@@ -1,6 +1,8 @@
 <?php
 
-namespace Brain\Common\Workflow;
+namespace Brain\Common\Workflow\Builder;
+
+use Brain\Common\Workflow\WorkflowBuilderInterface;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Definition;
@@ -13,9 +15,16 @@ use Symfony\Component\Workflow\Workflow;
  *
  * @api
  */
-abstract class AbstractWorkflowBuilder
+abstract class AbstractWorkflowBuilder implements WorkflowBuilderInterface
 {
     private $eventDispatcher;
+
+    /**
+     * Return the name of the property that state will affect.
+     *
+     * @return string
+     */
+    abstract public function getStatePropertyName(): string;
 
     /**
      * Constructor.
@@ -28,45 +37,7 @@ abstract class AbstractWorkflowBuilder
     }
 
     /**
-     * Return the name of the workflow.
-     *
-     * @return string
-     *
-     * @api
-     */
-    abstract public static function getName(): string;
-
-    /**
-     * Return the name of the property that state will affect.
-     *
-     * @return string
-     *
-     * @api
-     */
-    abstract public function getStatePropertyName(): string;
-
-    /**
-     * Return the available states.
-     *
-     * @return string[]
-     *
-     * @api
-     */
-    abstract public function getAvailableStates(): array;
-
-    /**
-     * Return the transitions.
-     *
-     * @return Transition[]
-     *
-     * @api
-     */
-    abstract public function getTransitions(): array;
-
-    /**
-     * Build the workflow object.
-     *
-     * @return Workflow
+     * {@inheritdoc}
      */
     final public function build(): Workflow
     {
