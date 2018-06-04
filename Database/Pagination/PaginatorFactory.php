@@ -51,21 +51,12 @@ final class PaginatorFactory
      */
     public function create(AdapterInterface $adapter, int $page = null, int $limit = null): Paginator
     {
-        $request = $this->requestStack->getCurrentRequest();
-
-        $pageRequested = $request->query->get('page', 0);
-        if (!is_numeric($pageRequested)) {
-            throw new InvalidPagePaginationException();
-        }
-
-        $limitRequested = $request->query->get('limit', 0);
-        if (!is_numeric($limitRequested)) {
-            throw new InvalidLimitPaginationException();
-        }
+        $page = $this->getRequestPageParameter() ?? $page ?? $this->page;
+        $limit = $this->getRequestLimitParameter() ?? $limit ?? $this->limit;
 
         $paginator = new Paginator($adapter);
-        $paginator->setCurrentPage($pageRequested ?: $page ?: $this->page);
-        $paginator->setMaxPerPage($limitRequested ?: $limit ?: $this->limit);
+        $paginator->setCurrentPage($page);
+        $paginator->setMaxPerPage($limit);
 
         return $paginator;
     }
@@ -81,7 +72,7 @@ final class PaginatorFactory
      */
     public function createForQueryBuilder(QueryBuilder $qb, int $page = null, int $limit = null): Paginator
     {
-        $adapter = new PaginatorQueryBuilderAdapter($qb);
+        $adapter = new PaginatorQueryBuilderAdapter($qb, true);
 
         return $this->create($adapter, $page, $limit);
     }
@@ -96,12 +87,74 @@ final class PaginatorFactory
      */
     public function recreateForQueryBuilder(Paginator $paginator, QueryBuilder $qb): Paginator
     {
-        $adapter = new PaginatorQueryBuilderAdapter($qb);
+        /** @var PaginatorQueryBuilderAdapter $adapter */
+        $adapter = $paginator->getAdapter();
+        $adapter = new PaginatorQueryBuilderAdapter($qb, $adapter->getFetchJoinCollection());
 
         return $this->create(
             $adapter,
             $paginator->getCurrentPage(),
             $paginator->getMaxPerPage()
         );
+    }
+
+    /**
+     * Return the request page parameter.
+     *
+     * @throws InvalidPagePaginationException if the "page" in the request is invalid.
+     *
+     * @return int|null
+     */
+    private function getRequestPageParameter(): ?int
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        //  Console commands do not have requests, so defer to defaults.
+        if ($request === null) {
+            return null;
+        }
+
+        //  &page=10
+        $page = $request->query->get('page', null);
+
+        if (is_null($page)) {
+            return null;
+        }
+
+        if (is_numeric($page)) {
+            return (int) $page;
+        }
+
+        throw new InvalidPagePaginationException();
+    }
+
+    /**
+     * Return the request limit parameter.
+     *
+     * @throws InvalidLimitPaginationException if the "limit" in the request is invalid.
+     *
+     * @return int|null
+     */
+    private function getRequestLimitParameter(): ?int
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        //  Console commands do not have requests, so defer to defaults.
+        if ($request === null) {
+            return null;
+        }
+
+        //  &limit=40
+        $limit = $request->query->get('limit', null);
+
+        if (is_null($limit)) {
+            return null;
+        }
+
+        if (is_numeric($limit)) {
+            return (int) $limit;
+        }
+
+        throw new InvalidLimitPaginationException();
     }
 }

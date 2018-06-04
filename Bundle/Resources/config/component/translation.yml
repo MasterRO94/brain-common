@@ -7,4 +7,5 @@ services:
     class: 'Brain\Common\Translation\Translator'
     arguments:
       - '@translator'
+      - '%locale%'
     public: false

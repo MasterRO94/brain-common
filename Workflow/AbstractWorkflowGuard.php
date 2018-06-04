@@ -2,6 +2,8 @@
 
 namespace Brain\Common\Workflow;
 
+use Brain\Common\Workflow\Builder\AbstractWorkflowBuilder;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
