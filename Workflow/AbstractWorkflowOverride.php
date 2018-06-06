@@ -4,6 +4,7 @@ namespace Brain\Common\Workflow;
 
 use Brain\Bundle\Core\Workflow\AbstractStatusWorkflowManager;
 use Brain\Common\Workflow\Builder\AbstractWorkflowBuilder;
+use Brain\Component\Job\EntityInterface\JobInterface;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
@@ -20,11 +21,13 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
     const WORKFLOW_EVENT = 'completed';
 
     /**
-     * The singleton instance of this class.
+     * Return the class name of the workflow builder.
      *
-     * @var AbstractWorkflowOverride $instance
+     * @return string
+     *
+     * @api
      */
-    protected static $instance;
+    abstract public static function getWorkflowBuilderClass(): string;
 
     /**
      * The workflow manager on which we will call progressByStatus.
@@ -44,15 +47,8 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
         AbstractStatusWorkflowManager $manager,
         string $reason
     ) {
-        if (static::$instance) {
-            throw new \Exception(sprintf(
-                "%s already instantiated.",
-                get_class($this)
-            ));
-        }
         $this->manager = $manager;
         $this->reason = $reason;
-        static::$instance = $this;
     }
 
     /**
@@ -68,6 +64,7 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
      * Return the transition to apply subsequently.
      *
      * @param string $anteriorTransition
+     *
      * @return string
      *
      * @api
@@ -78,6 +75,7 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
      * Does this override apply for the given event?
      *
      * @param Event $event
+     *
      * @return bool
      *
      * @api
@@ -91,14 +89,17 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
     {
         $events = [];
 
+        /** @var AbstractWorkflowBuilder $workflow */
+        $workflow = static::getWorkflowBuilderClass();
+
         foreach (static::getAnteriorTransitions() as $transition) {
             $event = sprintf(
                 'workflow.%s.%s.%s',
-                static::$instance->manager->getBuilderName(),
+                $workflow::getName(),
                 static::WORKFLOW_EVENT,
                 $transition
             );
-            $events[$event] = [['handle',],];
+            $events[$event] = [['handle']];
         }
 
         return $events;
@@ -106,15 +107,17 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
 
     /**
      * The event listener. Calls shouldApply() and getPosteriorTransition().
+     *
      * @param Event $event
      */
     public function handle(Event $event)
     {
         if ($this->shouldApply($event)) {
+            /** @var JobInterface $job */
             $job = $event->getSubject();
             $this->manager->progressTransition(
                 $job,
-                $this->getPosteriorTransition($event->getTransition()),
+                $this->getPosteriorTransition($event->getTransition()->getName()),
                 $this->reason
             );
         }
