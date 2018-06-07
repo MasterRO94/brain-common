@@ -46,7 +46,7 @@ final class FilterValueHelper
             return false;
         }
 
-        if (strlen($value) > 3) {
+        if (strlen($value) >= 3) {
             return true;
         }
 

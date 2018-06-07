@@ -62,7 +62,9 @@ class FilterValueHelperTest extends TestCase
             [1, false],
             [0, false],
             ['           ', false],
-            ['abc', false],
+            ['a', false],
+            ['ab', false],
+            ['abc', true],
             ['abcd', true],
         ];
     }
