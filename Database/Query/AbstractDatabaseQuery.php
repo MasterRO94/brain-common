@@ -16,6 +16,7 @@ use Doctrine\DBAL\Driver\ResultStatement;
 abstract class AbstractDatabaseQuery
 {
     const PARAM_NULL = \PDO::PARAM_NULL;
+    const PARAM_STRING = \PDO::PARAM_STR;
     const PARAM_INTEGER = \PDO::PARAM_INT;
     const PARAM_INTEGER_ARRAY = Connection::PARAM_INT_ARRAY;
 
