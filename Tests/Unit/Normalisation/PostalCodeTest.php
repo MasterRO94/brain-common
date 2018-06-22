@@ -53,8 +53,8 @@ final class PostalCodeTest extends TestCase
      * @group unit
      * @group normalisation
      *
-     * @covers \Brain\Common\Normalisation\PhoneNumber
-     * @covers \Brain\Common\Normalisation\Exception\PhoneNumberInvalidException
+     * @covers \Brain\Common\Normalisation\PostalCode
+     * @covers \Brain\Common\Normalisation\Exception\PostalCodeInvalidException
      */
     public function withInvalidPhoneNumberCannotStandardiseThrow(): void
     {
@@ -88,7 +88,7 @@ final class PostalCodeTest extends TestCase
      * @group unit
      * @group normalisation
      *
-     * @covers \Brain\Common\Normalisation\PhoneNumber
+     * @covers \Brain\Common\Normalisation\PostalCode
      *
      * @param string $value
      * @param string $countryCode
