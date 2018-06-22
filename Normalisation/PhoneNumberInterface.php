@@ -21,7 +21,7 @@ interface PhoneNumberInterface
     /**
      * Return the standardised string.
      */
-    public function getStandardisedNumber(): string;
+    public function getStandardised(): string;
 
     /**
      * Check if the phone number is valid.

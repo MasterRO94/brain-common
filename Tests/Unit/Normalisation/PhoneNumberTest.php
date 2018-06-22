@@ -49,7 +49,6 @@ final class PhoneNumberTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideWithInvalidPhoneNumberBeNice
      *
      * @group unit
      * @group normalisation
@@ -104,7 +103,7 @@ final class PhoneNumberTest extends TestCase
 
         self::assertEquals($countryCode, $instance->getCountryCode());
         self::assertEquals($nationalNumber, $instance->getNationalNumber());
-        self::assertEquals($standardised, $instance->getStandardisedNumber());
+        self::assertEquals($standardised, $instance->getStandardised());
         self::assertTrue($instance->isValid());
 
         $string = (string) $instance;

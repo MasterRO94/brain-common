@@ -70,7 +70,7 @@ final class PhoneNumberType extends AbstractType
                 return;
             }
 
-            $event->setData($instance->getStandardisedNumber());
+            $event->setData($instance->getStandardised());
         };
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, $normaliser, -100);

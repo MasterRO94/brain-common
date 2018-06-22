@@ -20,12 +20,6 @@ final class PhoneNumber implements PhoneNumberInterface
     /** @var bool */
     private $valid;
 
-    /**
-     * @param string $value
-     * @param string $country
-     *
-     * @throws PhoneNumberInvalidException When phone number is invalid.
-     */
     public function __construct(string $value, string $country)
     {
         $instance = PhoneNumberUtil::getInstance();
@@ -69,6 +63,19 @@ final class PhoneNumber implements PhoneNumberInterface
     /**
      * {@inheritdoc}
      */
+    public function getStandardised(): string
+    {
+        $instance = PhoneNumberUtil::getInstance();
+
+        $format = PhoneNumberFormat::E164;
+        $formatted = $instance->format($this->getExtensionInstance(), $format);
+
+        return $formatted;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isValid(): bool
     {
         return $this->valid;
@@ -79,19 +86,6 @@ final class PhoneNumber implements PhoneNumberInterface
      */
     public function __toString(): string
     {
-        return $this->getStandardisedNumber();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStandardisedNumber(): string
-    {
-        $instance = PhoneNumberUtil::getInstance();
-
-        $format = PhoneNumberFormat::E164;
-        $formatted = $instance->format($this->getExtensionInstance(), $format);
-
-        return $formatted;
+        return $this->getStandardised();
     }
 }
