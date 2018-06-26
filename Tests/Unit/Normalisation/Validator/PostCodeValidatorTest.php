@@ -41,7 +41,7 @@ final class PostCodeValidatorTest extends TestCase
      * @group unit
      * @group normalisation
      *
-     * @covers \Brain\Common\Normalisation\PhoneNumber
+     * @covers \Brain\Common\Normalisa tion\PhoneNumber
      *
      * @param string $value
      * @param string $standardised
