@@ -1,0 +1,36 @@
+<?php
+
+namespace Brain\Common\Date\Range;
+
+use DateTimeInterface;
+
+/**
+ * {@inheritdoc}
+ */
+final class DateTimeRange implements DateTimeRangeInterface
+{
+    private $from;
+    private $to;
+
+    public function __construct(DateTimeInterface $from, DateTimeInterface $to)
+    {
+        $this->from = $from;
+        $this->to = $to;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrom(): DateTimeInterface
+    {
+        return $this->from;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTo(): DateTimeInterface
+    {
+        return $this->to;
+    }
+}
