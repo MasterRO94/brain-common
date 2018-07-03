@@ -20,6 +20,8 @@ use DateTimeInterface;
  */
 final class DateRangeType extends AbstractType
 {
+    public const REGEX_DATE = '/^\d{4}-\d{2}-\d{2}(\s\d{2}:\d{2}:\d{2})?$/';
+
     /**
      * {@inheritdoc}
      */
@@ -41,6 +43,10 @@ final class DateRangeType extends AbstractType
             $to = null;
 
             if (is_string($data)) {
+                if (preg_match(self::REGEX_DATE, $data) !== 1) {
+                    return;
+                }
+
                 $from = $this->convertStringToDateTime($data);
             } elseif (is_array($data)) {
                 $from = $data['from'] ?? null;

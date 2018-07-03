@@ -53,6 +53,35 @@ final class DateRangeTypeTest extends TypeTestCase
      *
      * @covers \Brain\Common\Form\Type\Date\DateRangeType
      */
+    public function withRubbishValueResolveNull(): void
+    {
+        $builder = $this->factory->createBuilder();
+        $builder->add('range', DateRangeType::class);
+
+        $form = $builder->getForm();
+
+        $data = [
+            'range' => 'asdf',
+        ];
+
+        $form->submit($data);
+
+        $expected = [
+            'range' => null,
+        ];
+
+        self::assertEquals($expected, $form->getData());
+    }
+
+    /**
+     * @test
+     *
+     * @group unit
+     * @group form
+     * @group normalisation
+     *
+     * @covers \Brain\Common\Form\Type\Date\DateRangeType
+     */
     public function withDateStringValueResolveFrom(): void
     {
         $builder = $this->factory->createBuilder();
