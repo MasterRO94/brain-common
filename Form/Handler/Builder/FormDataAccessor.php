@@ -18,6 +18,8 @@ final class FormDataAccessor extends PropertyAccessor
     {
         try {
             parent::setValue($objectOrArray, $propertyPath, $value);
+
+            // @todo change to \TypeError
         } catch (\Throwable $exception) {
             return;
         }
@@ -33,6 +35,8 @@ final class FormDataAccessor extends PropertyAccessor
     {
         try {
             return parent::getValue($objectOrArray, $propertyPath);
+
+            // @todo change to \TypeError
         } catch (\Throwable $exception) {
             return null;
         }
