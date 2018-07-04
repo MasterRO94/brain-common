@@ -157,17 +157,13 @@ abstract class AbstractFilterType extends AbstractType
      *
      * @param string $field
      * @param string|null $column
-     * @param callable $modifier
      */
-    protected function addTextFilter(
-        string $field,
-        ?string $column,
-        callable $modifier = null
-    ): void {
+    protected function addTextFilter(string $field, ?string $column): void
+    {
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $modifier) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
                 $value = $values['value'] ?? '';
 
                 //  The value can sometimes come through as a string.
@@ -185,12 +181,8 @@ abstract class AbstractFilterType extends AbstractType
 
                 $qb = $filter->getQueryBuilder();
 
-                if (is_callable($modifier)) {
-                    $modifier($qb, $alias, $values, $parameter);
-                } else {
-                    $qb->andWhere($qb->expr()->in($field, sprintf(':%s', $parameter)));
-                    $qb->setParameter($parameter, $values);
-                }
+                $qb->andWhere($qb->expr()->in($field, sprintf(':%s', $parameter)));
+                $qb->setParameter($parameter, $values);
             },
         ]);
 
