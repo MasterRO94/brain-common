@@ -180,7 +180,6 @@ abstract class AbstractFilterType extends AbstractType
                 $parameter = FilterDatabaseHelper::generateParameterName($field);
 
                 $qb = $filter->getQueryBuilder();
-
                 $qb->andWhere($qb->expr()->in($field, sprintf(':%s', $parameter)));
                 $qb->setParameter($parameter, $values);
             },
