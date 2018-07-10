@@ -55,8 +55,8 @@ final class PaginatorFactory
         $limit = $this->getRequestLimitParameter() ?? $limit ?? $this->limit;
 
         $paginator = new Paginator($adapter);
-        $paginator->setCurrentPage($page);
         $paginator->setMaxPerPage($limit);
+        $paginator->setCurrentPage($page);
 
         return $paginator;
     }
