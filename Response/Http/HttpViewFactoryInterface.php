@@ -43,4 +43,11 @@ interface HttpViewFactoryInterface extends HttpFactoryInterface
      * @return View
      */
     public function badRequest($data, array $groups = []): View;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return View
+     */
+    public function notFound($data): View;
 }

@@ -43,4 +43,11 @@ interface HttpResponseFactoryInterface extends HttpFactoryInterface
      * @return Response
      */
     public function badRequest($data, array $groups = []): Response;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return Response
+     */
+    public function notFound($data): Response;
 }

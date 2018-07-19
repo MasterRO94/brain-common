@@ -51,4 +51,13 @@ interface HttpFactoryInterface
      * @return Response|View
      */
     public function badRequest($data, array $groups = []);
+
+    /**
+     * Create a Not Found 404 response.
+     *
+     * @param mixed $data
+     *
+     * @return Response|View
+     */
+    public function notFound($data);
 }

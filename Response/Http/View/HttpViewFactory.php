@@ -65,4 +65,12 @@ final class HttpViewFactory implements HttpViewFactoryInterface
     {
         return $this->generator->generateView(Response::HTTP_BAD_REQUEST, $data, $groups);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function notFound($data): View
+    {
+        return $this->generator->generateView(Response::HTTP_NOT_FOUND, $data);
+    }
 }

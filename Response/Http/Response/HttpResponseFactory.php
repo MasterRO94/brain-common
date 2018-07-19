@@ -63,4 +63,12 @@ final class HttpResponseFactory implements HttpResponseFactoryInterface
     {
         return $this->generator->generateResponse(Response::HTTP_BAD_REQUEST, $data, $groups);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function notFound($data): Response
+    {
+        return $this->generator->generateResponse(Response::HTTP_NOT_FOUND, $data);
+    }
 }
