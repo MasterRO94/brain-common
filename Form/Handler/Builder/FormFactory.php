@@ -26,6 +26,9 @@ final class FormFactory extends BaseFormFactory
         //      'by_reference' => false,
 
         'mapped' => true,
+
+        'extra_fields_message' => 'form.extra',
+        'invalid_message' => 'form.invalid',
     ];
 
     /**
