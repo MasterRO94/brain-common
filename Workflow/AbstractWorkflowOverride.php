@@ -3,8 +3,8 @@
 namespace Brain\Common\Workflow;
 
 use Brain\Bundle\Core\Workflow\AbstractStatusWorkflowManager;
+use Brain\Bundle\Job\Database\EntityInterface\JobInterface;
 use Brain\Common\Workflow\Builder\AbstractWorkflowBuilder;
-use Brain\Component\Job\EntityInterface\JobInterface;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
