@@ -171,9 +171,9 @@ class ResponseFactory
     private function prepare($data)
     {
         if ($data instanceof Paginator) {
-            return $data->getIterator()->getArrayCopy();
-        } else {
-            return $data;
+            $data = $data->getIterator()->getArrayCopy();
         }
+
+        return $data;
     }
 }
