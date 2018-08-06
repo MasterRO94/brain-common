@@ -1,6 +1,3 @@
-#
-# Brain Common Date
-
 services:
 
   brain.common.date.factory:

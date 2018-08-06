@@ -1,6 +1,3 @@
-#
-# Brain Common Response
-
 services:
 
   brain.common.response.factory:

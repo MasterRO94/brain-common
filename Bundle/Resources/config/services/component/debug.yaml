@@ -1,6 +1,3 @@
-#
-# Brain Common Debug
-
 services:
 
   brain.common.debug.stopwatch:

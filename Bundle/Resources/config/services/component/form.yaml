@@ -1,6 +1,3 @@
-#
-# Brain Common Form
-
 services:
 
   brain.common.form.handler:

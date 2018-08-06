@@ -1,6 +1,3 @@
-#
-# Brain Common Translation
-
 services:
 
   brain.common.translation.translator:

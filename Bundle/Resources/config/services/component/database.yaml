@@ -1,6 +1,3 @@
-#
-# Brain Common Database
-
 parameters:
   brain.common.database.paginator.default.page: 1
   brain.common.database.paginator.default.limit: 10
