@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Type\Date;
 
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;

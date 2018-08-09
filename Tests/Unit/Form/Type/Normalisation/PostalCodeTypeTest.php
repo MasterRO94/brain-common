@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Form\Type\Normalisation;
 
 use Brain\Common\Form\Type\Normalisation\PostalCodeType;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Normalisation\Validator;
 
 use Brain\Common\Normalisation\Exception\Validator\PostCodeFormatNotFoundException;
@@ -273,9 +275,6 @@ final class PostCodeValidatorFormat
     /**
      * Return the postal code format.
      *
-     *
-     * @param string $iso
-     *
      * @throws PostCodeFormatNotFoundException When the format does not exist.
      *
      * @return string[]
@@ -293,8 +292,6 @@ final class PostCodeValidatorFormat
 
     /**
      * Check the postal code format exists.
-     *
-     * @param string $iso
      */
     public static function hasFormat(string $iso): bool
     {
@@ -305,8 +302,6 @@ final class PostCodeValidatorFormat
 
     /**
      * Convert the format to regex.
-     *
-     * @param string $format
      */
     public static function convertFormatToRegex(string $format): string
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Normalisation\Validator;
 
 /**
@@ -16,9 +18,6 @@ final class PostCodeValidator
      *
      * If the country code is not supported then this will return false.
      * But this is not necessarily meaning the postcode is invalid just there is not validation for it.
-     *
-     * @param string $value
-     * @param string $country
      */
     public function isValid(string $value, string $country): bool
     {
@@ -47,8 +46,6 @@ final class PostCodeValidator
 
     /**
      * Attempt to standardise the value given.
-     *
-     * @param string $value
      */
     public function standardise(string $value): string
     {
@@ -61,8 +58,6 @@ final class PostCodeValidator
 
     /**
      * Check the country iso is supported.
-     *
-     * @param string $country
      */
     public function hasCountryFormat(string $country): bool
     {

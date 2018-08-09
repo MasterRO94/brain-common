@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Translation;
 
 /**
@@ -10,9 +12,9 @@ final class TranslatorHelper
     /**
      * Wrap parameters.
      *
-     * @param array $parameters
+     * @param string[] $parameters
      *
-     * @return array
+     * @return string[]
      */
     public static function wrap(array $parameters): array
     {

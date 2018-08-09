@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Type\Normalisation;
 
 use Brain\Common\Normalisation\PhoneNumber;
@@ -44,7 +46,7 @@ final class PhoneNumberType extends AbstractType
                 return;
             }
 
-            //  Attempt to resolve the country ISO code.
+            // Attempt to resolve the country ISO code.
             if (is_callable($options['country_iso_resolver'])) {
                 $resolver = $options['country_iso_resolver'];
 
@@ -53,9 +55,9 @@ final class PhoneNumberType extends AbstractType
                 $iso = $options['country_iso'];
             }
 
-            //  If the country ISO is null then the phone is null.
-            //  A phone number cannot be valid without one.
-            //  Manually specify in the form options or fix the resolver.
+            // If the country ISO is null then the phone is null.
+            // A phone number cannot be valid without one.
+            // Manually specify in the form options or fix the resolver.
             if ($iso === null) {
                 $event->setData(null);
 

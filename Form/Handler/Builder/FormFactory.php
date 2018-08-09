@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Handler\Builder;
 
 use Symfony\Component\Form\Extension\Core\DataMapper\PropertyPathMapper;
@@ -16,15 +18,13 @@ final class FormFactory extends BaseFormFactory
     private $options = [
         'error_bubbling' => false,
 
-        //  This is removed as CSRF protection should be disabled in the framework configuration.
-        //  The more you know I guess.
-        //      'csrf_protection' => false,
-
-        //  Never set this at this point, this will prevent objects given to forms as preset data
-        //  from being modified. Mainly we had an issue with job components not being added to a job
-        //  using the add() method but instead set directly on the collection.
-        //      'by_reference' => false,
-
+        // This is removed as CSRF protection should be disabled in the framework configuration.
+        // The more you know I guess.
+        // 'csrf_protection' => false,
+        // Never set this at this point, this will prevent objects given to forms as preset data
+        // from being modified. Mainly we had an issue with job components not being added to a job
+        // using the add() method but instead set directly on the collection.
+        // 'by_reference' => false,
         'mapped' => true,
 
         'extra_fields_message' => 'form.extra',
@@ -42,8 +42,8 @@ final class FormFactory extends BaseFormFactory
         $options = array_merge($options, $this->options);
         $builder = parent::createNamedBuilder($name, $type, $data, $options);
 
-        //  Override the default data mapper with one that has our custom data accessor.
-        //  This will silence errors when type hinting is not respected.
+        // Override the default data mapper with one that has our custom data accessor.
+        // This will silence errors when type hinting is not respected.
         $builder->setDataMapper(
             new PropertyPathMapper(
                 new FormDataAccessor()

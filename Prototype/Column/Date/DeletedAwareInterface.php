@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Prototype\Column\Date;
 
 use DateTimeInterface;
@@ -13,22 +15,16 @@ interface DeletedAwareInterface
      * Return the deletion date.
      *
      * This can return null if the attached instance has not been deleted.
-     *
-     * @return DateTimeInterface|null
      */
     public function getDeleted(): ?DateTimeInterface;
 
     /**
      * Check the deleted date.
-     *
-     * @return bool
      */
     public function hasDeleted(): bool;
 
     /**
      * Check if deleted.
-     *
-     * @return bool
      */
     public function isDeleted(): bool;
 
@@ -36,8 +32,6 @@ interface DeletedAwareInterface
      * Set the deletion date.
      *
      * This can be set to null assuming the instance has not been deleted or is being retored.
-     *
-     * @param DateTimeInterface|null $deletion
      */
     public function setDeleted(?DateTimeInterface $deletion): void;
 }

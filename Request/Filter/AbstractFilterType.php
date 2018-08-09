@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Request\Filter;
 
 use Brain\Common\Request\Filter\Helper\EmbedFilterHelper;
@@ -18,6 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use RuntimeException;
+use DateTimeInterface;
+use DateTime;
 
 /**
  * {@inheritdoc}
@@ -30,8 +35,7 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Build the filter form.
      *
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param mixed[] $options
      */
     abstract public function filter(FormBuilderInterface $builder, array $options): void;
 
@@ -67,15 +71,10 @@ abstract class AbstractFilterType extends AbstractType
 
     /**
      * Add an embedded child form.
-     *
-     * @param string $field
-     * @param string $column
-     * @param string $filter
-     * @param bool $nullable
      */
     protected function embed(string $field, string $column, string $filter, bool $nullable): void
     {
-        $listener = function (FormEvent $event) use ($field, $column, $filter, $nullable) {
+        $listener = function (FormEvent $event) use ($field, $column, $filter, $nullable): void {
             /** @var array|string $data */
             $data = $event->getData();
             $form = $event->getForm();
@@ -90,8 +89,8 @@ abstract class AbstractFilterType extends AbstractType
 
             $value = $data[$field];
 
-            //  Empty strings can be ignored.
-            //  This should cause the form handler to throw a violation.
+            // Empty strings can be ignored.
+            // This should cause the form handler to throw a violation.
             if ($value === '') {
                 return;
             }
@@ -99,15 +98,15 @@ abstract class AbstractFilterType extends AbstractType
             if (is_string($value) && in_array(strtolower($value), ['true', 'false'])) {
                 $value = strtolower($value);
 
-                //  Should the child filter not be nullable we can return.
-                //  This should cause the form handler to throw a violation.
+                // Should the child filter not be nullable we can return.
+                // This should cause the form handler to throw a violation.
                 if (!$nullable) {
                     return;
                 }
 
-                //  This form is simply going to run the query builder.
+                // This form is simply going to run the query builder.
                 $form->add($field, TextFilterType::class, [
-                    'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $value) {
+                    'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $value): void {
                         $alias = FilterDatabaseHelper::getAliasFromColumn($field);
                         $field = FilterDatabaseHelper::generateFieldName($alias, $column);
 
@@ -118,7 +117,7 @@ abstract class AbstractFilterType extends AbstractType
                         } elseif ($value === 'true') {
                             $qb->andWhere($qb->expr()->isNotNull($field));
                         } else {
-                            throw new \RuntimeException(
+                            throw new RuntimeException(
                                 'Filter existence case is not covered!'
                             );
                         }
@@ -154,21 +153,18 @@ abstract class AbstractFilterType extends AbstractType
 
     /**
      * Add a text filter.
-     *
-     * @param string $field
-     * @param string|null $column
      */
     protected function addTextFilter(string $field, ?string $column): void
     {
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
-                //  The value can sometimes come through as a string.
-                //  In this case we just return early.
-                if (is_null($value) || ($value === '')) {
+                // The value can sometimes come through as a string.
+                // In this case we just return early.
+                if ($value === null || ($value === '')) {
                     return;
                 }
 
@@ -185,25 +181,25 @@ abstract class AbstractFilterType extends AbstractType
             },
         ]);
 
-        //  Repair the data that is being sent.
-        //  In the cases where an array is not given we wrap the data in an array.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        // Repair the data that is being sent.
+        // In the cases where an array is not given we wrap the data in an array.
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             /** @var array|string $data */
             $data = $event->getData();
 
-            //  Null must return here, sending anything but null will trigger validation.
-            //  Even if null is wrapped in an array.
-            if (is_null($data)) {
+            // Null must return here, sending anything but null will trigger validation.
+            // Even if null is wrapped in an array.
+            if ($data === null) {
                 return;
             }
 
-            //  An array of data is what we expect so return.
+            // An array of data is what we expect so return.
             if (is_array($data)) {
                 return;
             }
 
-            //  Otherwise wrap the data given in an array.
-            //  This simulates a multiple entry.
+            // Otherwise wrap the data given in an array.
+            // This simulates a multiple entry.
             $event->setData([$data]);
         });
     }
@@ -211,26 +207,23 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Add a multiple choice filter.
      *
-     * @param string $field
-     * @param string|null $column
-     * @param array $choices
-     * @param callable $modifier
+     * @param string[] $choices
      */
     protected function addMultipleChoiceFilter(
         string $field,
         ?string $column,
         array $choices,
-        callable $modifier = null
+        ?callable $modifier = null
     ): void {
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $choices, $modifier) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $choices, $modifier): void {
                 $value = $values['value'] ?? '';
 
-                //  The value can sometimes come through as a string.
-                //  In this case we just return early.
-                if (is_null($value) || ($value === '')) {
+                // The value can sometimes come through as a string.
+                // In this case we just return early.
+                if ($value === null || ($value === '')) {
                     return;
                 }
 
@@ -238,16 +231,18 @@ abstract class AbstractFilterType extends AbstractType
                 $givenChoices = $value;
                 $mappedChoices = array_flip($choices);
 
-                //  Make sure each of the choices given is legit.
-                //  If one isn't then we can remove it from the filter.
+                // Make sure each of the choices given is legit.
+                // If one isn't then we can remove it from the filter.
                 foreach ($givenChoices as $index => $choice) {
                     if (!FilterValueHelper::isValidInput($choice)) {
                         unset($givenChoices[$index]);
                     }
 
-                    if (!isset($mappedChoices[$choice])) {
-                        unset($givenChoices[$index]);
+                    if (isset($mappedChoices[$choice])) {
+                        continue;
                     }
+
+                    unset($givenChoices[$index]);
                 }
 
                 if (count($givenChoices) === 0) {
@@ -256,7 +251,7 @@ abstract class AbstractFilterType extends AbstractType
 
                 $values = [];
 
-                //  Get the values in the database.
+                // Get the values in the database.
                 foreach ($givenChoices as $choice) {
                     $values[] = $mappedChoices[$choice];
                 }
@@ -290,25 +285,25 @@ abstract class AbstractFilterType extends AbstractType
             ],
         ]);
 
-        //  Repair the data that is being sent.
-        //  In the cases where an array is not given we wrap the data in an array.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        // Repair the data that is being sent.
+        // In the cases where an array is not given we wrap the data in an array.
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             /** @var array|string $data */
             $data = $event->getData();
 
-            //  Null must return here, sending anything but null will trigger validation.
-            //  Even if null is wrapped in an array.
-            if (is_null($data)) {
+            // Null must return here, sending anything but null will trigger validation.
+            // Even if null is wrapped in an array.
+            if ($data === null) {
                 return;
             }
 
-            //  An array of data is what we expect so return.
+            // An array of data is what we expect so return.
             if (is_array($data)) {
                 return;
             }
 
-            //  Otherwise wrap the data given in an array.
-            //  This simulates a multiple entry.
+            // Otherwise wrap the data given in an array.
+            // This simulates a multiple entry.
             $event->setData([$data]);
         });
     }
@@ -316,15 +311,14 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Add a date filter.
      *
-     * @param string $field
      * @param string|string $column
      */
-    protected function addDateFilter(string $field, string $column = null): void
+    protected function addDateFilter(string $field, ?string $column = null): void
     {
         $column = $column ?: $field;
 
         $this->builder->add($field, DateWithinRangeFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'];
 
                 $alias = FilterDatabaseHelper::getAliasFromColumn($field);
@@ -332,19 +326,18 @@ abstract class AbstractFilterType extends AbstractType
 
                 $qb = $filter->getQueryBuilder();
 
-                /** @var \DateTime $from */
+                /** @var DateTime $from */
                 $from = $value['from'][0];
 
-                /** @var \DateTime $to */
+                /** @var DateTime $to */
                 $to = $value['to'][0];
 
-                //  When we have both an to and from date we have a few cases to consider.
-                if (($from instanceof \DateTimeInterface) && ($to instanceof \DateTimeInterface)) {
-
-                    //  First case is where the dates match exactly.
-                    //  In this case we are looking for an entire day.
-                    //  It seems very unlikely that a search for a specific second will be performed.
-                    if ($from == $to) {
+                // When we have both an to and from date we have a few cases to consider.
+                if (($from instanceof DateTimeInterface) && ($to instanceof DateTimeInterface)) {
+                    // First case is where the dates match exactly.
+                    // In this case we are looking for an entire day.
+                    // It seems very unlikely that a search for a specific second will be performed.
+                    if ($from === $to) {
                         $parameter = FilterDatabaseHelper::generateParameterName($field);
 
                         $qb->andWhere(
@@ -359,9 +352,8 @@ abstract class AbstractFilterType extends AbstractType
                         return;
                     }
 
-                    //  Second case is a simple between dates search.
-                    //  For this we can use the built in SQL BETWEEN.
-
+                    // Second case is a simple between dates search.
+                    // For this we can use the built in SQL BETWEEN.
                     $parameterFrom = FilterDatabaseHelper::generateParameterName($field);
                     $parameterTo = FilterDatabaseHelper::generateParameterName($field);
 
@@ -379,31 +371,32 @@ abstract class AbstractFilterType extends AbstractType
                     return;
                 }
 
-                //  These are cases where only one side is available.
-
-                //  The "from" date means we want to find greater than the date.
-                //  Where the time is not given the the time is set to midnight (the morning).
-                if ($from instanceof \DateTimeInterface) {
+                // These are cases where only one side is available.
+                // The "from" date means we want to find greater than the date.
+                // Where the time is not given the the time is set to midnight (the morning).
+                if ($from instanceof DateTimeInterface) {
                     $parameter = FilterDatabaseHelper::generateParameterName($field);
 
                     $qb->andWhere($qb->expr()->gte($field, sprintf(':%s', $parameter)));
                     $qb->setParameter($parameter, $from);
                 }
 
-                //  The "to" date means we want to find greater than the date.
-                if ($to instanceof \DateTimeInterface) {
-                    $parameter = FilterDatabaseHelper::generateParameterName($field);
-
-                    //  Where a time is not given the the time is set to midnight (the morning).
-                    //  Because its set to midnight in the morning we have a weird UX issue.
-                    //  Saying to bound today should mean ending today, so set the time to the last second in the day.
-                    if ($to->format('H:i:s') === '00:00:00') {
-                        $to->setTime(23, 59, 59);
-                    }
-
-                    $qb->andWhere($qb->expr()->lte($field, sprintf(':%s', $parameter)));
-                    $qb->setParameter($parameter, $to);
+                // The "to" date means we want to find greater than the date.
+                if (!($to instanceof DateTimeInterface)) {
+                    return;
                 }
+
+                $parameter = FilterDatabaseHelper::generateParameterName($field);
+
+                // Where a time is not given the the time is set to midnight (the morning).
+                // Because its set to midnight in the morning we have a weird UX issue.
+                // Saying to bound today should mean ending today, so set the time to the last second in the day.
+                if ($to->format('H:i:s') === '00:00:00') {
+                    $to->setTime(23, 59, 59);
+                }
+
+                $qb->andWhere($qb->expr()->lte($field, sprintf(':%s', $parameter)));
+                $qb->setParameter($parameter, $to);
             },
         ]);
     }
@@ -411,15 +404,14 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Add a search filter.
      *
-     * @param string $field
      * @param string|string $column
      */
-    protected function addSearchFilter(string $field, string $column = null): void
+    protected function addSearchFilter(string $field, ?string $column = null): void
     {
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 if (!FilterValueHelper::isValidSearchTerm($value)) {
@@ -432,7 +424,7 @@ abstract class AbstractFilterType extends AbstractType
 
                 $qb = $filter->getQueryBuilder();
 
-                //  Doctrine doesn't support the PostgreSQL ILIKE (~~*) so this will do for now.
+                // Doctrine doesn't support the PostgreSQL ILIKE (~~*) so this will do for now.
                 $qb->andWhere(
                     $qb->expr()->like(
                         $qb->expr()->lower($field),
@@ -453,16 +445,13 @@ abstract class AbstractFilterType extends AbstractType
 
     /**
      * Add a boolean filter.
-     *
-     * @param string $field
-     * @param string|null $column
      */
-    protected function addBooleanFilter(string $field, string $column = null): void
+    protected function addBooleanFilter(string $field, ?string $column = null): void
     {
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 if (!FilterValueHelper::isValidInput($value)) {
@@ -485,40 +474,42 @@ abstract class AbstractFilterType extends AbstractType
             ],
         ]);
 
-        //  Standardise the data being sent.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        // Standardise the data being sent.
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             /** @var array|string $data */
             $data = $event->getData();
 
-            //  Null must return here, sending anything but null will trigger validation.
-            //  Even if null is wrapped in an array.
-            if (is_null($data)) {
+            // Null must return here, sending anything but null will trigger validation.
+            // Even if null is wrapped in an array.
+            if ($data === null) {
                 return;
             }
 
-            //  Fix positive.
+            // Fix positive.
             if (in_array(strtolower($data), ['y', 'yes', 'true', 't', '1'])) {
                 $event->setData(1);
             }
 
-            //  Fix negative.
-            if (in_array(strtolower($data), ['n', 'no', 'false', 'f', '0'])) {
-                $event->setData(0);
+            // Fix negative.
+            if (!in_array(strtolower($data), ['n', 'no', 'false', 'f', '0'])) {
+                return;
             }
+
+            $event->setData(0);
         });
     }
 
-    protected function addIdentityCollectionFilter(string $field, string $column = null): void
+    protected function addIdentityCollectionFilter(string $field, ?string $column = null): void
     {
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
-                //  The value can sometimes come through as a string.
-                //  In this case we just return early.
-                if (is_null($value) || ($value === '')) {
+                // The value can sometimes come through as a string.
+                // In this case we just return early.
+                if ($value === null || ($value === '')) {
                     return;
                 }
 
@@ -529,12 +520,9 @@ abstract class AbstractFilterType extends AbstractType
                 $field = FilterDatabaseHelper::generateFieldName($alias, $column);
                 $parameter = FilterDatabaseHelper::generateParameterName($field);
 
-
-
                 $qb = $filter->getQueryBuilder();
                 $qb->andWhere($qb->expr()->in($field, sprintf(':%s', $parameter)));
                 $qb->setParameter($parameter, $values);
-
 
                 $value = $values['value'] ?? '';
 
@@ -552,25 +540,25 @@ abstract class AbstractFilterType extends AbstractType
             },
         ]);
 
-        //  Repair the data that is being sent.
-        //  In the cases where an array is not given we wrap the data in an array.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        // Repair the data that is being sent.
+        // In the cases where an array is not given we wrap the data in an array.
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             /** @var array|string $data */
             $data = $event->getData();
 
-            //  Null must return here, sending anything but null will trigger validation.
-            //  Even if null is wrapped in an array.
-            if (is_null($data)) {
+            // Null must return here, sending anything but null will trigger validation.
+            // Even if null is wrapped in an array.
+            if ($data === null) {
                 return;
             }
 
-            //  An array of data is what we expect so return.
+            // An array of data is what we expect so return.
             if (is_array($data)) {
                 return;
             }
 
-            //  Otherwise wrap the data given in an array.
-            //  This simulates a multiple entry.
+            // Otherwise wrap the data given in an array.
+            // This simulates a multiple entry.
             $event->setData([$data]);
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Request\Filter\Helper;
 
 use Brain\Common\Request\Filter\Helper\FilterDatabaseHelper;
@@ -14,7 +16,7 @@ class FilterDatabaseHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return string[][]
      */
     public function provideCanGenerateParameterName(): array
     {
@@ -41,9 +43,6 @@ class FilterDatabaseHelperTest extends TestCase
      * @group unit
      * @group core
      * @group filter
-     *
-     * @param string $input
-     * @param string $expected
      */
     public function canGenerateParameterName(string $input, string $expected): void
     {
@@ -54,7 +53,7 @@ class FilterDatabaseHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return null[][]|string[][]
      */
     public function provideCanGenerateFieldName(): array
     {
@@ -79,8 +78,6 @@ class FilterDatabaseHelperTest extends TestCase
      * @group filter
      *
      * @param string|string $prefix
-     * @param string $column
-     * @param string $expected
      */
     public function canGenerateFieldName(?string $prefix, string $column, string $expected): void
     {
@@ -91,7 +88,7 @@ class FilterDatabaseHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return string[][]
      */
     public function provideCanGetAliasFromColumn(): array
     {
@@ -108,9 +105,6 @@ class FilterDatabaseHelperTest extends TestCase
      * @group unit
      * @group core
      * @group filter
-     *
-     * @param string $column
-     * @param string $expected
      */
     public function canGetAliasFromColumn(string $column, string $expected): void
     {

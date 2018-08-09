@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\System;
 
 use Brain\Common\System\EnvironmentChecker;
@@ -8,6 +10,11 @@ use PHPUnit\Framework\TestCase;
 
 final class EnvironmentCheckerTest extends TestCase
 {
+    /**
+     * Data provider.
+     *
+     * @return string[][]|bool[][]
+     */
     public function productionDataProvider(): array
     {
         return [
@@ -18,6 +25,21 @@ final class EnvironmentCheckerTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider productionDataProvider
+     */
+    public function testIsProductionEnvironmentStrings(string $environment, bool $value): void
+    {
+        $environmentChecker = new EnvironmentChecker($environment);
+
+        self::assertSame($environmentChecker->isProduction(), $value);
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return string[][]|bool[][]
+     */
     public function nonProductionDataProvider(): array
     {
         return [
@@ -29,25 +51,9 @@ final class EnvironmentCheckerTest extends TestCase
     }
 
     /**
-     * @dataProvider productionDataProvider
-     *
-     * @param string $environment
-     * @param bool $value
-     */
-    public function testIsProductionEnvironmentStrings(string $environment, bool $value)
-    {
-        $environmentChecker = new EnvironmentChecker($environment);
-
-        self::assertSame($environmentChecker->isProduction(), $value);
-    }
-
-    /**
      * @dataProvider nonProductionDataProvider
-     *
-     * @param string $environment
-     * @param bool $value
      */
-    public function testIsNonProductionEnvironmentStrings(string $environment, bool $value)
+    public function testIsNonProductionEnvironmentStrings(string $environment, bool $value): void
     {
         $environmentChecker = new EnvironmentChecker($environment);
 

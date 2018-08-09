@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Bundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -28,16 +30,13 @@ final class Configuration implements ConfigurationInterface
 
     /**
      * Configure the "authentication" area.
-     *
-     * @param ArrayNodeDefinition $root
      */
     private function configureAuthenticationNode(ArrayNodeDefinition $root): void
     {
         $authentication = $root->children()->arrayNode('authentication');
         $authentication->addDefaultsIfNotSet();
 
-        //  .authentication.storage
-
+        // .authentication.storage
         $storage = $authentication->children()->arrayNode('storage');
         $storage->addDefaultsIfNotSet();
 
@@ -47,16 +46,13 @@ final class Configuration implements ConfigurationInterface
 
     /**
      * Configure the "response" area.
-     *
-     * @param ArrayNodeDefinition $root
      */
     private function configureResponseNode(ArrayNodeDefinition $root): void
     {
         $authentication = $root->children()->arrayNode('response');
         $authentication->addDefaultsIfNotSet();
 
-        //  .response.factory
-
+        // .response.factory
         $factory = $authentication->children()->arrayNode('factory');
         $factory->addDefaultsIfNotSet();
 

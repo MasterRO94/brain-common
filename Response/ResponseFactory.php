@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Response;
 
 use Brain\Common\Database\Pagination\Paginator;
@@ -11,27 +13,21 @@ use FOS\RestBundle\View\View;
 
 /**
  * A response factory for creating view instances.
- *
- * @api
  */
 class ResponseFactory
 {
     /**
      * Create a view.
      *
-     * @param Request $request
-     * @param mixed $data
-     * @param array $groups
-     * @param int $status
-     *
-     * @return View
+     * @param mixed[]|null $data
+     * @param string[] $groups
      */
-    final public function view(Request $request, $data = [], array $groups, int $status): View
+    final public function view(Request $request, $data, array $groups, int $status): View
     {
         $groups = $this->prepareSerialisationGroups($groups);
         $response = $data;
 
-        //  HEAD requests should be empty.
+        // HEAD requests should be empty.
         if ($request->getMethod() === Request::METHOD_HEAD) {
             $response = null;
             $groups = null;
@@ -40,7 +36,7 @@ class ResponseFactory
         $view = View::create($this->prepare($response), $status);
         $view->getContext()->setGroups($groups);
 
-        //  Add pagination headers.
+        // Add pagination headers.
         if ($data instanceof Paginator) {
             $view->setHeader(Paginator::PAGINATION_PAGE_TOTAL, $data->getNbPages());
             $view->setHeader(Paginator::PAGINATION_RESULTS, count($view->getData()));
@@ -57,10 +53,6 @@ class ResponseFactory
      * Prepare the view response.
      *
      * @param mixed $data
-     * @param Request $request
-     * @param View $view
-     *
-     * @return View
      */
     public function prepareResponseView($data, Request $request, View $view): View
     {
@@ -77,10 +69,6 @@ class ResponseFactory
      * Prepare the symfony response.
      *
      * @param mixed $data
-     * @param Request $request
-     * @param Response $response
-     *
-     * @return Response
      */
     public function prepareResponse($data, Request $request, Response $response): Response
     {
@@ -99,8 +87,6 @@ class ResponseFactory
      * @param string[] $groups
      *
      * @return string[]
-     *
-     * @api
      */
     protected function prepareSerialisationGroups(array $groups): array
     {
@@ -116,7 +102,6 @@ class ResponseFactory
      * so we can stop hammering our servers for options requests.
      *
      * @param mixed $data
-     * @param Request $request
      *
      * @return string[]
      */
@@ -156,7 +141,7 @@ class ResponseFactory
             'Access-Control-Expose-Headers' => implode(',', $expose),
             'Access-Control-Allow-Methods' => implode(',', $methods),
 
-            //  Don't request this endpoint for another hour.
+            // Don't request this endpoint for another hour.
             'Access-Control-Max-Age' => 60 * 60,
         ];
     }

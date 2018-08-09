@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Prototype\Column\Date;
 
 use Brain\Common\Exception\Prototype\PrototypeMethodException;
@@ -17,9 +19,7 @@ trait CreatedAwareTrait
     /**
      * Return the created date.
      *
-     * @throws PrototypeMethodException when created date is not available.
-     *
-     * @return DateTimeInterface
+     * @throws PrototypeMethodException When created date is not available.
      */
     public function getCreated(): DateTimeInterface
     {
@@ -32,8 +32,6 @@ trait CreatedAwareTrait
 
     /**
      * Check the created date.
-     *
-     * @return bool
      */
     public function hasCreated(): bool
     {
@@ -42,8 +40,6 @@ trait CreatedAwareTrait
 
     /**
      * Set the created date.
-     *
-     * @param DateTimeInterface $created
      */
     public function setCreated(DateTimeInterface $created): void
     {

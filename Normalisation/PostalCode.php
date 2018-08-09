@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Normalisation;
 
 use Brain\Common\Normalisation\Exception\PostalCodeInvalidException;
@@ -14,9 +16,6 @@ final class PostalCode implements PostalCodeInterface
     private $country;
 
     /** @var string */
-    private $value;
-
-    /** @var string */
     private $standardised;
 
     /** @var bool */
@@ -24,7 +23,6 @@ final class PostalCode implements PostalCodeInterface
 
     public function __construct(string $value, string $country)
     {
-        $this->value = $value;
         $this->country = $country;
 
         $validator = new PostCodeValidator();
@@ -37,9 +35,11 @@ final class PostalCode implements PostalCodeInterface
 
         $this->valid = $validator->isValid($value, $country);
 
-        if ($this->valid === true) {
-            $this->standardised = $validator->standardise($value);
+        if ($this->valid !== true) {
+            return;
         }
+
+        $this->standardised = $validator->standardise($value);
     }
 
     /**

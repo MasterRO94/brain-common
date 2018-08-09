@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Database;
 
 use Brain\Common\Authentication\AuthenticationStorageInterface;
@@ -20,13 +22,6 @@ class Database implements DatabaseInterface
     private $paginatorFactory;
     private $authenticationStorage;
 
-    /**
-     * Constructor.
-     *
-     * @param Registry $registry
-     * @param PaginatorFactory $paginatorFactory
-     * @param AuthenticationStorageInterface $authenticationStorage
-     */
     public function __construct(
         Registry $registry,
         PaginatorFactory $paginatorFactory,

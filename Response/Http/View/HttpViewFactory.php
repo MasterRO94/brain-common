@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Response\Http\View;
 
 use Brain\Common\Response\Http\HttpViewFactoryInterface;
@@ -16,11 +18,6 @@ final class HttpViewFactory implements HttpViewFactoryInterface
 {
     private $generator;
 
-    /**
-     * Constructor.
-     *
-     * @param ResponseGenerator $generator
-     */
     public function __construct(ResponseGenerator $generator)
     {
         $this->generator = $generator;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Utility;
 
 use Brain\Common\Utility\NumberHelper;
@@ -14,7 +16,7 @@ final class NumberHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return int[][]
      */
     public function provideCanClampValue(): array
     {

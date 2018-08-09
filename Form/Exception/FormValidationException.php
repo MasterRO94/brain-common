@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Exception;
 
 use Brain\Common\Exception\AbstractBrainRuntimeException;
@@ -14,11 +16,6 @@ final class FormValidationException extends AbstractBrainRuntimeException implem
 {
     private $form;
 
-    /**
-     * Constructor.
-     *
-     * @param FormInterface $form
-     */
     public function __construct(FormInterface $form)
     {
         parent::__construct('The form did not pass validation', null);

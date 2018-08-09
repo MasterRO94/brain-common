@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Database\Repository;
 
 use Brain\Common\Authentication\AuthenticationStorageInterface;
@@ -11,13 +13,11 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * An enhanced doctrine repository.
- *
- * @api
  */
 abstract class AbstractEntityRepository extends EntityRepository
 {
-    const SORT_ASC = 'ASC';
-    const SORT_DESC = 'DESC';
+    public const SORT_ASC = 'ASC';
+    public const SORT_DESC = 'DESC';
 
     /** @var PaginatorFactory */
     private $paginatorFactory;
@@ -28,8 +28,6 @@ abstract class AbstractEntityRepository extends EntityRepository
     /**
      * Set the paginator helper factory.
      *
-     * @param PaginatorFactory $paginatorFactory
-     *
      * @internal This should only be called through the database helper.
      */
     final public function setPaginatorFactory(PaginatorFactory $paginatorFactory): void
@@ -39,8 +37,6 @@ abstract class AbstractEntityRepository extends EntityRepository
 
     /**
      * Set the authentication storage helper.
-     *
-     * @param AuthenticationStorageInterface $authenticationStorage
      *
      * @internal This should only be called through the database helper.
      */
@@ -62,8 +58,6 @@ abstract class AbstractEntityRepository extends EntityRepository
 
     /**
      * Return the paginator factory helper.
-     *
-     * @return PaginatorFactory
      */
     protected function getPaginatorFactory(): PaginatorFactory
     {
@@ -76,8 +70,6 @@ abstract class AbstractEntityRepository extends EntityRepository
 
     /**
      * Return the authentication storage.
-     *
-     * @return AuthenticationStorageInterface
      */
     protected function getAuthenticationStorage(): AuthenticationStorageInterface
     {

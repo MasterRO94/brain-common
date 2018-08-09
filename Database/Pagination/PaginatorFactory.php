@@ -23,13 +23,6 @@ final class PaginatorFactory
     private $page;
     private $limit;
 
-    /**
-     * Constructor.
-     *
-     * @param RequestStack $requestStack
-     * @param int $page
-     * @param int $limit
-     */
     public function __construct(RequestStack $requestStack, int $page, int $limit)
     {
         $this->requestStack = $requestStack;
@@ -40,16 +33,10 @@ final class PaginatorFactory
     /**
      * Create a paginator for the given adapter.
      *
-     * @param AdapterInterface $adapter
-     * @param int|null $page
-     * @param int|null $limit
-     *
-     * @throws InvalidPagePaginationException if the "page" in the request is invalid.
-     * @throws InvalidLimitPaginationException if the "limit" in the request is invalid.
-     *
-     * @return Paginator
+     * @throws InvalidPagePaginationException When the "page" in the request is invalid.
+     * @throws InvalidLimitPaginationException When the "limit" in the request is invalid.
      */
-    public function create(AdapterInterface $adapter, int $page = null, int $limit = null): Paginator
+    public function create(AdapterInterface $adapter, ?int $page = null, ?int $limit = null): Paginator
     {
         $page = $this->getRequestPageParameter() ?? $page ?? $this->page;
         $limit = $this->getRequestLimitParameter() ?? $limit ?? $this->limit;
@@ -63,14 +50,8 @@ final class PaginatorFactory
 
     /**
      * Create a paginator for the given query builder.
-     *
-     * @param QueryBuilder $qb
-     * @param int|null $page
-     * @param int|null $limit
-     *
-     * @return Paginator
      */
-    public function createForQueryBuilder(QueryBuilder $qb, int $page = null, int $limit = null): Paginator
+    public function createForQueryBuilder(QueryBuilder $qb, ?int $page = null, ?int $limit = null): Paginator
     {
         $adapter = new PaginatorQueryBuilderAdapter($qb, true);
 
@@ -79,11 +60,6 @@ final class PaginatorFactory
 
     /**
      * Recreate a paginator with a new query builder.
-     *
-     * @param Paginator $paginator
-     * @param QueryBuilder $qb
-     *
-     * @return Paginator
      */
     public function recreateForQueryBuilder(Paginator $paginator, QueryBuilder $qb): Paginator
     {
@@ -101,23 +77,21 @@ final class PaginatorFactory
     /**
      * Return the request page parameter.
      *
-     * @throws InvalidPagePaginationException if the "page" in the request is invalid.
-     *
-     * @return int|null
+     * @throws InvalidPagePaginationException When the "page" in the request is invalid.
      */
     private function getRequestPageParameter(): ?int
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        //  Console commands do not have requests, so defer to defaults.
+        // Console commands do not have requests, so defer to defaults.
         if ($request === null) {
             return null;
         }
 
-        //  &page=10
+        // &page=10
         $page = $request->query->get('page', null);
 
-        if (is_null($page)) {
+        if ($page === null) {
             return null;
         }
 
@@ -131,23 +105,21 @@ final class PaginatorFactory
     /**
      * Return the request limit parameter.
      *
-     * @throws InvalidLimitPaginationException if the "limit" in the request is invalid.
-     *
-     * @return int|null
+     * @throws InvalidLimitPaginationException When the "limit" in the request is invalid.
      */
     private function getRequestLimitParameter(): ?int
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        //  Console commands do not have requests, so defer to defaults.
+        // Console commands do not have requests, so defer to defaults.
         if ($request === null) {
             return null;
         }
 
-        //  &limit=40
+        // &limit=40
         $limit = $request->query->get('limit', null);
 
-        if (is_null($limit)) {
+        if ($limit === null) {
             return null;
         }
 

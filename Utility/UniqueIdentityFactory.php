@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Utility;
 
 use Ramsey\Uuid\UuidFactory;
@@ -11,11 +13,6 @@ final class UniqueIdentityFactory implements UniqueIdentityFactoryInterface
 {
     private $uuid;
 
-    /**
-     * Constructor.
-     *
-     * @param UuidFactory $uuid
-     */
     public function __construct(UuidFactory $uuid)
     {
         $this->uuid = $uuid;
@@ -26,6 +23,6 @@ final class UniqueIdentityFactory implements UniqueIdentityFactoryInterface
      */
     public function uuid(): string
     {
-        return $this->uuid->uuid4();
+        return $this->uuid->uuid4()->toString();
     }
 }

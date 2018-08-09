@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Bundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,8 +45,7 @@ final class BrainCommonExtension extends AbstractBundleExtension
     /**
      * Handle the configuration for "authentication".
      *
-     * @param ContainerBuilder $container
-     * @param array $config
+     * @param mixed[] $config
      */
     private function handleAuthenticationConfiguration(ContainerBuilder $container, array $config): void
     {
@@ -58,20 +59,21 @@ final class BrainCommonExtension extends AbstractBundleExtension
     /**
      * Handle the configuration for "response".
      *
-     * @param ContainerBuilder $container
-     * @param array $config
+     * @param mixed[] $config
      */
     private function handleResponseConfiguration(ContainerBuilder $container, array $config): void
     {
-        if ($config['response']['factory']['service'] !== null) {
-            $service = $config['response']['factory']['service'];
-            $service = str_replace('@', '', $service);
-
-            $factory = $container->getDefinition('brain.common.response.generator');
-            $factory->replaceArgument(0, new Reference($service));
-
-            $factory = $container->getDefinition('brain.common.response.helper');
-            $factory->replaceArgument(0, new Reference($service));
+        if ($config['response']['factory']['service'] === null) {
+            return;
         }
+
+        $service = $config['response']['factory']['service'];
+        $service = str_replace('@', '', $service);
+
+        $factory = $container->getDefinition('brain.common.response.generator');
+        $factory->replaceArgument(0, new Reference($service));
+
+        $factory = $container->getDefinition('brain.common.response.helper');
+        $factory->replaceArgument(0, new Reference($service));
     }
 }

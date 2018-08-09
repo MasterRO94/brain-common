@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Request\Filter\Helper;
 
 use Brain\Common\Request\Filter\Helper\FilterValueHelper;
@@ -14,7 +16,7 @@ class FilterValueHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return mixed[][]
      */
     public function provideCanCheckValue(): array
     {
@@ -38,7 +40,6 @@ class FilterValueHelperTest extends TestCase
      * @group filter
      *
      * @param mixed $input
-     * @param bool $expected
      */
     public function canCheckValue($input, bool $expected): void
     {
@@ -49,7 +50,7 @@ class FilterValueHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return mixed[][]
      */
     public function provideCanCheckSearchTerm(): array
     {
@@ -78,7 +79,6 @@ class FilterValueHelperTest extends TestCase
      * @group filter
      *
      * @param mixed $input
-     * @param bool $expected
      */
     public function canCheckSearchTerm($input, bool $expected): void
     {

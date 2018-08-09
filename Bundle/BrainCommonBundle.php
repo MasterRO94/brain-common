@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Bundle;
 
 use Brain\Common\Bundle\DependencyInjection\AbstractBundleExtension;

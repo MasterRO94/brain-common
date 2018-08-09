@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Normalisation;
 
 use Brain\Common\Normalisation\Exception\PostalCodeInvalidException;
@@ -37,8 +39,6 @@ final class PostalCodeTest extends TestCase
      * @group normalisation
      *
      * @covers \Brain\Common\Normalisation\PostalCode
-     *
-     * @param string $value
      */
     public function withInvalidPostalCodeBeNice(string $value): void
     {
@@ -89,10 +89,6 @@ final class PostalCodeTest extends TestCase
      * @group normalisation
      *
      * @covers \Brain\Common\Normalisation\PostalCode
-     *
-     * @param string $value
-     * @param string $countryCode
-     * @param string $standardised
      */
     public function canNormalisePhoneNumber(string $value, string $countryCode, string $standardised): void
     {

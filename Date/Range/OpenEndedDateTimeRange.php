@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Date\Range;
 
 use DateTime;
@@ -22,12 +24,10 @@ final class OpenEndedDateTimeRange implements OpenEndedDateTimeRangeInterface
 
     /**
      * Create an open ended date from the given date.
-     *
-     * @param DateTimeInterface $from
      */
     public static function createFrom(DateTimeInterface $from): self
     {
-        //  I hear it's pretty fly.
+        // I hear it's pretty fly.
         $to = new DateTime('3000-01-01 00:00:00');
 
         $range = new self($from, $to);
@@ -38,12 +38,10 @@ final class OpenEndedDateTimeRange implements OpenEndedDateTimeRangeInterface
 
     /**
      * Create an open ended date up-to the given date.
-     *
-     * @param DateTimeInterface $to
      */
     public static function createTo(DateTimeInterface $to): self
     {
-        //  It wasn't pretty fly.
+        // It wasn't pretty fly.
         $from = new DateTime('1000-01-01 00:00:00');
 
         $range = new self($from, $to);

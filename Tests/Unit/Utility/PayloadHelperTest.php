@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Utility;
 
 use Brain\Common\Utility\PayloadHelper;
@@ -69,6 +71,8 @@ class PayloadHelperTest extends TestCase
 
     /**
      * Data provider.
+     *
+     * @return mixed[][]
      */
     public function provideCanHandleJsonStrings(): array
     {
@@ -138,8 +142,7 @@ class PayloadHelperTest extends TestCase
      *
      * @covers \Brain\Common\Utility\PayloadHelper
      *
-     * @param string $json
-     * @param array $expected
+     * @param mixed[][] $expected
      */
     public function canHandleJsonStrings(string $json, array $expected): void
     {

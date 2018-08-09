@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Response\Http\Response;
 
 use Brain\Common\Response\Http\HttpResponseFactoryInterface;
@@ -14,11 +16,6 @@ final class HttpResponseFactory implements HttpResponseFactoryInterface
 {
     private $generator;
 
-    /**
-     * Constructor.
-     *
-     * @param ResponseGenerator $generator
-     */
     public function __construct(ResponseGenerator $generator)
     {
         $this->generator = $generator;

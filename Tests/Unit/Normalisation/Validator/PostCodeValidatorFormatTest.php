@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Normalisation\Validator;
 
 use Brain\Common\Normalisation\Validator\PostCodeValidatorFormat;
@@ -71,9 +73,6 @@ final class PostCodeValidatorFormatTest extends TestCase
      * @group normalisation
      *
      * @covers \Brain\Common\Normalisation\Validator\PostCodeValidatorFormat
-     *
-     * @param string $format
-     * @param string $expected
      */
     public function canConvertFormat(string $format, string $expected): void
     {

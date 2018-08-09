@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Normalisation;
 
 use Brain\Common\Normalisation\Exception\PhoneNumberInvalidException;
@@ -37,8 +39,6 @@ final class PhoneNumberTest extends TestCase
      * @group normalisation
      *
      * @covers \Brain\Common\Normalisation\PhoneNumber
-     *
-     * @param string $value
      */
     public function withInvalidPhoneNumberBeNice(string $value): void
     {
@@ -91,11 +91,6 @@ final class PhoneNumberTest extends TestCase
      * @group normalisation
      *
      * @covers \Brain\Common\Normalisation\PhoneNumber
-     *
-     * @param string $value
-     * @param string $countryCode
-     * @param string $nationalNumber
-     * @param string $standardised
      */
     public function canNormalisePhoneNumber(string $value, string $countryCode, string $nationalNumber, string $standardised): void
     {

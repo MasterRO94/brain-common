@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Prototype\Column\Date;
 
 use Brain\Common\Exception\Prototype\PrototypeMethodException;
@@ -17,9 +19,7 @@ trait UpdatedAwareTrait
     /**
      * Return the updated date.
      *
-     * @throws PrototypeMethodException when updated date is not available.
-     *
-     * @return DateTimeInterface
+     * @throws PrototypeMethodException When updated date is not available.
      */
     public function getUpdated(): DateTimeInterface
     {
@@ -32,8 +32,6 @@ trait UpdatedAwareTrait
 
     /**
      * Check the updated date.
-     *
-     * @return bool
      */
     public function hasUpdated(): bool
     {
@@ -42,8 +40,6 @@ trait UpdatedAwareTrait
 
     /**
      * Set the updated date.
-     *
-     * @param DateTimeInterface $updated
      */
     public function setUpdated(DateTimeInterface $updated): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Request\Filter\Helper;
 
 /**
@@ -9,10 +11,6 @@ final class FilterDatabaseHelper
 {
     /**
      * Generate a filter alias name that is unique.
-     *
-     * @param string $field
-     *
-     * @return string
      */
     public static function generateParameterName(string $field): string
     {
@@ -25,11 +23,6 @@ final class FilterDatabaseHelper
 
     /**
      * Generate a field name.
-     *
-     * @param string|null $prefix
-     * @param string $column
-     *
-     * @return string
      */
     public static function generateFieldName(?string $prefix, string $column): string
     {
@@ -40,10 +33,6 @@ final class FilterDatabaseHelper
 
     /**
      * Return the alias from a column name.
-     *
-     * @param string $column
-     *
-     * @return string
      */
     public static function getAliasFromColumn(string $column): string
     {

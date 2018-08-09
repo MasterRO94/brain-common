@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Date;
 
 use Brain\Common\Date\Range\OpenEndedDateTimeRange;

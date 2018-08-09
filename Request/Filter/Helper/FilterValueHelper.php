@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Request\Filter\Helper;
 
 /**
@@ -11,19 +13,19 @@ final class FilterValueHelper
      * Check the value.
      *
      * @param mixed $value
-     *
-     * @return bool
      */
     public static function isValidInput($value): bool
     {
-        if (is_null($value)) {
+        if ($value === null) {
             return false;
         }
 
-        $value = trim($value);
+        if (is_string($value)) {
+            $value = trim($value);
 
-        if (strlen($value) === 0) {
-            return false;
+            if (strlen($value) === 0) {
+                return false;
+            }
         }
 
         if (is_numeric($value)) {
@@ -37,8 +39,6 @@ final class FilterValueHelper
      * Check the value is a valid search term.
      *
      * @param mixed $value
-     *
-     * @return bool
      */
     public static function isValidSearchTerm($value): bool
     {
@@ -46,7 +46,7 @@ final class FilterValueHelper
             return false;
         }
 
-        if (strlen($value) >= 3) {
+        if (is_string($value) && (strlen($value) >= 3)) {
             return true;
         }
 

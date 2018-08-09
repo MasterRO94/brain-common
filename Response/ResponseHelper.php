@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Response;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +13,6 @@ use FOS\RestBundle\View\View;
 /**
  * A response helper for creating common view instances.
  *
- * @api
- *
  * @deprecated Use one of the HTTP Factories available.
  */
 class ResponseHelper
@@ -20,12 +20,6 @@ class ResponseHelper
     private $responseFactory;
     private $requestStack;
 
-    /**
-     * Constructor.
-     *
-     * @param ResponseFactory $responseFactory
-     * @param RequestStack $requestStack
-     */
     public function __construct(ResponseFactory $responseFactory, RequestStack $requestStack)
     {
         $this->responseFactory = $responseFactory;
@@ -35,14 +29,10 @@ class ResponseHelper
     /**
      * Generate a response.
      *
-     * @param int $status
      * @param mixed $data
      * @param string[] $groups
-     * @param Request|null $request
-     *
-     * @return View
      */
-    final public function generate(int $status, $data, array $groups = [], Request $request = null): View
+    final public function generate(int $status, $data, array $groups = [], ?Request $request = null): View
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
@@ -53,9 +43,7 @@ class ResponseHelper
      * Create an OK 200 response.
      *
      * @param mixed $data
-     * @param array $groups
-     *
-     * @return View
+     * @param string[] $groups
      */
     final public function ok($data = null, array $groups = []): View
     {
@@ -66,9 +54,7 @@ class ResponseHelper
      * Create an OK 201 response.
      *
      * @param mixed $data
-     * @param array $groups
-     *
-     * @return View
+     * @param string[] $groups
      */
     final public function created($data, array $groups = []): View
     {
@@ -77,8 +63,6 @@ class ResponseHelper
 
     /**
      * Create a No Content 204 response.
-     *
-     * @return View
      */
     final public function noContent(): View
     {
@@ -87,8 +71,6 @@ class ResponseHelper
 
     /**
      * Create a NOT MODIFIED 304 response.
-     *
-     * @return View
      */
     final public function notModified(): View
     {
@@ -99,9 +81,7 @@ class ResponseHelper
      * Create a Bad Request 400 response.
      *
      * @param mixed $data
-     * @param array $groups
-     *
-     * @return View
+     * @param string[] $groups
      */
     final public function badRequest($data, array $groups = []): View
     {

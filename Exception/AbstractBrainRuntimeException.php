@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Exception;
 
 use RuntimeException;
@@ -10,13 +12,7 @@ use Throwable;
  */
 abstract class AbstractBrainRuntimeException extends RuntimeException
 {
-    /**
-     * Constructor.
-     *
-     * @param string $message
-     * @param Throwable|null $previous
-     */
-    public function __construct(string $message = '', Throwable $previous = null)
+    public function __construct(string $message = '', ?Throwable $previous = null)
     {
         $code = 0;
 

@@ -14,12 +14,6 @@ final class Translator implements TranslatorInterface
     private $translator;
     private $locale;
 
-    /**
-     * Constructor.
-     *
-     * @param SymfonyTranslatorInterface $translator
-     * @param string|null $locale
-     */
     public function __construct(SymfonyTranslatorInterface $translator, string $locale)
     {
         $this->translator = $translator;
@@ -40,7 +34,7 @@ final class Translator implements TranslatorInterface
      * @param string $domain #TranslationDomain
      * @param string $id #TranslationKey
      */
-    public function translate(string $domain, string $id, array $parameters = [], string $locale = null): string
+    public function translate(string $domain, string $id, array $parameters = [], ?string $locale = null): string
     {
         return $this->translator->trans($id, $parameters, $domain, $locale ?? $this->locale);
     }

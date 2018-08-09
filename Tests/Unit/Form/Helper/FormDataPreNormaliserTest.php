@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Form\Helper;
 
 use Brain\Common\Form\Helper\FormDataPreNormaliser;
@@ -12,8 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class FormDataPreNormaliserTest extends TestCase
 {
-    const EXAMPLE_UUID = '08275c6b-2e31-39f6-b5fa-afa91feb66b0';
-    const EXAMPLE_ALIAS = 'some-alias';
+    public const EXAMPLE_UUID = '08275c6b-2e31-39f6-b5fa-afa91feb66b0';
+    public const EXAMPLE_ALIAS = 'some-alias';
 
     /**
      * @test
@@ -150,7 +152,7 @@ final class FormDataPreNormaliserTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return mixed[][]
      */
     public function provideCanNormaliseForMapping(): array
     {
@@ -281,9 +283,9 @@ final class FormDataPreNormaliserTest extends TestCase
      * @test
      * @dataProvider provideCanNormaliseForMapping
      *
-     * @param array $expected
-     * @param mixed $data
-     * @param array $definitions
+     * @param mixed[][] $expected
+     * @param mixed[][]|string|null $data
+     * @param EntityLookupDefinition[][] $definitions
      *
      * @covers \Brain\Common\Form\Helper\FormDataPreNormaliser
      */

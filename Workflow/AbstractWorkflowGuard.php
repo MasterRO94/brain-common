@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Workflow;
 
 use Brain\Common\Workflow\Builder\AbstractWorkflowBuilder;
@@ -8,17 +10,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * A workflow guard helper.
- *
- * @api
  */
 abstract class AbstractWorkflowGuard implements EventSubscriberInterface
 {
     /**
      * Return the class name of the workflow builder.
-     *
-     * @return string
-     *
-     * @api
      */
     abstract public static function getWorkflowBuilderClass(): string;
 
@@ -26,8 +22,6 @@ abstract class AbstractWorkflowGuard implements EventSubscriberInterface
      * Return the guarded states and the name of the function needed to be called.
      *
      * @return string[]
-     *
-     * @api
      */
     abstract public static function getGuardedTransitions(): array;
 

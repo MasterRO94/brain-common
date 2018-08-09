@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Type\Entity;
 
 use Brain\Common\Form\Helper\FormDataPreNormaliser;
@@ -18,7 +20,6 @@ final class EntityLookupDefinition
     /**
      * Create an instance.
      *
-     * @param string $column
      * @param mixed $default
      *
      * @return EntityLookupDefinition
@@ -29,9 +30,6 @@ final class EntityLookupDefinition
     }
 
     /**
-     * Constructor.
-     *
-     * @param string $column
      * @param mixed $default
      */
     private function __construct(string $column, $default = null)
@@ -42,8 +40,6 @@ final class EntityLookupDefinition
 
     /**
      * Return the database column name.
-     *
-     * @return string
      */
     public function getColumn(): string
     {
@@ -62,8 +58,6 @@ final class EntityLookupDefinition
 
     /**
      * Return the regex.
-     *
-     * @return string|null
      */
     public function getRegex(): ?string
     {
@@ -72,8 +66,6 @@ final class EntityLookupDefinition
 
     /**
      * Set the regex to match.
-     *
-     * @param string $regex
      *
      * @return EntityLookupDefinition
      */

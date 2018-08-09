@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Prototype\Column;
 
 use Brain\Common\Exception\Prototype\PrototypeMethodException;
@@ -15,9 +17,7 @@ trait IdentityAwareTrait
     /**
      * Get the identifier.
      *
-     * @throws PrototypeMethodException when the identity is not available.
-     *
-     * @return int
+     * @throws PrototypeMethodException When the identity is not available.
      */
     public function getId(): int
     {
@@ -30,11 +30,9 @@ trait IdentityAwareTrait
 
     /**
      * Check the identifier exists.
-     *
-     * @return bool
      */
     public function hasId(): bool
     {
-        return is_integer($this->id);
+        return is_int($this->id);
     }
 }

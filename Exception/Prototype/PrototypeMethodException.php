@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Exception\Prototype;
 
 use Brain\Common\Exception\AbstractBrainRuntimeException;
@@ -10,11 +12,9 @@ use Brain\Common\Exception\AbstractBrainRuntimeException;
 final class PrototypeMethodException extends AbstractBrainRuntimeException
 {
     /**
-     * @param object $object
-     *
      * @return PrototypeMethodException
      */
-    public static function createForIdentityMissing($object): self
+    public static function createForIdentityMissing(object $object): self
     {
         return new self(implode(' ', [
             'The method "getId()" cannot be called because the identity is not available right now.',
@@ -24,11 +24,9 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
     }
 
     /**
-     * @param object $object
-     *
      * @return PrototypeMethodException
      */
-    public static function createForCreatedDateMissing($object): self
+    public static function createForCreatedDateMissing(object $object): self
     {
         return new self(implode(' ', [
             'The method "getCreated()" cannot be called because the created date is not available right now.',
@@ -38,11 +36,9 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
     }
 
     /**
-     * @param object $object
-     *
      * @return PrototypeMethodException
      */
-    public static function createForUpdatedDateMissing($object): self
+    public static function createForUpdatedDateMissing(object $object): self
     {
         return new self(implode(' ', [
             'The method "getUpdated()" cannot be called because the updated date is not available right now.',
@@ -52,11 +48,9 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
     }
 
     /**
-     * @param object $object
-     *
      * @return PrototypeMethodException
      */
-    public static function createForDeletedDateMissing($object): self
+    public static function createForDeletedDateMissing(object $object): self
     {
         return new self(implode(' ', [
             'The method "getDeleted()" cannot be called because the deleted date is not available right now.',

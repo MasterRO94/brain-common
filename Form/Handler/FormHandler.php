@@ -37,13 +37,6 @@ final class FormHandler implements FormHandlerInterface
     private $factory;
     private $stopwatch;
 
-    /**
-     * Constructor.
-     *
-     * @param RequestStack $stack
-     * @param FormFactory $factory
-     * @param StopwatchInterface $stopwatch
-     */
     public function __construct(RequestStack $stack, FormFactory $factory, StopwatchInterface $stopwatch)
     {
         $this->request = $stack->getCurrentRequest();
@@ -54,12 +47,12 @@ final class FormHandler implements FormHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function manage(string $type, $data = null, array $options = [], Request $request = null): FormInterface
+    public function manage(string $type, $data = null, array $options = [], ?Request $request = null): FormInterface
     {
         $request = $request ?: $this->request;
         $payload = PayloadHelper::getJsonFromRequest($request);
 
-        //  Missing values are set to null if not patching.
+        // Missing values are set to null if not patching.
         $missing = ($this->request->getMethod() !== Request::METHOD_PATCH);
 
         $form = $this->handle($type, $payload, $data, $options, $missing);
@@ -70,7 +63,7 @@ final class FormHandler implements FormHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function partial(string $type, $data = null, array $options = [], Request $request = null): FormInterface
+    public function partial(string $type, $data = null, array $options = [], ?Request $request = null): FormInterface
     {
         $options['allow_extra_fields'] = true;
         $options['validation_groups'] = ['partial'];
@@ -100,18 +93,15 @@ final class FormHandler implements FormHandlerInterface
     /**
      * Create a form for the given request and type.
      *
-     * @param string $type
      * @param mixed $data
-     * @param array $options #FormOption
-     *
-     * @return FormInterface
+     * @param mixed[] $options #FormOption
      */
     private function create(string $type, $data = null, array $options = []): FormInterface
     {
         $this->stopwatch->start($type, 'form');
 
-        //  The form name represents the key in the payload to find the data.
-        //  As our API is restful and clean we give it a blank name, this will tell it to accept the entire payload.
+        // The form name represents the key in the payload to find the data.
+        // As our API is restful and clean we give it a blank name, this will tell it to accept the entire payload.
         $builder = $this->factory->createNamedBuilder('', $type, $data, $options);
 
         $form = $builder->getForm();

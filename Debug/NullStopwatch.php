@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Debug;
 
 use Symfony\Component\Stopwatch\StopwatchEvent;
@@ -14,7 +16,7 @@ final class NullStopwatch implements StopwatchInterface
     /**
      * {@inheritdoc}
      */
-    public function start(string $name, string $category = null): ?StopwatchEvent
+    public function start(string $name, ?string $category = null): ?StopwatchEvent
     {
         return null;
     }

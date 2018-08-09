@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit;
 
 use Brain\Common\Enum\AbstractEnum;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * {@inheritdoc}
@@ -15,8 +19,6 @@ abstract class AbstractEnumTest extends TestCase
 {
     /**
      * Return the enum class for testing.
-     *
-     * @return string
      */
     abstract public function getEnumClass(): string;
 
@@ -33,13 +35,13 @@ abstract class AbstractEnumTest extends TestCase
     /**
      * Data provider.
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      *
-     * @return array
+     * @return mixed[]
      */
     public function provideCheckAllConstantMentioned(): array
     {
-        $reflector = new \ReflectionClass($this->getEnumClass());
+        $reflector = new ReflectionClass($this->getEnumClass());
 
         $provider = [];
 
@@ -58,8 +60,6 @@ abstract class AbstractEnumTest extends TestCase
      * @group enum
      *
      * @covers \Brain\Common\Enum\AbstractEnum
-     *
-     * @param string $constant
      */
     public function checkAllConstantMentioned(string $constant): void
     {
@@ -71,7 +71,7 @@ abstract class AbstractEnumTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return mixed[]
      */
     public function provideCanTranslateEnumValue(): array
     {
@@ -95,9 +95,6 @@ abstract class AbstractEnumTest extends TestCase
      * @group enum
      *
      * @covers \Brain\Common\Enum\AbstractEnum
-     *
-     * @param string $expected
-     * @param string $value
      */
     public function canTranslateEnumValue(string $expected, string $value): void
     {
@@ -110,7 +107,7 @@ abstract class AbstractEnumTest extends TestCase
     /**
      * Data provider.
      *
-     * @return array
+     * @return mixed[]
      */
     public function provideCanValueEnumTranslation(): array
     {
@@ -134,9 +131,6 @@ abstract class AbstractEnumTest extends TestCase
      * @group enum
      *
      * @covers \Brain\Common\Enum\AbstractEnum
-     *
-     * @param string $expected
-     * @param string $translation
      */
     public function canValueEnumTranslation(string $expected, string $translation): void
     {

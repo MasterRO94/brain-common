@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Enum;
 
 /**
  * An abstract ENUM class mainly for use with database columns and translation.
- *
- * @api
  */
 abstract class AbstractEnum
 {
@@ -13,26 +13,20 @@ abstract class AbstractEnum
      * Return the translation prefix.
      *
      * To disable translations then return null.
-     *
-     * @return string|null
-     *
-     * @api
      */
     abstract protected static function getTranslationPrefix(): string;
 
     /**
      * Return the value to translation mapping.
      *
-     * @return array
-     *
-     * @api
+     * @return string[]
      */
     abstract protected static function getValues(): array;
 
     /**
      * Return an array of value and translation.
      *
-     * @return array
+     * @return string[]
      */
     final public static function getMapping(): array
     {
@@ -69,10 +63,6 @@ abstract class AbstractEnum
 
     /**
      * Return the translated value.
-     *
-     * @param string $value
-     *
-     * @return string
      */
     final public static function translate(string $value): string
     {
@@ -87,10 +77,6 @@ abstract class AbstractEnum
 
     /**
      * Revert a translated canonical value to its value.
-     *
-     * @param string $translation
-     *
-     * @return string
      */
     final public static function value(string $translation): string
     {

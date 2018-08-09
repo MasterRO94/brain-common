@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Response\Http;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +14,7 @@ interface HttpFactoryInterface
      * Create an OK 200 response.
      *
      * @param mixed $data
-     * @param array $groups
+     * @param string[] $groups
      *
      * @return Response|View
      */
@@ -22,7 +24,7 @@ interface HttpFactoryInterface
      * Create an OK 201 response.
      *
      * @param mixed $data
-     * @param array $groups
+     * @param string[] $groups
      *
      * @return Response|View
      */
@@ -46,7 +48,7 @@ interface HttpFactoryInterface
      * Create a Bad Request 400 response.
      *
      * @param mixed $data
-     * @param array $groups
+     * @param string[] $groups
      *
      * @return Response|View
      */

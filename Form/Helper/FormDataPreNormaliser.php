@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Helper;
 
 use Brain\Common\Form\Type\Entity\EntityLookupDefinition;
 
 final class FormDataPreNormaliser
 {
-    const UUID_REGEX = '/^[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}$/';
+    public const UUID_REGEX = '/^[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}$/';
 
     /**
      * Normalise the form data for a standard id/alias form.
      *
-     * @param array|string $data
-     * @param array $options
+     * @param mixed[]|string $data
+     * @param mixed[] $options
      *
-     * @return array
+     * @return mixed[]
      */
     public static function normalise($data, array $options = []): array
     {
@@ -27,20 +29,18 @@ final class FormDataPreNormaliser
             'alias' => null,
         ];
 
-        //  Ignoring null data.
-        if (is_null($data)) {
+        if ($data === null) {
             return $normalised;
         }
 
-        //  If the data is an array then we can assume that its kind of correct.
-        //  Merge it with the normalised template and return.
+        // If the data is an array then we can assume that its kind of correct.
+        // Merge it with the normalised template and return.
         if (is_array($data)) {
             return array_merge($normalised, $data);
         }
 
-        //  Working out if the data is a string then we need to know if its the id or alias.
-        if (
-            $options['assumeUuidIfString']
+        // Working out if the data is a string then we need to know if its the id or alias.
+        if ($options['assumeUuidIfString']
             || preg_match(self::UUID_REGEX, $data)
         ) {
             $normalised['id'] = $data;
@@ -57,31 +57,30 @@ final class FormDataPreNormaliser
      * @param mixed $data
      * @param EntityLookupDefinition[] $definitions
      *
-     * @return array
+     * @return mixed[]
      */
     public static function normaliseForMappedColumns($data, array $definitions): array
     {
         $normalised = self::prepareArrayForDefinitions($definitions);
 
-        //  Ignoring null data.
-        if (is_null($data)) {
+        if ($data === null) {
             return $normalised;
         }
 
-        //  If the data is an array then we can assume that its kind of correct.
-        //  Merge it with the normalised template and return.
+        // If the data is an array then we can assume that its kind of correct.
+        // Merge it with the normalised template and return.
         if (is_array($data)) {
             return array_merge($normalised, $data);
         }
 
-        //  If the data is not a string then we cannot run regex against it.
-        //  Return the normalised array and assume nothing matched.
+        // If the data is not a string then we cannot run regex against it.
+        // Return the normalised array and assume nothing matched.
         if (!is_string($data)) {
             return $normalised;
         }
 
-        //  Case where a single definition is defined then logically we can assume the
-        //  string value should just be normalised to that property.
+        // Case where a single definition is defined then logically we can assume the
+        // string value should just be normalised to that property.
         if (count($definitions) === 1) {
             foreach ($definitions as $property => $definition) {
                 $normalised[$property] = $data;
@@ -90,18 +89,18 @@ final class FormDataPreNormaliser
             }
         }
 
-        //  For each definition check if there is regex, if so match it.
-        //  On the first match break and return.
+        // For each definition check if there is regex, if so match it.
+        // On the first match break and return.
         foreach ($definitions as $property => $definition) {
             $regex = $definition->getRegex();
 
-            //  No regex means we are greedy and accept anything.
+            // No regex means we are greedy and accept anything.
             if (!$regex) {
                 $normalised[$property] = $data;
                 break;
             }
 
-            //  Otherwise match regex.
+            // Otherwise match regex.
             if (preg_match($regex, $data)) {
                 $normalised[$property] = $data;
                 break;
@@ -116,17 +115,18 @@ final class FormDataPreNormaliser
      *
      * @param EntityLookupDefinition[] $definitions
      *
-     * @return array
+     * @return mixed[]
      */
     public static function prepareArrayForDefinitions(array $definitions): array
     {
         $data = [];
 
-        //  Validate the array is an array of column lookup definitions.
-        //  This will cause PHP errors and is expected.
-        array_walk($definitions, function (EntityLookupDefinition $definition) {});
+        // Validate the array is an array of column lookup definitions.
+        // This will cause PHP errors and is expected.
+        array_walk($definitions, function (EntityLookupDefinition $definition): void {
+        });
 
-        //  Prepare the normalised array with all the mapped columns set as null.
+        // Prepare the normalised array with all the mapped columns set as null.
         foreach ($definitions as $property => $definition) {
             $data[$property] = $definition->getDefault();
         }

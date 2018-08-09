@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Request\Filter\Handler;
 
 use Brain\Common\Database\Pagination\Adapter\PaginatorQueryBuilderAdapter;
@@ -25,14 +27,6 @@ final class FilterHandler implements FilterHandlerInterface
     private $paginatorFactory;
     private $filterBuilderUpdater;
 
-    /**
-     * Constructor.
-     *
-     * @param RequestStack $requestStack
-     * @param FormFactory $formFactory
-     * @param PaginatorFactory $paginatorFactory
-     * @param FilterBuilderUpdater $filterBuilderUpdater
-     */
     public function __construct(
         RequestStack $requestStack,
         FormFactory $formFactory,
@@ -51,7 +45,7 @@ final class FilterHandler implements FilterHandlerInterface
      * Note the pagination returned is a new paginator and should be used as a
      * replacement for the one provided. The one provided will not have its query modified.
      */
-    public function filterForPaginator(Paginator $paginator, string $filter = null, string $sort = null): Paginator
+    public function filterForPaginator(Paginator $paginator, ?string $filter = null, ?string $sort = null): Paginator
     {
         /** @var PaginatorQueryBuilderAdapter $adapter */
         $adapter = $paginator->getAdapter();
@@ -87,8 +81,8 @@ final class FilterHandler implements FilterHandlerInterface
             return $qb;
         }
 
-        //  Use the custom form factory to create a nameless form.
-        //  Submit our query parameters as data.
+        // Use the custom form factory to create a nameless form.
+        // Submit our query parameters as data.
         $form = $this->formFactory->createNamedBuilder('', $type)->getForm();
         $form->submit($data, true);
 
@@ -105,9 +99,7 @@ final class FilterHandler implements FilterHandlerInterface
     /**
      * Return the filter data.
      *
-     * @param string $type
-     *
-     * @return array
+     * @return mixed[]
      */
     private function getQueryData(string $type): array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Database\Factory;
 
 use Brain\Common\Database\EntityInterface;

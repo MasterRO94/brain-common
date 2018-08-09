@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Normalisation\Validator;
 
 use Brain\Common\Normalisation\Validator\PostCodeValidator;
@@ -42,9 +44,6 @@ final class PostCodeValidatorTest extends TestCase
      * @group normalisation
      *
      * @covers \Brain\Common\Normalisation\PhoneNumber
-     *
-     * @param string $value
-     * @param string $standardised
      */
     public function canStandardiseWronglyFormattedCodes(string $value, string $standardised): void
     {

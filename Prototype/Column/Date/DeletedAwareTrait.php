@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Prototype\Column\Date;
 
 use Brain\Common\Exception\Prototype\PrototypeMethodException;
@@ -17,9 +19,7 @@ trait DeletedAwareTrait
     /**
      * Return the deleted date.
      *
-     * @throws PrototypeMethodException when deleted date is not available.
-     *
-     * @return DateTimeInterface|null
+     * @throws PrototypeMethodException When deleted date is not available.
      */
     public function getDeleted(): ?DateTimeInterface
     {
@@ -32,8 +32,6 @@ trait DeletedAwareTrait
 
     /**
      * Check the deleted date.
-     *
-     * @return bool
      */
     public function hasDeleted(): bool
     {
@@ -42,8 +40,6 @@ trait DeletedAwareTrait
 
     /**
      * Check if deleted.
-     *
-     * @return bool
      */
     public function isDeleted(): bool
     {
@@ -52,8 +48,6 @@ trait DeletedAwareTrait
 
     /**
      * Set the deleted date.
-     *
-     * @param DateTimeInterface $deleted
      */
     public function setDeleted(?DateTimeInterface $deleted): void
     {

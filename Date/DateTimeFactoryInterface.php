@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Date;
 
 use DateTimeInterface;
@@ -8,8 +10,6 @@ interface DateTimeFactoryInterface
 {
     /**
      * Create a new date.
-     *
-     * @return DateTimeInterface
      */
     public function create(): DateTimeInterface;
 }

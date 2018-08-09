@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Utility;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,6 +21,8 @@ final class CollectionHelper
      * @param Collection|mixed[]|Traversable $iterable
      *
      * @throws LogicException When the $iterable cannot be handled.
+     *
+     * @return mixed[]|ArrayCollection
      */
     public static function covert($iterable): Collection
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -16,17 +18,12 @@ abstract class AbstractBrainHttpException extends AbstractBrainRuntimeException 
     private $headers;
 
     /**
-     * Constructor.
-     *
-     * @param int $statusCode
-     * @param string $message
-     * @param Throwable|null $previous
      * @param string[]|null $headers
      */
     public function __construct(
         int $statusCode,
         string $message,
-        Throwable $previous = null,
+        ?Throwable $previous = null,
         array $headers = []
     ) {
         parent::__construct($message, $previous);

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Handler\Builder;
 
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Throwable;
 
 /**
  * {@inheritdoc}
@@ -20,7 +23,7 @@ final class FormDataAccessor extends PropertyAccessor
             parent::setValue($objectOrArray, $propertyPath, $value);
 
             // @todo change to \TypeError
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return;
         }
     }
@@ -37,7 +40,7 @@ final class FormDataAccessor extends PropertyAccessor
             return parent::getValue($objectOrArray, $propertyPath);
 
             // @todo change to \TypeError
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return null;
         }
     }

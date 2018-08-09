@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Response\Http;
 
 use Symfony\Component\HttpFoundation\Response;

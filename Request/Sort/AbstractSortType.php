@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Request\Sort;
 
 use Brain\Common\Request\Filter\Helper\EmbedFilterHelper;
@@ -29,8 +31,7 @@ abstract class AbstractSortType extends AbstractType
     /**
      * Build the sort form.
      *
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param mixed[] $options
      */
     abstract public function sort(FormBuilderInterface $builder, array $options): void;
 
@@ -66,14 +67,10 @@ abstract class AbstractSortType extends AbstractType
 
     /**
      * Add an embedded child form.
-     *
-     * @param string $field
-     * @param string $column
-     * @param string $filter
      */
     protected function embed(string $field, string $column, string $filter): void
     {
-        $listener = function (FormEvent $event) use ($field, $column, $filter) {
+        $listener = function (FormEvent $event) use ($field, $column, $filter): void {
             /** @var array|string $data */
             $data = $event->getData();
             $form = $event->getForm();
@@ -88,8 +85,8 @@ abstract class AbstractSortType extends AbstractType
 
             $value = $data[$field];
 
-            //  Empty strings can be ignored.
-            //  This should cause the form handler to throw a violation.
+            // Empty strings can be ignored.
+            // This should cause the form handler to throw a violation.
             if ($value === '') {
                 return;
             }
@@ -104,22 +101,19 @@ abstract class AbstractSortType extends AbstractType
 
     /**
      * Add a sortable field.
-     *
-     * @param string $field
-     * @param string|null $column
      */
-    protected function addSortableField(string $field, string $column = null): void
+    protected function addSortableField(string $field, ?string $column = null): void
     {
         $column = $column ?: $field;
         $choices = SortEnum::getAllValues();
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $choices) {
+            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $choices): void {
                 $value = $values['value'] ?? '';
 
-                //  The value can sometimes come through as a string.
-                //  In this case we just return early.
-                if (is_null($value) || ($value === '')) {
+                // The value can sometimes come through as a string.
+                // In this case we just return early.
+                if ($value === null || ($value === '')) {
                     return;
                 }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Workflow;
 
 use Brain\Bundle\Core\Workflow\AbstractStatusWorkflowManager;
@@ -14,19 +16,13 @@ use Symfony\Component\Workflow\Event\Event;
  * A helper class for cases where a job may need to undergo two transitions
  * in a row preventing any other "completed" listeners from firing for the first
  * transition.
- *
- * @api
  */
 abstract class AbstractWorkflowOverride implements EventSubscriberInterface
 {
-    const WORKFLOW_EVENT = 'completed';
+    public const WORKFLOW_EVENT = 'completed';
 
     /**
      * Return the class name of the workflow builder.
-     *
-     * @return string
-     *
-     * @api
      */
     abstract public static function getWorkflowBuilderClass(): string;
 
@@ -56,30 +52,16 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
      * Return a list of transitions for which to listen.
      *
      * @return string[]
-     *
-     * @api
      */
     abstract public static function getAnteriorTransitions(): array;
 
     /**
      * Return the transition to apply subsequently.
-     *
-     * @param string $anteriorTransition
-     *
-     * @return string
-     *
-     * @api
      */
     abstract protected function getPosteriorTransition(string $anteriorTransition): string;
 
     /**
      * Does this override apply for the given event?
-     *
-     * @param Event $event
-     *
-     * @return bool
-     *
-     * @api
      */
     abstract protected function shouldApply(Event $event): bool;
 
@@ -108,19 +90,19 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
 
     /**
      * The event listener. Calls shouldApply() and getPosteriorTransition().
-     *
-     * @param Event $event
      */
-    public function handle(Event $event)
+    public function handle(Event $event): void
     {
-        if ($this->shouldApply($event)) {
-            /** @var JobInterface $job */
-            $job = $event->getSubject();
-            $this->manager->progressTransition(
-                $job,
-                $this->getPosteriorTransition($event->getTransition()->getName()),
-                $this->reason
-            );
+        if (!$this->shouldApply($event)) {
+            return;
         }
+
+        /** @var JobInterface $job */
+        $job = $event->getSubject();
+        $this->manager->progressTransition(
+            $job,
+            $this->getPosteriorTransition($event->getTransition()->getName()),
+            $this->reason
+        );
     }
 }

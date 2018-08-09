@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Debug;
 
 use Symfony\Component\Stopwatch\StopwatchEvent;
@@ -11,20 +13,11 @@ interface StopwatchInterface
 {
     /**
      * Start the stopwatch.
-     *
-     * @param string $name
-     * @param string|null $category
-     *
-     * @return StopwatchEvent|null
      */
-    public function start(string $name, string $category = null): ?StopwatchEvent;
+    public function start(string $name, ?string $category = null): ?StopwatchEvent;
 
     /**
      * Stop the stopwatch.
-     *
-     * @param string $name
-     *
-     * @return StopwatchEvent|null
      */
     public function stop(string $name): ?StopwatchEvent;
 }

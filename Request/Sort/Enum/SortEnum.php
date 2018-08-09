@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Request\Sort\Enum;
 
 use Brain\Common\Enum\AbstractEnum;
@@ -9,8 +11,8 @@ use Brain\Common\Enum\AbstractEnum;
  */
 final class SortEnum extends AbstractEnum
 {
-    const SORT_ASCENDING = 'ASC';
-    const SORT_DESCENDING = 'DESC';
+    public const SORT_ASCENDING = 'ASC';
+    public const SORT_DESCENDING = 'DESC';
 
     /**
      * {@inheritdoc}

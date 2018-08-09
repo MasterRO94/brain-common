@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Database\Query;
 
 use Brain\Common\Database\Exception\DatabaseQueryException;
@@ -7,48 +9,36 @@ use Brain\Common\Database\Exception\DatabaseQueryException;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\ResultStatement;
+use PDO;
 
 /**
  * An abstract database query.
- *
- * @api
  */
 abstract class AbstractDatabaseQuery
 {
-    const PARAM_NULL = \PDO::PARAM_NULL;
-    const PARAM_STRING = \PDO::PARAM_STR;
-    const PARAM_INTEGER = \PDO::PARAM_INT;
-    const PARAM_INTEGER_ARRAY = Connection::PARAM_INT_ARRAY;
+    public const PARAM_NULL = PDO::PARAM_NULL;
+    public const PARAM_STRING = PDO::PARAM_STR;
+    public const PARAM_INTEGER = PDO::PARAM_INT;
+    public const PARAM_INTEGER_ARRAY = Connection::PARAM_INT_ARRAY;
 
     private $parameters = [];
     private $parameterTypes = [];
 
     /**
      * Build the SQL statement for querying.
-     *
-     * @param Connection $connection
-     *
-     * @return string
-     *
-     * @api
      */
     abstract public function build(Connection $connection): string;
 
     /**
      * Execute the query and return the value object.
      *
-     * @param Connection $connection
-     *
      * @return mixed
-     *
-     * @api
      */
     abstract public function execute(Connection $connection);
 
     /**
      * Set a query parameter.
      *
-     * @param string $key
      * @param mixed $value
      * @param int|null $type
      */
@@ -60,10 +50,6 @@ abstract class AbstractDatabaseQuery
 
     /**
      * Run the query against the given connection.
-     *
-     * @param Connection $connection
-     *
-     * @return ResultStatement
      */
     final protected function runQueryForConnection(Connection $connection): ResultStatement
     {

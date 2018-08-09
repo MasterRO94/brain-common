@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Database\Pagination\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
@@ -13,13 +15,6 @@ final class PaginatorQueryBuilderAdapter extends DoctrineORMAdapter
 {
     private $builder;
 
-    /**
-     * Constructor.
-     *
-     * @param QueryBuilder $builder
-     * @param bool $fetchJoinCollection
-     * @param bool|null $useOutputWalkers
-     */
     public function __construct(QueryBuilder $builder, bool $fetchJoinCollection = true, ?bool $useOutputWalkers = null)
     {
         parent::__construct($builder, $fetchJoinCollection, $useOutputWalkers);
@@ -29,8 +24,6 @@ final class PaginatorQueryBuilderAdapter extends DoctrineORMAdapter
 
     /**
      * Return the query builder used for the paginator.
-     *
-     * @return QueryBuilder
      */
     public function getQueryBuilder(): QueryBuilder
     {

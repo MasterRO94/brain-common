@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Debug;
 
 use Symfony\Component\Stopwatch\Stopwatch as SymfonyStopwatch;
@@ -15,12 +17,7 @@ final class Stopwatch implements StopwatchInterface
 {
     private $stopwatch;
 
-    /**
-     * Constructor.
-     *
-     * @param SymfonyStopwatch|null $stopwatch
-     */
-    public function __construct(SymfonyStopwatch $stopwatch = null)
+    public function __construct(?SymfonyStopwatch $stopwatch = null)
     {
         $this->stopwatch = $stopwatch;
     }
@@ -28,7 +25,7 @@ final class Stopwatch implements StopwatchInterface
     /**
      * {@inheritdoc}
      */
-    public function start(string $name, string $category = null): ?StopwatchEvent
+    public function start(string $name, ?string $category = null): ?StopwatchEvent
     {
         if (!$this->stopwatch instanceof SymfonyStopwatch) {
             return null;

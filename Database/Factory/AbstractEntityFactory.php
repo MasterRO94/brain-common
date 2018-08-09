@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Database\Factory;
 
 use Brain\Common\Database\EntityInterface;
@@ -8,8 +10,6 @@ use Brain\Common\Utility\UniqueIdentityFactoryInterface;
 
 /**
  * An abstract factory for creating instances of entity interface.
- *
- * @api
  */
 abstract class AbstractEntityFactory
 {
@@ -19,22 +19,9 @@ abstract class AbstractEntityFactory
 
     /**
      * Prepare the given entity.
-     *
-     * @param EntityInterface $entity
-     *
-     * @return EntityInterface
-     *
-     * @api
      */
     abstract public function prepare(EntityInterface $entity): EntityInterface;
 
-    /**
-     * Constructor.
-     *
-     * @param string $entityClass
-     * @param DateTimeFactoryInterface $dateTimeFactory
-     * @param UniqueIdentityFactoryInterface $uniqueIdentityFactory
-     */
     public function __construct(
         string $entityClass,
         DateTimeFactoryInterface $dateTimeFactory,
@@ -47,8 +34,6 @@ abstract class AbstractEntityFactory
 
     /**
      * Construct an entity from a class name.
-     *
-     * @return EntityInterface
      */
     final public function construct(): EntityInterface
     {
@@ -59,10 +44,6 @@ abstract class AbstractEntityFactory
 
     /**
      * Create and prepare a new instance.
-     *
-     * @return EntityInterface
-     *
-     * @api
      */
     public function create(): EntityInterface
     {
@@ -71,8 +52,6 @@ abstract class AbstractEntityFactory
 
     /**
      * Return the date time factory.
-     *
-     * @return DateTimeFactoryInterface
      */
     final protected function getDateTimeFactory(): DateTimeFactoryInterface
     {
@@ -81,8 +60,6 @@ abstract class AbstractEntityFactory
 
     /**
      * Return the unique identity factory.
-     *
-     * @return UniqueIdentityFactoryInterface
      */
     final protected function getUniqueIdentityFactory(): UniqueIdentityFactoryInterface
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Form\Type\Date;
 
 use Brain\Common\Date\Range\DateTimeRange;
@@ -33,7 +35,7 @@ final class DateRangeType extends AbstractType
         $normaliser = function (FormEvent $event) use ($options): void {
             $data = $event->getData();
 
-            //  Set data to null so we can return anywhere for a null result.
+            // Set data to null so we can return anywhere for a null result.
             $event->setData(null);
 
             /** @var DateTimeInterface|null $from */
@@ -97,8 +99,6 @@ final class DateRangeType extends AbstractType
 
     /**
      * Convert the string to date time.
-     *
-     * @param string $date
      */
     private function convertStringToDateTime(string $date): DateTimeInterface
     {
