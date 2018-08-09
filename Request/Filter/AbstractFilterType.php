@@ -17,12 +17,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use DateTime;
+use DateTimeInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use RuntimeException;
-use DateTimeInterface;
-use DateTime;
 
 /**
  * {@inheritdoc}

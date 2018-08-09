@@ -9,6 +9,7 @@ use Brain\Common\Database\Exception\DatabaseQueryException;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\ResultStatement;
+
 use PDO;
 
 /**
