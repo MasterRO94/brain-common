@@ -19,7 +19,7 @@ class ResponseFactory
     /**
      * Create a view.
      *
-     * @param mixed[]|null $data
+     * @param mixed $data
      * @param string[] $groups
      */
     final public function view(Request $request, $data, array $groups, int $status): View
