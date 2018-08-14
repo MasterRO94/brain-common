@@ -19,8 +19,8 @@ abstract class AbstractBundleExtension extends Extension
     /**
      * Return all the configuration files to load.
      *
-     * This is the configuration file name relative to the "Resources/config/ directory and without the extension.
-     * The extension assumed will be of YAML format ".yml".
+     * This is the configuration file name relative to the "Resources/config/services" directory.
+     * The extension assumed will be of YAML format ".yaml".
      *
      * @return string[]
      */
