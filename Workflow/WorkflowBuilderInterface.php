@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Workflow;
 
+use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow;
 
 interface WorkflowBuilderInterface
