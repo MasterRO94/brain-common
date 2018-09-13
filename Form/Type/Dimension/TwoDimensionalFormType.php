@@ -55,7 +55,11 @@ final class TwoDimensionalFormType extends AbstractType
         // A transformer needs to translate in coming instances to the one mentioned
         // in the configuration options for the form.
         $transformer = new CallbackTransformer(
-            function (TwoDimensionalInterface $dimensional) {
+            function ($dimensional) {
+                if (!$dimensional instanceof TwoDimensionalInterface) {
+                    return new TwoDimensionalFormModel();
+                }
+
                 if ($dimensional instanceof TwoDimensionalFormModel) {
                     return $dimensional;
                 }
