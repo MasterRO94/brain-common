@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Brain\Common\Form\Type\Dimension\Range;
 
+use Brain\Common\Dimension\Range\TwoDimensionalRangeInterface;
 use Brain\Common\Form\Model\Dimension\Range\TwoDimensionalRangeFormModel;
 use Brain\Common\Form\Type\Dimension\TwoDimensionalFormType;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -39,6 +41,28 @@ final class TwoDimensionalRangeFormType extends AbstractType
                     ]),
                 ],
             ]);
+
+        // A transformer needs to translate in coming instances to the one mentioned
+        // in the configuration options for the form.
+        $transformer = new CallbackTransformer(
+            function (TwoDimensionalRangeInterface $range) {
+                if ($range instanceof TwoDimensionalRangeFormModel) {
+                    return $range;
+                }
+
+                $model = new TwoDimensionalRangeFormModel();
+                $model->minimum = $range->getMinimumDimension();
+                $model->maximum = $range->getMaximumDimension();
+
+                return $model;
+            },
+            function ($ignore) {
+                return $ignore;
+            }
+        );
+
+        $builder->addModelTransformer($transformer);
+        $builder->addViewTransformer($transformer);
     }
 
     /**
