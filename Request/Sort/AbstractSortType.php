@@ -68,9 +68,9 @@ abstract class AbstractSortType extends AbstractType
     /**
      * Add an embedded child form.
      */
-    protected function embed(string $field, string $column, string $filter): void
+    protected function embed(string $field, string $column, string $sort): void
     {
-        $listener = function (FormEvent $event) use ($field, $column, $filter): void {
+        $listener = function (FormEvent $event) use ($field, $column, $sort): void {
             /** @var array|string $data */
             $data = $event->getData();
             $form = $event->getForm();
@@ -91,7 +91,7 @@ abstract class AbstractSortType extends AbstractType
                 return;
             }
 
-            $form->add($field, $filter, [
+            $form->add($field, $sort, [
                 'add_shared' => EmbedFilterHelper::embed($field, $column),
             ]);
         };
