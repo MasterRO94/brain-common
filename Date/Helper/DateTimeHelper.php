@@ -18,8 +18,7 @@ final class DateTimeHelper implements DateTimeRelativeFormatInterface
     public static function createRelativeDate(string $format, DateTimeInterface $base): DateTimeImmutable
     {
         $timestamp = strtotime($format, $base->getTimestamp());
-        $string = date('Y-m-d', $timestamp);
 
-        return new DateTimeImmutable($string);
+        return new DateTimeImmutable(sprintf('@%d', $timestamp));
     }
 }
