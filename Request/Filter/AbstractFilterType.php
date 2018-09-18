@@ -311,6 +311,8 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Add a date filter.
      *
+     * Note this is not a time filter, timing will be ignored.
+     *
      * @param string|string $column
      */
     protected function addDateFilter(string $field, ?string $column = null): void
@@ -337,7 +339,7 @@ abstract class AbstractFilterType extends AbstractType
                     // First case is where the dates match exactly.
                     // In this case we are looking for an entire day.
                     // It seems very unlikely that a search for a specific second will be performed.
-                    if ($from === $to) {
+                    if ($from->format('Y-m-d') === $to->format('Y-m-d')) {
                         $parameter = FilterDatabaseHelper::generateParameterName($field);
 
                         $qb->andWhere(
@@ -359,14 +361,14 @@ abstract class AbstractFilterType extends AbstractType
 
                     $qb->andWhere(
                         $qb->expr()->between(
-                            $field,
-                            sprintf(':%s', $parameterFrom),
-                            sprintf(':%s', $parameterTo)
+                            sprintf('DATE(%s)', $field),
+                            sprintf('DATE(:%s)', $parameterFrom),
+                            sprintf('DATE(:%s)', $parameterTo)
                         )
                     );
 
-                    $qb->setParameter($parameterFrom, $from);
-                    $qb->setParameter($parameterTo, $to);
+                    $qb->setParameter($parameterFrom, $from->format('Y-m-d'));
+                    $qb->setParameter($parameterTo, $to->format('Y-m-d'));
 
                     return;
                 }
@@ -377,8 +379,14 @@ abstract class AbstractFilterType extends AbstractType
                 if ($from instanceof DateTimeInterface) {
                     $parameter = FilterDatabaseHelper::generateParameterName($field);
 
-                    $qb->andWhere($qb->expr()->gte($field, sprintf(':%s', $parameter)));
-                    $qb->setParameter($parameter, $from);
+                    $qb->andWhere(
+                        $qb->expr()->gte(
+                            sprintf('DATE(%s)', $field),
+                            sprintf('DATE(:%s)', $parameter)
+                        )
+                    );
+
+                    $qb->setParameter($parameter, $from->format('Y-m-d'));
                 }
 
                 // The "to" date means we want to find greater than the date.
@@ -388,15 +396,14 @@ abstract class AbstractFilterType extends AbstractType
 
                 $parameter = FilterDatabaseHelper::generateParameterName($field);
 
-                // Where a time is not given the the time is set to midnight (the morning).
-                // Because its set to midnight in the morning we have a weird UX issue.
-                // Saying to bound today should mean ending today, so set the time to the last second in the day.
-                if ($to->format('H:i:s') === '00:00:00') {
-                    $to->setTime(23, 59, 59);
-                }
+                $qb->andWhere(
+                    $qb->expr()->lte(
+                        sprintf('DATE(%s)', $field),
+                        sprintf('DATE(:%s)', $parameter)
+                    )
+                );
 
-                $qb->andWhere($qb->expr()->lte($field, sprintf(':%s', $parameter)));
-                $qb->setParameter($parameter, $to);
+                $qb->setParameter($parameter, $to->format('Y-m-d'));
             },
         ]);
     }
