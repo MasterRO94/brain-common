@@ -311,8 +311,6 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Add a date filter.
      *
-     * Note this is not a time filter, timing will be ignored.
-     *
      * @param string|string $column
      */
     protected function addDateFilter(string $field, ?string $column = null): void
