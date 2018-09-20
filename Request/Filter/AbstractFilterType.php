@@ -381,8 +381,6 @@ abstract class AbstractFilterType extends AbstractType
 
                     $qb->andWhere($qb->expr()->gte($field, $parameter));
                     $qb->setParameter($parameter, $from->format('Y-m-d H:i:s'));
-
-                    return true;
                 }
 
                 // The "to" date means we want to find less than the date.
