@@ -19,9 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use DateTime;
 use DateTimeInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\Doctrine\ORMQuery;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 use RuntimeException;
 
 /**
@@ -106,7 +106,7 @@ abstract class AbstractFilterType extends AbstractType
 
                 // This form is simply going to run the query builder.
                 $form->add($field, TextFilterType::class, [
-                    'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $value): void {
+                    'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column, $value): void {
                         $alias = FilterDatabaseHelper::getAliasFromColumn($field);
                         $field = FilterDatabaseHelper::generateFieldName($alias, $column);
 
@@ -159,7 +159,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
@@ -218,7 +218,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $choices, $modifier): void {
+            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column, $choices, $modifier): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
@@ -311,8 +311,6 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * Add a date filter.
      *
-     * Note this is not a time filter, timing will be ignored.
-     *
      * @param string|string $column
      */
     protected function addDateFilter(string $field, ?string $column = null): void
@@ -320,7 +318,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, DateWithinRangeFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): bool {
                 $value = $values['value'];
 
                 $alias = FilterDatabaseHelper::getAliasFromColumn($field);
@@ -339,7 +337,7 @@ abstract class AbstractFilterType extends AbstractType
                     // First case is where the dates match exactly.
                     // In this case we are looking for an entire day.
                     // It seems very unlikely that a search for a specific second will be performed.
-                    if ($from->format('Y-m-d') === $to->format('Y-m-d')) {
+                    if ($from->format('Y-m-d H:i:s') === $to->format('Y-m-d H:i:s')) {
                         $parameter = FilterDatabaseHelper::generateParameterName($field);
 
                         $qb->andWhere(
@@ -351,7 +349,7 @@ abstract class AbstractFilterType extends AbstractType
 
                         $qb->setParameter($parameter, $to->format('Y-m-d'));
 
-                        return;
+                        return true;
                     }
 
                     // Second case is a simple between dates search.
@@ -370,7 +368,7 @@ abstract class AbstractFilterType extends AbstractType
                     $qb->setParameter($parameterFrom, $from->format('Y-m-d'));
                     $qb->setParameter($parameterTo, $to->format('Y-m-d'));
 
-                    return;
+                    return true;
                 }
 
                 // These are cases where only one side is available.
@@ -379,31 +377,28 @@ abstract class AbstractFilterType extends AbstractType
                 if ($from instanceof DateTimeInterface) {
                     $parameter = FilterDatabaseHelper::generateParameterName($field);
 
-                    $qb->andWhere(
-                        $qb->expr()->gte(
-                            sprintf('DATE(%s)', $field),
-                            sprintf('DATE(:%s)', $parameter)
-                        )
-                    );
-
-                    $qb->setParameter($parameter, $from->format('Y-m-d'));
+                    $qb->andWhere($qb->expr()->gte($field, $parameter));
+                    $qb->setParameter($parameter, $from->format('Y-m-d H:i:s'));
                 }
 
-                // The "to" date means we want to find greater than the date.
-                if (!($to instanceof DateTimeInterface)) {
-                    return;
+                // The "to" date means we want to find less than the date.
+                if ($to instanceof DateTimeInterface) {
+                    $parameter = FilterDatabaseHelper::generateParameterName($field);
+
+                    // Where a time is not given the the time is set to midnight (the morning).
+                    // Because its set to midnight in the morning we have a weird UX issue.
+                    // The "to" date should be inclusive thus we set time to a second to midnight tomorrow.
+                    if ($to->format('H:i:s') === '00:00:00') {
+                        $to->setTime(23, 59, 59);
+                    }
+
+                    $qb->andWhere($qb->expr()->lte($field, $parameter));
+                    $qb->setParameter($parameter, $to->format('Y-m-d H:i:s'));
+
+                    return true;
                 }
 
-                $parameter = FilterDatabaseHelper::generateParameterName($field);
-
-                $qb->andWhere(
-                    $qb->expr()->lte(
-                        sprintf('DATE(%s)', $field),
-                        sprintf('DATE(:%s)', $parameter)
-                    )
-                );
-
-                $qb->setParameter($parameter, $to->format('Y-m-d'));
+                return false;
             },
         ]);
     }
@@ -418,7 +413,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 if (!FilterValueHelper::isValidSearchTerm($value)) {
@@ -458,7 +453,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 if (!FilterValueHelper::isValidInput($value)) {
@@ -511,7 +506,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
