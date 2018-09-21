@@ -377,7 +377,7 @@ abstract class AbstractFilterType extends AbstractType
                 if ($from instanceof DateTimeInterface) {
                     $parameter = FilterDatabaseHelper::generateParameterName($field);
 
-                    $qb->andWhere($qb->expr()->gte($field, $parameter));
+                    $qb->andWhere($qb->expr()->gte($field, sprintf(':%s', $parameter)));
                     $qb->setParameter($parameter, $from->format('Y-m-d H:i:s'));
                 }
 
@@ -392,7 +392,7 @@ abstract class AbstractFilterType extends AbstractType
                         $to->setTime(23, 59, 59);
                     }
 
-                    $qb->andWhere($qb->expr()->lte($field, $parameter));
+                    $qb->andWhere($qb->expr()->lte($field, sprintf(':%s', $parameter)));
                     $qb->setParameter($parameter, $to->format('Y-m-d H:i:s'));
 
                     return true;
