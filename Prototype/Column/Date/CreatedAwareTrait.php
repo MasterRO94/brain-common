@@ -20,8 +20,20 @@ trait CreatedAwareTrait
      * Return the created date.
      *
      * @throws PrototypeMethodException When created date is not available.
+     *
+     * @deprecated Use getCreatedAt() instead.
      */
     public function getCreated(): DateTimeInterface
+    {
+        return $this->getCreatedAt();
+    }
+
+    /**
+     * Return the created date.
+     *
+     * @throws PrototypeMethodException When created date is not available.
+     */
+    public function getCreatedAt(): DateTimeInterface
     {
         if (!$this->hasCreated()) {
             throw PrototypeMethodException::createForCreatedDateMissing($this);
@@ -32,16 +44,36 @@ trait CreatedAwareTrait
 
     /**
      * Check the created date.
+     *
+     * @deprecated Use hasCreatedAt() instead.
      */
     public function hasCreated(): bool
+    {
+        return $this->hasCreatedAt();
+    }
+
+    /**
+     * Check the created date.
+     */
+    public function hasCreatedAt(): bool
     {
         return $this->created instanceof DateTimeInterface;
     }
 
     /**
      * Set the created date.
+     *
+     * @deprecated Use setCreatedAt() instead.
      */
     public function setCreated(DateTimeInterface $created): void
+    {
+        $this->setCreatedAt($created);
+    }
+
+    /**
+     * Set the created date.
+     */
+    public function setCreatedAt(DateTimeInterface $created): void
     {
         $this->created = $created;
     }

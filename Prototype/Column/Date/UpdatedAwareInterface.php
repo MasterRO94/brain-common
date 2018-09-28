@@ -17,16 +17,39 @@ interface UpdatedAwareInterface
      * Return the updated date.
      *
      * @throws PrototypeMethodException When updated date is not available.
+     *
+     * @deprecated Use getUpdatedAt() instead.
      */
     public function getUpdated(): DateTimeInterface;
 
     /**
+     * Return the updated date.
+     *
+     * @throws PrototypeMethodException When updated date is not available.
+     */
+    public function getUpdatedAt(): DateTimeInterface;
+
+    /**
      * Check the updated date.
+     *
+     * @deprecated Use hasUpdatedAt() instead.
      */
     public function hasUpdated(): bool;
 
     /**
+     * Check the updated date.
+     */
+    public function hasUpdatedAt(): bool;
+
+    /**
      * Set the updated date.
+     *
+     * @deprecated Use setUpdatedAt() instead.
      */
     public function setUpdated(DateTimeInterface $updated): void;
+
+    /**
+     * Set the updated date.
+     */
+    public function setUpdatedAt(DateTimeInterface $updated): void;
 }

@@ -15,23 +15,55 @@ interface DeletedAwareInterface
      * Return the deletion date.
      *
      * This can return null if the attached instance has not been deleted.
+     *
+     * @deprecated Use getDeletedAt() instead.
      */
     public function getDeleted(): ?DateTimeInterface;
 
     /**
+     * Return the deletion date.
+     *
+     * This can return null if the attached instance has not been deleted.
+     */
+    public function getDeletedAt(): ?DateTimeInterface;
+
+    /**
      * Check the deleted date.
+     *
+     * @deprecated Use hasDeletedAt() instead.
      */
     public function hasDeleted(): bool;
 
     /**
+     * Check the deleted date.
+     */
+    public function hasDeletedAt(): bool;
+
+    /**
      * Check if deleted.
+     *
+     * @deprecated Use isDeletedAt() instead.
      */
     public function isDeleted(): bool;
+
+    /**
+     * Check if deleted.
+     */
+    public function isDeletedAt(): bool;
+
+    /**
+     * Set the deletion date.
+     *
+     * This can be set to null assuming the instance has not been deleted or is being retored.
+     *
+     * @deprecated Use setDeletedAt() instead.
+     */
+    public function setDeleted(?DateTimeInterface $deletion): void;
 
     /**
      * Set the deletion date.
      *
      * This can be set to null assuming the instance has not been deleted or is being retored.
      */
-    public function setDeleted(?DateTimeInterface $deletion): void;
+    public function setDeletedAt(?DateTimeInterface $deletion): void;
 }
