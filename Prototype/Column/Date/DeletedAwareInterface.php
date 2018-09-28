@@ -41,15 +41,8 @@ interface DeletedAwareInterface
 
     /**
      * Check if deleted.
-     *
-     * @deprecated Use isDeletedAt() instead.
      */
     public function isDeleted(): bool;
-
-    /**
-     * Check if deleted.
-     */
-    public function isDeletedAt(): bool;
 
     /**
      * Set the deletion date.

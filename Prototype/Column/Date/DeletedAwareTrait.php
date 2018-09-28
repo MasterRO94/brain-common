@@ -62,20 +62,10 @@ trait DeletedAwareTrait
 
     /**
      * Check if deleted.
-     *
-     * @deprecated Use isDeletedAt() instead.
      */
     public function isDeleted(): bool
     {
-        return $this->isDeletedAt();
-    }
-
-    /**
-     * Check if deleted.
-     */
-    public function isDeletedAt(): bool
-    {
-        return $this->deleted instanceof DateTimeInterface;
+        return $this->hasDeletedAt();
     }
 
     /**
