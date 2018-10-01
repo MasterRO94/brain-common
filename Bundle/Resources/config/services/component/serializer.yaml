@@ -1,0 +1,11 @@
+services:
+
+  brain.common.serializer.factory:
+    class: 'Brain\Common\Serializer\SerializerFactory'
+    arguments:
+      - '@jms_serializer.metadata_factory'
+      - '@jms_serializer.handler_registry'
+      - '@jms_serializer.unserialize_object_constructor'
+      - '@jms_serializer.event_dispatcher'
+      - '@jms_serializer.expression_evaluator'
+      - '@jms_serializer.json_serialization_visitor'

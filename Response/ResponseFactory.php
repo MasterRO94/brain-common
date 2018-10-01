@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brain\Common\Response;
 
 use Brain\Common\Database\Pagination\Paginator;
+use Brain\Common\Serializer\SerializerFactory;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,13 @@ use FOS\RestBundle\View\View;
  */
 class ResponseFactory
 {
+    private $factory;
+
+    public function __construct(?SerializerFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     /**
      * Create a view.
      *
@@ -33,7 +41,17 @@ class ResponseFactory
             $groups = null;
         }
 
-        $view = View::create($this->prepare($response), $status);
+        $response = $this->prepare($response);
+
+        // This is a result of JMS being probably the most awful thing on the planet.
+        // The serializer doesn't return what is returned from handlers.
+        // In this case ignore the serializer and construct a navigator.
+        if ($this->factory instanceof SerializerFactory && $this->isValid($response)) {
+            $context = $this->factory->createContext($groups);
+            $response = $context->getNavigator()->accept($response, null, $context);
+        }
+
+        $view = View::create($response, $status);
         $view->getContext()->setGroups($groups);
 
         // Add pagination headers.
@@ -160,5 +178,16 @@ class ResponseFactory
         }
 
         return $data;
+    }
+
+    /**
+     * Check the data is valid.
+     *
+     * @param mixed $data
+     */
+    private function isValid($data): bool
+    {
+        return is_array($data)
+            || is_object($data);
     }
 }

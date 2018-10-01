@@ -2,6 +2,8 @@ services:
 
   brain.common.response.factory:
     class: 'Brain\Common\Response\ResponseFactory'
+    arguments:
+      - '@brain.common.serializer.factory'
     public: false
 
   brain.common.response.generator:
