@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Database\Pagination;
 
+use Brain\Common\Database\Exception\Paginator\CannotUseSpecialisedPaginationException;
 use Brain\Common\Database\Exception\Paginator\InvalidLimitPaginationException;
 use Brain\Common\Database\Exception\Paginator\InvalidPagePaginationException;
 use Brain\Common\Database\Pagination\Adapter\PaginatorQueryBuilderAdapter;
@@ -49,11 +50,28 @@ final class PaginatorFactory
     }
 
     /**
+     * Create a specialised paginator that does not attempt to remove duplicate entries
+     * from the query. This query cannot be used if the query detects a JOIN usage.
+     */
+    public function createForQueryBuilderSpecialised(QueryBuilder $qb, ?int $page = null, ?int $limit = null): Paginator
+    {
+        $joins = $qb->getDQLPart('join');
+
+        if (count($joins)) {
+            throw CannotUseSpecialisedPaginationException::create();
+        }
+
+        $adapter = new PaginatorQueryBuilderAdapter($qb, false, true);
+
+        return $this->create($adapter, $page, $limit);
+    }
+
+    /**
      * Create a paginator for the given query builder.
      */
     public function createForQueryBuilder(QueryBuilder $qb, ?int $page = null, ?int $limit = null): Paginator
     {
-        $adapter = new PaginatorQueryBuilderAdapter($qb, true);
+        $adapter = new PaginatorQueryBuilderAdapter($qb, true, null);
 
         return $this->create($adapter, $page, $limit);
     }
@@ -65,7 +83,7 @@ final class PaginatorFactory
     {
         /** @var PaginatorQueryBuilderAdapter $adapter */
         $adapter = $paginator->getAdapter();
-        $adapter = new PaginatorQueryBuilderAdapter($qb, $adapter->getFetchJoinCollection());
+        $adapter = new PaginatorQueryBuilderAdapter($qb, $adapter->getFetchJoinCollection(), null);
 
         return $this->create(
             $adapter,
