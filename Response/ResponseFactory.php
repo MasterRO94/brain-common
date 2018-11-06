@@ -6,6 +6,7 @@ namespace Brain\Common\Response;
 
 use Brain\Common\Database\Pagination\Paginator;
 use Brain\Common\Serializer\SerializerFactory;
+use Brain\Common\Serializer\SerializerFactoryHelper;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,8 +48,7 @@ class ResponseFactory
         // The serializer doesn't return what is returned from handlers.
         // In this case ignore the serializer and construct a navigator.
         if ($this->factory instanceof SerializerFactory && $this->isValid($response)) {
-            $context = $this->factory->createContext($groups);
-            $response = $context->getNavigator()->accept($response, null, $context);
+            $response = SerializerFactoryHelper::serialize($this->factory, $response, $groups);
         }
 
         $view = View::create($response, $status);
