@@ -7,6 +7,8 @@ namespace Brain\Common\Workflow;
 use Brain\Common\Workflow\Builder\AbstractWorkflowBuilder;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Workflow\Event\GuardEvent;
+use Symfony\Component\Workflow\TransitionBlocker;
 
 /**
  * A workflow guard helper.
@@ -41,5 +43,20 @@ abstract class AbstractWorkflowGuard implements EventSubscriberInterface
         }
 
         return $events;
+    }
+
+    /**
+     * Block a guard event with the given canonical.
+     *
+     * @param string $canonical #TranslationKey
+     */
+    protected function block(GuardEvent $event, string $canonical): void
+    {
+        $event->addTransitionBlocker(
+            new TransitionBlocker(
+                get_called_class(),
+                $canonical
+            )
+        );
     }
 }
