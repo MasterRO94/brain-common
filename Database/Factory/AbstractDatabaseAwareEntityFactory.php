@@ -24,15 +24,15 @@ abstract class AbstractDatabaseAwareEntityFactory extends AbstractEntityFactory
         $now = $this->getDateTimeFactory()->create();
 
         if ($entity instanceof CreatedAwareInterface) {
-            $entity->setCreated($now);
+            $entity->setCreatedAt($now);
         }
 
         if ($entity instanceof UpdatedAwareInterface) {
-            $entity->setUpdated($now);
+            $entity->setUpdatedAt($now);
         }
 
         if ($entity instanceof DeletedAwareInterface) {
-            $entity->setDeleted(null);
+            $entity->setDeletedAt(null);
         }
 
         return $entity;
