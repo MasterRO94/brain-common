@@ -24,7 +24,7 @@ final class CollectionHelper
      *
      * @return mixed[]|ArrayCollection
      */
-    public static function covert($iterable): Collection
+    public static function convert($iterable): Collection
     {
         if ($iterable instanceof Collection) {
             return $iterable;
