@@ -19,8 +19,10 @@ abstract class AbstractEntityFactory
 
     /**
      * Prepare the given entity.
+     *
+     * @return EntityInterface
      */
-    abstract public function prepare(EntityInterface $entity): EntityInterface;
+    abstract public function prepare(EntityInterface $entity);
 
     public function __construct(
         string $entityClass,
@@ -44,8 +46,10 @@ abstract class AbstractEntityFactory
 
     /**
      * Create and prepare a new instance.
+     *
+     * @return EntityInterface
      */
-    public function create(): EntityInterface
+    public function create()
     {
         return $this->prepare($this->construct());
     }
