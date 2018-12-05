@@ -20,7 +20,7 @@ abstract class AbstractEntityFactory
     /**
      * Prepare the given entity.
      *
-     * @return EntityInterface
+     * @return EntityInterface|EntityInterface
      */
     abstract public function prepare(EntityInterface $entity);
 
@@ -47,7 +47,7 @@ abstract class AbstractEntityFactory
     /**
      * Create and prepare a new instance.
      *
-     * @return EntityInterface
+     * @return EntityInterface|EntityInterface
      */
     public function create()
     {
