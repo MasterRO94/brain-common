@@ -82,7 +82,7 @@ abstract class AbstractEnum
     {
         $mapping = array_flip(static::getMapping());
 
-        if ($mapping[$translation]) {
+        if (isset($mapping[$translation])) {
             return $mapping[$translation];
         }
 
