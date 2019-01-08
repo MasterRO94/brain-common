@@ -39,8 +39,8 @@ final class PaginatorFactory
      */
     public function create(AdapterInterface $adapter, ?int $page = null, ?int $limit = null): Paginator
     {
-        $page = $this->getRequestPageParameter() ?? $page ?? $this->page;
-        $limit = $this->getRequestLimitParameter() ?? $limit ?? $this->limit;
+        $page = $page ?? $this->getRequestPageParameter() ??  $this->page;
+        $limit = $limit ?? $this->getRequestLimitParameter() ?? $this->limit;
 
         $paginator = new Paginator($adapter);
         $paginator->setMaxPerPage($limit);
