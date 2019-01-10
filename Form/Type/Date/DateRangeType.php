@@ -32,7 +32,7 @@ final class DateRangeType extends AbstractType
         /**
          * Now normalise the form data.
          */
-        $normaliser = function (FormEvent $event) use ($options): void {
+        $normaliser = function (FormEvent $event): void {
             $data = $event->getData();
 
             // Set data to null so we can return anywhere for a null result.

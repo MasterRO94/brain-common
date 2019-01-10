@@ -142,7 +142,7 @@ abstract class AbstractSortType extends AbstractType
 
                         return $possible;
                     },
-                    'message' => sprintf('filter.common.sort', $field),
+                    'message' => 'filter.common.sort',
                     'groups' => ['filtering'],
                 ]),
             ],
