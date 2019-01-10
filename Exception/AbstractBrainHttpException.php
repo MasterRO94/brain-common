@@ -18,7 +18,7 @@ abstract class AbstractBrainHttpException extends AbstractBrainRuntimeException 
     private $headers;
 
     /**
-     * @param string[]|null $headers
+     * @param string[] $headers
      */
     public function __construct(
         int $statusCode,
