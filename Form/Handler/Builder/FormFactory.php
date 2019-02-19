@@ -42,6 +42,12 @@ final class FormFactory extends BaseFormFactory
         $options = array_merge($options, $this->options);
         $builder = parent::createNamedBuilder($name, $type, $data, $options);
 
+        // Only apply the custom data mapper if its the default.
+        // Custom data mappers should be allowed.
+        if (!($builder->getDataMapper() instanceof PropertyPathMapper)) {
+            return $builder;
+        }
+
         // Override the default data mapper with one that has our custom data accessor.
         // This will silence errors when type hinting is not respected.
         $builder->setDataMapper(
