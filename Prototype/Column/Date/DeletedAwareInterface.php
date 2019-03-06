@@ -47,7 +47,7 @@ interface DeletedAwareInterface
     /**
      * Set the deletion date.
      *
-     * This can be set to null assuming the instance has not been deleted or is being retored.
+     * This can be set to null assuming the instance has not been deleted or is being restored.
      *
      * @deprecated Use setDeletedAt() instead.
      */
@@ -56,7 +56,7 @@ interface DeletedAwareInterface
     /**
      * Set the deletion date.
      *
-     * This can be set to null assuming the instance has not been deleted or is being retored.
+     * This can be set to null assuming the instance has not been deleted or is being restored.
      */
     public function setDeletedAt(?DateTimeInterface $deletion): void;
 }

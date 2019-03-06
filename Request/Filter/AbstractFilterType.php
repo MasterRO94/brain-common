@@ -426,7 +426,7 @@ abstract class AbstractFilterType extends AbstractType
 
                 $qb = $filter->getQueryBuilder();
 
-                // Doctrine doesn't support the PostgreSQL ILIKE (~~*) so this will do for now.
+                // Doctrine doesn't support the postgres ILIKE (~~*) so this will do for now.
                 $qb->andWhere(
                     $qb->expr()->like(
                         $qb->expr()->lower($field),

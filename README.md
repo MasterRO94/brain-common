@@ -23,7 +23,7 @@ brain_common:
 
 ## Api and Extending
 
-You will notice that almost all classes in this library are concrete (delcared `final`) or abstract (declared `abstract`).
+You will notice that almost all classes in this library are concrete (declared `final`) or abstract (declared `abstract`).
 Final essentially means that if you want to break the code then you need to wrap it, you will notice that there are a bunch of classes that wrap symfony components.
 Abstracts have many final methods to make sure you don't abuse the functionality provided.
 Also everything is private so buckle in.

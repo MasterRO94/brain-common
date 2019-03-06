@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added a more advanced repository that can make use of pagination.
 * Added the database wrapper which allows the construction of the `AbstractEntityRepository`. 
 * Added an abstract factory for helping construct entities.
-* Added a query helper for writing raw `SQL` that wouldn't belong in a repository.
+* Added a query helper for writing raw `SQL` that would not belong in a repository.
 
 #### Enum
 * Added a fairly simplistic ENUM implementation.
