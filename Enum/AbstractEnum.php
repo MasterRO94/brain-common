@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum;
 
+use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
+use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
+
 /**
  * An abstract ENUM class mainly for use with database columns and translation.
  */
@@ -63,29 +66,37 @@ abstract class AbstractEnum
 
     /**
      * Return the translated value.
+     *
+     * @throws ValueInvalidForEnumException
      */
     final public static function translate(string $value): string
     {
         $mapping = static::getMapping();
 
-        if ($mapping[$value]) {
-            return $mapping[$value];
+        if (isset($mapping[$value]) === false) {
+            $values = static::getAllValues();
+
+            throw ValueInvalidForEnumException::create(static::class, $value, $values);
         }
 
-        return $value;
+        return $mapping[$value];
     }
 
     /**
      * Revert a translated canonical value to its value.
+     *
+     * @throws TranslationInvalidForEnumException
      */
     final public static function value(string $translation): string
     {
         $mapping = array_flip(static::getMapping());
 
-        if (isset($mapping[$translation])) {
-            return $mapping[$translation];
+        if (isset($mapping[$translation]) === false) {
+            $translations = static::getAllTranslations();
+
+            throw TranslationInvalidForEnumException::create(static::class, $translation, $translations);
         }
 
-        return $translation;
+        return $mapping[$translation];
     }
 }
