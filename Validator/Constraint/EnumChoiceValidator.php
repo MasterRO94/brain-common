@@ -37,18 +37,17 @@ final class EnumChoiceValidator extends ConstraintValidator
             return;
         }
 
-        /** @var AbstractEnum $class */
-        $class = $constraint->enum;
-        $choices = $class::getAllValues();
+        /** @var AbstractEnum $enum */
+        $enum = $constraint->enum;
 
         // Valid choice should bail now.
-        if (in_array($value, $choices, true)) {
+        if (in_array($value, $enum::getAllValues(), true)) {
             return;
         }
 
         $parameters = [
             ValidatorTranslationHelper::template('value') => $value,
-            ValidatorTranslationHelper::template('choices') => implode(', ', $choices),
+            ValidatorTranslationHelper::template('choices') => implode(', ', $enum::getAllTranslations()),
         ];
 
         $this->context

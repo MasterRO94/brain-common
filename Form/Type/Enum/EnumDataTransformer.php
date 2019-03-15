@@ -17,21 +17,28 @@ final class EnumDataTransformer implements
     DataTransformerInterface
 {
     private $enum;
+    private $default;
 
-    public function __construct(string $enum)
+    /**
+     * @param mixed $default
+     */
+    public function __construct(string $enum, $default = null)
     {
         $this->enum = $enum;
+        $this->default = $default;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * Model data to form data.
      */
     public function transform($value): ?string
     {
-        // If the value comes through as null we return null.
-        // Null means the value is to be ignored or was not supplied.
+        // If the value comes through as null we return the default.
+        // In most cases the default will be null.
         if ($value === null) {
-            return null;
+            return $this->default;
         }
 
         // If the value is not null and is not a string then its invalid.
@@ -52,13 +59,15 @@ final class EnumDataTransformer implements
 
     /**
      * {@inheritdoc}
+     *
+     * Form data to model data.
      */
     public function reverseTransform($value): ?string
     {
-        // If the value comes through as null we return null.
-        // Null means the value is to be ignored or was not supplied.
+        // If the value comes through as null we return the default.
+        // In most cases the default will be null.
         if ($value === null) {
-            return null;
+            return $this->default;
         }
 
         // If the value is not null and is not a string then its invalid.
