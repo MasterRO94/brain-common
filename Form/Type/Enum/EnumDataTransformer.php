@@ -26,10 +26,18 @@ final class EnumDataTransformer implements
     /**
      * {@inheritdoc}
      */
-    public function transform($value)
+    public function transform($value): ?string
     {
-        if (is_string($value) === false) {
+        // If the value comes through as null we return null.
+        // Null means the value is to be ignored or was not supplied.
+        if ($value === null) {
             return null;
+        }
+
+        // If the value is not null and is not a string then its invalid.
+        // To simulate this we give it an empty string value.
+        if (is_string($value) === false) {
+            return '';
         }
 
         /** @var AbstractEnum $enum */
@@ -38,17 +46,25 @@ final class EnumDataTransformer implements
         try {
             return $enum::translate($value);
         } catch (ValueInvalidForEnumException $exception) {
-            return null;
+            return '';
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($value)
+    public function reverseTransform($value): ?string
     {
-        if (is_string($value) === false) {
+        // If the value comes through as null we return null.
+        // Null means the value is to be ignored or was not supplied.
+        if ($value === null) {
             return null;
+        }
+
+        // If the value is not null and is not a string then its invalid.
+        // To simulate this we give it an empty string value.
+        if (is_string($value) === false) {
+            return '';
         }
 
         /** @var AbstractEnum $enum */
@@ -57,7 +73,7 @@ final class EnumDataTransformer implements
         try {
             return $enum::value($value);
         } catch (TranslationInvalidForEnumException $exception) {
-            return null;
+            return '';
         }
     }
 }

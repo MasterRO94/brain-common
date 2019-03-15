@@ -6,13 +6,13 @@ namespace Brain\Common\Form\Type\Dimension;
 
 use Brain\Common\Dimension\TwoDimensionalInterface;
 use Brain\Common\Form\Model\Dimension\TwoDimensionalFormModel;
+use Brain\Common\Validator\Factory\CommonValidatorFactory;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * {@inheritdoc}
@@ -29,26 +29,16 @@ final class TwoDimensionalFormType extends AbstractType
                 'grouping' => false,
                 'scale' => 0,
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'common.form.dimension.two_dimensional.width.not_blank',
-                    ]),
-                    new Assert\GreaterThan([
-                        'value' => 1,
-                        'message' => 'common.form.dimension.two_dimensional.width.greater_than',
-                    ]),
+                    CommonValidatorFactory::required(),
+                    CommonValidatorFactory::integerGreaterThan(1),
                 ],
             ])
             ->add('height', IntegerType::class, [
                 'grouping' => false,
                 'scale' => 0,
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'common.form.dimension.two_dimensional.height.not_blank',
-                    ]),
-                    new Assert\GreaterThan([
-                        'value' => 1,
-                        'message' => 'common.form.dimension.two_dimensional.height.greater_than',
-                    ]),
+                    CommonValidatorFactory::required(),
+                    CommonValidatorFactory::integerGreaterThan(1),
                 ],
             ]);
 

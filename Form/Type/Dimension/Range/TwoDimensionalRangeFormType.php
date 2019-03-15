@@ -7,12 +7,12 @@ namespace Brain\Common\Form\Type\Dimension\Range;
 use Brain\Common\Dimension\Range\TwoDimensionalRangeInterface;
 use Brain\Common\Form\Model\Dimension\Range\TwoDimensionalRangeFormModel;
 use Brain\Common\Form\Type\Dimension\TwoDimensionalFormType;
+use Brain\Common\Validator\Factory\CommonValidatorFactory;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * {@inheritdoc}
@@ -27,18 +27,14 @@ final class TwoDimensionalRangeFormType extends AbstractType
         $builder
             ->add('minimum', TwoDimensionalFormType::class, [
                 'constraints' => [
-                    new Assert\Valid(),
-                    new Assert\NotBlank([
-                        'message' => 'common.form.dimension.two_dimensional_range.minimum.not_blank',
-                    ]),
+                    CommonValidatorFactory::propagate(),
+                    CommonValidatorFactory::required(),
                 ],
             ])
             ->add('maximum', TwoDimensionalFormType::class, [
                 'constraints' => [
-                    new Assert\Valid(),
-                    new Assert\NotBlank([
-                        'message' => 'common.form.dimension.two_dimensional_range.maximum.not_blank',
-                    ]),
+                    CommonValidatorFactory::propagate(),
+                    CommonValidatorFactory::required(),
                 ],
             ]);
 
