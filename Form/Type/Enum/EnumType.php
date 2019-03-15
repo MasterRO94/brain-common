@@ -39,7 +39,8 @@ final class EnumType extends AbstractType
         $builder->addModelTransformer(
             new EnumDataTransformer(
                 $options['enum'],
-                $options['default']
+                $options['default'],
+                $options['legacy']
             )
         );
     }
@@ -54,6 +55,9 @@ final class EnumType extends AbstractType
 
         $resolver->setDefault('default', null);
         $resolver->setAllowedTypes('default', ['string', 'null']);
+
+        $resolver->setDefault('legacy', false);
+        $resolver->setAllowedTypes('legacy', ['bool']);
     }
 
     /**

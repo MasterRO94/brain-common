@@ -13,17 +13,19 @@ final class EnumAssert
 {
     /**
      * Validate that the value is allowed for the given enum.
+     *
+     * @throws ValueInvalidForEnumException
      */
     public static function validate(string $enum, string $value): void
     {
         /** @var AbstractEnum $class */
         $class = $enum;
 
-        $values = $class::getAllValues();
-
-        if (in_array($value, $values)) {
+        if ($class::isValidValue($value)) {
             return;
         }
+
+        $values = $class::getAllValues();
 
         throw ValueInvalidForEnumException::create($enum, $value, $values);
     }

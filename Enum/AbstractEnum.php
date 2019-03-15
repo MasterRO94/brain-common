@@ -99,4 +99,23 @@ abstract class AbstractEnum
 
         return $mapping[$translation];
     }
+
+    /**
+     * Check if the value given is in the enum.
+     */
+    final public static function isValidValue(string $value): bool
+    {
+        return in_array($value, static::getAllValues(), true);
+    }
+
+    /**
+     * Check if the value given is in the enum as a translation.
+     * This is more for legacy enum uses where translations were used as form values.
+     *
+     * @deprecated This should not be needed. Translations should only be used one-way.
+     */
+    final public static function isValidTranslation(string $value): bool
+    {
+        return in_array($value, static::getAllTranslations(), true);
+    }
 }

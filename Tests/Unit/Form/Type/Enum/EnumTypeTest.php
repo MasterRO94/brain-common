@@ -119,7 +119,7 @@ final class EnumTypeTest extends TypeTestCase
     /**
      * @test
      */
-    public function withValueButNotTranslationResolveNull(): void
+    public function withValueButNotTranslationResolve(): void
     {
         $builder = $this->factory->createBuilder();
         $builder->add('enum', EnumType::class, [
@@ -135,7 +135,7 @@ final class EnumTypeTest extends TypeTestCase
         $form->submit($data);
 
         $expected = [
-            'enum' => null,
+            'enum' => ExampleTestFixtureEnum::EXAMPLE_VALID,
         ];
 
         self::assertEquals($expected, $form->getData());
@@ -144,11 +144,37 @@ final class EnumTypeTest extends TypeTestCase
     /**
      * @test
      */
-    public function withTranslationResolveValue(): void
+    public function withTranslationNotLegacyResolveEmpty(): void
     {
         $builder = $this->factory->createBuilder();
         $builder->add('enum', EnumType::class, [
             'enum' => ExampleTestFixtureEnum::class,
+        ]);
+
+        $form = $builder->getForm();
+
+        $data = [
+            'enum' => ExampleTestFixtureEnum::translate(ExampleTestFixtureEnum::EXAMPLE_VALID),
+        ];
+
+        $form->submit($data);
+
+        $expected = [
+            'enum' => '',
+        ];
+
+        self::assertEquals($expected, $form->getData());
+    }
+
+    /**
+     * @test
+     */
+    public function withTranslationLegacyResolveValue(): void
+    {
+        $builder = $this->factory->createBuilder();
+        $builder->add('enum', EnumType::class, [
+            'enum' => ExampleTestFixtureEnum::class,
+            'legacy' => true,
         ]);
 
         $form = $builder->getForm();
@@ -178,6 +204,40 @@ final class EnumTypeTest extends TypeTestCase
         $builder = $this->factory->createBuilder(FormType::class, $existing);
         $builder->add('enum', EnumType::class, [
             'enum' => ExampleTestFixtureEnum::class,
+        ]);
+
+        $form = $builder->getForm();
+
+        $expected = [
+            'enum' => ExampleTestFixtureEnum::EXAMPLE_NORMAL,
+        ];
+
+        self::assertEquals($expected, $form->getData());
+
+        $form->submit([
+            'enum' => ExampleTestFixtureEnum::EXAMPLE_VALID,
+        ]);
+
+        $expected = [
+            'enum' => ExampleTestFixtureEnum::EXAMPLE_VALID,
+        ];
+
+        self::assertEquals($expected, $form->getData());
+    }
+
+    /**
+     * @test
+     */
+    public function withExistingDataTransformLegacyMode(): void
+    {
+        $existing = [
+            'enum' => ExampleTestFixtureEnum::EXAMPLE_NORMAL,
+        ];
+
+        $builder = $this->factory->createBuilder(FormType::class, $existing);
+        $builder->add('enum', EnumType::class, [
+            'enum' => ExampleTestFixtureEnum::class,
+            'legacy' => true,
         ]);
 
         $form = $builder->getForm();

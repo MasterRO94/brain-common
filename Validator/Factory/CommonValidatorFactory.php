@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brain\Common\Validator\Factory;
 
 use Brain\Common\Enum\AbstractEnum;
-use Brain\Common\Validator\Constraint\EnumChoice;
+use Brain\Common\Validator\Constraint\Enum\EnumChoice;
 use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
 
 use Symfony\Component\Validator\Constraints\Choice;

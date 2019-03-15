@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Validator\Constraint;
+namespace Brain\Common\Validator\Constraint\Enum;
 
 use Symfony\Component\Validator\Constraint;
 

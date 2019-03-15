@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Validator\Constraint;
+namespace Brain\Common\Validator\Constraint\Enum;
 
 use Brain\Common\Enum\AbstractEnum;
 use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
@@ -39,15 +39,15 @@ final class EnumChoiceValidator extends ConstraintValidator
 
         /** @var AbstractEnum $enum */
         $enum = $constraint->enum;
+        $choices = $enum::getAllValues();
 
-        // Valid choice should bail now.
-        if (in_array($value, $enum::getAllValues(), true)) {
+        if (in_array($value, $choices, true)) {
             return;
         }
 
         $parameters = [
             ValidatorTranslationHelper::template('value') => $value,
-            ValidatorTranslationHelper::template('choices') => implode(', ', $enum::getAllTranslations()),
+            ValidatorTranslationHelper::template('choices') => implode(', ', $choices),
         ];
 
         $this->context

@@ -1,6 +1,6 @@
 services:
 
-  Brain\Common\Validator\Constraint\EnumChoiceValidator:
-    class: 'Brain\Common\Validator\Constraint\EnumChoiceValidator'
+  Brain\Common\Validator\Constraint\Enum\EnumChoiceValidator:
+    class: 'Brain\Common\Validator\Constraint\Enum\EnumChoiceValidator'
     tags:
       - { name: validator.constraint_validator }

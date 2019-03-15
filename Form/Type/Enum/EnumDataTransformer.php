@@ -6,7 +6,6 @@ namespace Brain\Common\Form\Type\Enum;
 
 use Brain\Common\Enum\AbstractEnum;
 use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
-use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
@@ -18,14 +17,13 @@ final class EnumDataTransformer implements
 {
     private $enum;
     private $default;
+    private $legacy;
 
-    /**
-     * @param mixed $default
-     */
-    public function __construct(string $enum, $default = null)
+    public function __construct(string $enum, ?string $default, bool $legacy)
     {
         $this->enum = $enum;
         $this->default = $default;
+        $this->legacy = $legacy;
     }
 
     /**
@@ -47,14 +45,7 @@ final class EnumDataTransformer implements
             return '';
         }
 
-        /** @var AbstractEnum $enum */
-        $enum = $this->enum;
-
-        try {
-            return $enum::translate($value);
-        } catch (ValueInvalidForEnumException $exception) {
-            return '';
-        }
+        return $value;
     }
 
     /**
@@ -79,10 +70,19 @@ final class EnumDataTransformer implements
         /** @var AbstractEnum $enum */
         $enum = $this->enum;
 
-        try {
-            return $enum::value($value);
-        } catch (TranslationInvalidForEnumException $exception) {
-            return '';
+        // Legacy mode attempt to translate to a value.
+        if ($this->legacy === true) {
+            try {
+                $value = $enum::value($value);
+            } catch (TranslationInvalidForEnumException $exception) {
+                // Ignore.
+            }
         }
+
+        if ($enum::isValidValue($value)) {
+            return $value;
+        }
+
+        return '';
     }
 }
