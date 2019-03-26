@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Brain\Common\Dimension;
 
+use Brain\Common\Debug\DebugTrait;
+
 /**
  * {@inheritdoc}
  */
-final class TwoDimensional implements TwoDimensionalInterface
+final class TwoDimensional implements
+    TwoDimensionalInterface
 {
+    use DebugTrait;
+
     private $width;
     private $height;
 
@@ -50,5 +55,16 @@ final class TwoDimensional implements TwoDimensionalInterface
     public function isSquare(): bool
     {
         return $this->width === $this->height;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function toStringParameters(): array
+    {
+        return [
+            'width' => $this->getWidth(),
+            'height' => $this->getHeight(),
+        ];
     }
 }
