@@ -8,6 +8,7 @@ use Brain\Common\Enum\AbstractEnum;
 use Brain\Common\Validator\Constraint\Enum\EnumChoice;
 use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
 
+use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\GreaterThan;
@@ -28,6 +29,16 @@ final class CommonValidatorFactory
     public static function propagate(): Valid
     {
         return new Valid();
+    }
+
+    /**
+     * Mark the field as never needed.
+     */
+    public static function never(): Blank
+    {
+        return new Blank([
+            'message' => CoreValidatorMessageEnum::MESSAGE_BLANK,
+        ]);
     }
 
     /**

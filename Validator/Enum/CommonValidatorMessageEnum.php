@@ -6,6 +6,7 @@ namespace Brain\Common\Validator\Enum;
 
 final class CommonValidatorMessageEnum
 {
+    public const MESSAGE_BLANK = 'value.blank';
     public const MESSAGE_NOT_BLANK = 'value.required';
 
     public const MESSAGE_TYPE_STRING = 'value.type.string';
