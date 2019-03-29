@@ -37,7 +37,7 @@ final class CommonValidatorFactory
     public static function never(): Blank
     {
         return new Blank([
-            'message' => CoreValidatorMessageEnum::MESSAGE_BLANK,
+            'message' => CommonValidatorMessageEnum::MESSAGE_BLANK,
         ]);
     }
 
