@@ -47,6 +47,13 @@ final class ResponseGenerator
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
-        return $this->responseFactory->view($request, $data, $groups, $status)->getResponse();
+        $view = $this->responseFactory->view($request, $data, $groups, $status);
+
+        // View does come prepared so lets prepare it before we return it.
+        $response = $view->getResponse();
+        $response->setContent(json_encode($view->getData()));
+        $response->setStatusCode($status);
+
+        return $response;
     }
 }
