@@ -184,7 +184,7 @@ abstract class AbstractFilterType extends AbstractType
         // Repair the data that is being sent.
         // In the cases where an array is not given we wrap the data in an array.
         $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
-            /** @var array|string $data */
+            /** @var array|string|null $data */
             $data = $event->getData();
 
             // Null must return here, sending anything but null will trigger validation.
@@ -288,7 +288,7 @@ abstract class AbstractFilterType extends AbstractType
         // Repair the data that is being sent.
         // In the cases where an array is not given we wrap the data in an array.
         $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
-            /** @var array|string $data */
+            /** @var array|string|null $data */
             $data = $event->getData();
 
             // Null must return here, sending anything but null will trigger validation.
@@ -326,10 +326,10 @@ abstract class AbstractFilterType extends AbstractType
 
                 $qb = $filter->getQueryBuilder();
 
-                /** @var DateTime $from */
+                /** @var DateTime|null $from */
                 $from = $value['from'][0];
 
-                /** @var DateTime $to */
+                /** @var DateTime|null $to */
                 $to = $value['to'][0];
 
                 // When we have both an to and from date we have a few cases to consider.
@@ -478,7 +478,7 @@ abstract class AbstractFilterType extends AbstractType
 
         // Standardise the data being sent.
         $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
-            /** @var array|string $data */
+            /** @var array|string|null $data */
             $data = $event->getData();
 
             // Null must return here, sending anything but null will trigger validation.
@@ -545,7 +545,7 @@ abstract class AbstractFilterType extends AbstractType
         // Repair the data that is being sent.
         // In the cases where an array is not given we wrap the data in an array.
         $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
-            /** @var array|string $data */
+            /** @var array|string|null $data */
             $data = $event->getData();
 
             // Null must return here, sending anything but null will trigger validation.

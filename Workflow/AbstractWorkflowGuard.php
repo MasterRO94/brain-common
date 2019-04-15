@@ -23,7 +23,7 @@ abstract class AbstractWorkflowGuard implements EventSubscriberInterface
     /**
      * Return the guarded states and the name of the function needed to be called.
      *
-     * @return string[]
+     * @return mixed[]
      */
     abstract public static function getGuardedTransitions(): array;
 

@@ -27,7 +27,10 @@ class Database implements DatabaseInterface
         PaginatorFactory $paginatorFactory,
         AuthenticationStorageInterface $authenticationStorage
     ) {
-        $this->em = $registry->getManager();
+        /** @var EntityManagerInterface $em */
+        $em = $registry->getManager();
+
+        $this->em = $em;
         $this->paginatorFactory = $paginatorFactory;
         $this->authenticationStorage = $authenticationStorage;
     }

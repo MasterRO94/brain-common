@@ -13,7 +13,7 @@ final class FormDataPreNormaliser
     /**
      * Normalise the form data for a standard id/alias form.
      *
-     * @param mixed[]|string $data
+     * @param mixed[]|string|null $data
      * @param mixed[] $options
      *
      * @return mixed[]

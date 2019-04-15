@@ -72,7 +72,7 @@ class PayloadHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return mixed[][]
+     * @return mixed[]
      */
     public function provideCanHandleJsonStrings(): array
     {
@@ -142,7 +142,7 @@ class PayloadHelperTest extends TestCase
      *
      * @covers \Brain\Common\Utility\PayloadHelper
      *
-     * @param mixed[][] $expected
+     * @param mixed[] $expected
      */
     public function canHandleJsonStrings(string $json, array $expected): void
     {

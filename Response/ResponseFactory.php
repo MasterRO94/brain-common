@@ -160,7 +160,7 @@ class ResponseFactory
             'Access-Control-Allow-Methods' => implode(',', $methods),
 
             // Don't request this endpoint for another hour.
-            'Access-Control-Max-Age' => 60 * 60,
+            'Access-Control-Max-Age' => (string) (60 * 60),
         ];
     }
 

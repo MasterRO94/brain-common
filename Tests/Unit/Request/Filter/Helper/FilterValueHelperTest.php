@@ -16,7 +16,7 @@ class FilterValueHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return mixed[][]
+     * @return mixed[]
      */
     public function provideCanCheckValue(): array
     {
@@ -50,7 +50,7 @@ class FilterValueHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return mixed[][]
+     * @return mixed[]
      */
     public function provideCanCheckSearchTerm(): array
     {

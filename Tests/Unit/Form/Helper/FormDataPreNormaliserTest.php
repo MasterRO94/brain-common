@@ -152,7 +152,7 @@ final class FormDataPreNormaliserTest extends TestCase
     /**
      * Data provider.
      *
-     * @return mixed[][]
+     * @return mixed[]
      */
     public function provideCanNormaliseForMapping(): array
     {
@@ -283,8 +283,8 @@ final class FormDataPreNormaliserTest extends TestCase
      * @test
      * @dataProvider provideCanNormaliseForMapping
      *
-     * @param mixed[][] $expected
-     * @param mixed[][]|string|null $data
+     * @param mixed[] $expected
+     * @param mixed[]|string|null $data
      * @param EntityLookupDefinition[][] $definitions
      *
      * @covers \Brain\Common\Form\Helper\FormDataPreNormaliser

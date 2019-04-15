@@ -17,7 +17,7 @@ final class PhoneNumberTest extends TestCase
     /**
      * Data provider.
      *
-     * @return string[][]
+     * @return mixed[]
      */
     public function provideWithInvalidPhoneNumberBeNice(): array
     {
@@ -68,7 +68,7 @@ final class PhoneNumberTest extends TestCase
     /**
      * Data provider.
      *
-     * @return string[][]
+     * @return mixed[]
      */
     public function provideCanNormalisePhoneNumber(): array
     {

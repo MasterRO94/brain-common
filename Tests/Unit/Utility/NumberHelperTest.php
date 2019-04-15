@@ -16,7 +16,7 @@ final class NumberHelperTest extends TestCase
     /**
      * Data provider.
      *
-     * @return int[][]
+     * @return mixed[]
      */
     public function provideCanClampValue(): array
     {

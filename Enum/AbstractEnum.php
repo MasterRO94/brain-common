@@ -22,7 +22,7 @@ abstract class AbstractEnum
     /**
      * Return the value to translation mapping.
      *
-     * @return string[]
+     * @return string[]|null[]
      */
     abstract protected static function getValues(): array;
 

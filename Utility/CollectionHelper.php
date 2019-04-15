@@ -22,7 +22,7 @@ final class CollectionHelper
      *
      * @throws LogicException When the $iterable cannot be handled.
      *
-     * @return mixed[]|ArrayCollection
+     * @return Collection|mixed[]
      */
     public static function convert($iterable): Collection
     {

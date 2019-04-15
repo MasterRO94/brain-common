@@ -63,13 +63,16 @@ final class Paginator extends Pagerfanta
      */
     public function getData(): array
     {
-        /** @var Traversable $traversable */
         $traversable = $this->getIterator();
 
         if ($traversable instanceof Traversable) {
             return iterator_to_array($traversable);
         }
 
-        return (array) $traversable;
+        if (is_array($traversable) === false) {
+            return (array) $traversable;
+        }
+
+        return $traversable;
     }
 }
