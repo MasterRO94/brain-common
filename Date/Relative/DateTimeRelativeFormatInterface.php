@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Date\Helper;
+namespace Brain\Common\Date\Relative;
 
 interface DateTimeRelativeFormatInterface
 {

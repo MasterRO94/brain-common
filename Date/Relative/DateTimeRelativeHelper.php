@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Date\Helper;
+namespace Brain\Common\Date\Relative;
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -10,7 +10,7 @@ use DateTimeInterface;
 /**
  * A specialised date time helper.
  */
-final class DateTimeHelper implements DateTimeRelativeFormatInterface
+final class DateTimeRelativeHelper implements DateTimeRelativeFormatInterface
 {
     /**
      * Create a date time (ignoring the time) using relative formats supported by "strtotime()".
