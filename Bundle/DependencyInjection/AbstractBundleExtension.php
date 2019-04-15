@@ -40,7 +40,13 @@ abstract class AbstractBundleExtension extends Extension
     final protected function handleConfigurationFiles(ContainerBuilder $container): void
     {
         $class = new ReflectionObject($this);
-        $directory = realpath(sprintf('%s/../Resources/config/services', dirname($class->getFileName())));
+
+        /** @var string $filepath */
+        $filepath = $class->getFileName();
+
+        /** @var string $directory */
+        $directory = realpath(sprintf('%s/../Resources/config/services', dirname($filepath)));
+
         $loader = new YamlFileLoader($container, new FileLocator($directory));
 
         // Load each of the configurations mentioned in the extension.

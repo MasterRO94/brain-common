@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Form\Handler;
 
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 
 final class FormViolationParser
@@ -27,6 +28,10 @@ final class FormViolationParser
             }
 
             foreach ($child->getErrors() as $error) {
+                if (!($error instanceof FormError)) {
+                    continue;
+                }
+
                 $errors[$name][] = $error->getMessage();
             }
 
@@ -47,6 +52,10 @@ final class FormViolationParser
 
         $parent = $parent ?: '@form';
         foreach ($form->getErrors() as $error) {
+            if (!($error instanceof FormError)) {
+                continue;
+            }
+
             $errors[$parent][] = $error->getMessage();
         }
 

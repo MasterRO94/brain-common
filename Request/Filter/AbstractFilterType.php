@@ -478,7 +478,7 @@ abstract class AbstractFilterType extends AbstractType
 
         // Standardise the data being sent.
         $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
-            /** @var array|string|null $data */
+            /** @var string|null $data */
             $data = $event->getData();
 
             // Null must return here, sending anything but null will trigger validation.

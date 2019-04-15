@@ -125,6 +125,7 @@ class ResponseFactory
      */
     private function getCrossOriginHeaders($data, Request $request): array
     {
+        /** @var string $origin */
         $origin = $request->headers->get('origin', '*');
 
         $expose = [

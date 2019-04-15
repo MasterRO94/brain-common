@@ -47,14 +47,18 @@ final class DebugHelper
      */
     private static function getClassName($entity, bool $short): string
     {
+        /** @var string $class */
         $class = get_class($entity);
 
         if ($entity instanceof Proxy) {
+            /** @var string $class */
             $class = get_parent_class($entity);
         }
 
         if ($short === true) {
             $parts = explode('\\', $class);
+
+            /** @var string $class */
             $class = array_pop($parts);
         }
 

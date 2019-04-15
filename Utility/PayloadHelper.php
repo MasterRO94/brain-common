@@ -19,7 +19,10 @@ final class PayloadHelper
      */
     public static function getJsonFromRequest(Request $request): array
     {
-        return self::json($request->getContent());
+        /** @var string $body */
+        $body = $request->getContent();
+
+        return self::json($body);
     }
 
     /**
