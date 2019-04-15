@@ -12,7 +12,7 @@ final class TranslatorHelper
     /**
      * Wrap parameters.
      *
-     * @param string[] $parameters
+     * @param mixed[] $parameters
      *
      * @return string[]
      */

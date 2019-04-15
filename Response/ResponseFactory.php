@@ -56,10 +56,10 @@ class ResponseFactory
 
         // Add pagination headers.
         if ($data instanceof Paginator) {
-            $view->setHeader(Paginator::PAGINATION_PAGE_TOTAL, $data->getNbPages());
-            $view->setHeader(Paginator::PAGINATION_RESULTS, count($view->getData()));
-            $view->setHeader(Paginator::PAGINATION_RESULTS_TOTAL, $data->getNbResults());
-            $view->setHeader(Paginator::PAGINATION_RESULTS_PER_PAGE, $data->getMaxPerPage());
+            $view->setHeader(Paginator::PAGINATION_PAGE_TOTAL, (string) $data->getNbPages());
+            $view->setHeader(Paginator::PAGINATION_RESULTS, (string) count($view->getData()));
+            $view->setHeader(Paginator::PAGINATION_RESULTS_TOTAL, (string) $data->getNbResults());
+            $view->setHeader(Paginator::PAGINATION_RESULTS_PER_PAGE, (string) $data->getMaxPerPage());
         }
 
         $view = $this->prepareResponseView($data, $request, $view);

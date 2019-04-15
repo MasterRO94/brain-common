@@ -20,6 +20,7 @@ final class Configuration implements ConfigurationInterface
     {
         $builder = new TreeBuilder();
 
+        /** @var ArrayNodeDefinition $root */
         $root = $builder->root('brain_common');
 
         $this->configureAuthenticationNode($root);

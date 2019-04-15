@@ -285,7 +285,7 @@ final class FormDataPreNormaliserTest extends TestCase
      *
      * @param mixed[] $expected
      * @param mixed[]|string|null $data
-     * @param EntityLookupDefinition[][] $definitions
+     * @param EntityLookupDefinition[] $definitions
      *
      * @covers \Brain\Common\Form\Helper\FormDataPreNormaliser
      */
