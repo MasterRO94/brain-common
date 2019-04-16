@@ -35,8 +35,8 @@ use RuntimeException;
  */
 final class FormHandler implements FormHandlerInterface
 {
-    /** @var Request */
-    private $request;
+    /** @var RequestStack */
+    private $stack;
 
     /** @var FormFactory */
     private $factory;
@@ -46,16 +46,7 @@ final class FormHandler implements FormHandlerInterface
 
     public function __construct(RequestStack $stack, FormFactory $factory, StopwatchInterface $stopwatch)
     {
-        $current = $stack->getCurrentRequest();
-
-        if ($current === null) {
-            throw new RuntimeException(implode(' ', [
-                'The request stack must return a request!',
-                'Please make sure this code is called within the framework context!',
-            ]));
-        }
-
-        $this->request = $current;
+        $this->stack = $stack;
         $this->factory = $factory;
         $this->stopwatch = $stopwatch;
     }
@@ -65,11 +56,20 @@ final class FormHandler implements FormHandlerInterface
      */
     public function manage(string $type, $data = null, array $options = [], ?Request $request = null): FormInterface
     {
-        $request = $request ?: $this->request;
+        /** @var Request|null $request */
+        $request = $request ?? $this->stack->getCurrentRequest();
+
+        if ($request === null) {
+            throw new RuntimeException(implode(' ', [
+                'The request stack must return a request!',
+                'Please make sure this code is called within the framework context!',
+            ]));
+        }
+
         $payload = PayloadHelper::getJsonFromRequest($request);
 
         // Missing values are set to null if not patching.
-        $missing = ($this->request->getMethod() !== Request::METHOD_PATCH);
+        $missing = ($request->getMethod() !== Request::METHOD_PATCH);
 
         $form = $this->handle($type, $payload, $data, $options, $missing);
 
