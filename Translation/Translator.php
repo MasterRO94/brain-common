@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Brain\Common\Translation;
 
-use Symfony\Component\Translation\TranslatorInterface as SymfonyTranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as SymfonyTranslatorInterface;
 
 /**
  * A translator wrapper that tweaks the Symfony translation api slightly.
  */
 final class Translator implements TranslatorInterface
 {
+    /** @var SymfonyTranslatorInterface */
     private $translator;
+
+    /** @var string */
     private $locale;
 
     public function __construct(SymfonyTranslatorInterface $translator, string $locale)

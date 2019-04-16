@@ -18,6 +18,7 @@ use FOS\RestBundle\View\View;
  */
 class ResponseFactory
 {
+    /** @var SerializerFactory|null */
     private $factory;
 
     public function __construct(?SerializerFactory $factory)
@@ -39,7 +40,7 @@ class ResponseFactory
         // HEAD requests should be empty.
         if ($request->getMethod() === Request::METHOD_HEAD) {
             $response = null;
-            $groups = null;
+            $groups = [];
         }
 
         $response = $this->prepare($response);
@@ -108,7 +109,7 @@ class ResponseFactory
      */
     protected function prepareSerialisationGroups(array $groups): array
     {
-        if (!in_array('global', $groups)) {
+        if (in_array('global', $groups, true) === false) {
             $groups[] = 'global';
         }
 

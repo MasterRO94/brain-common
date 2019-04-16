@@ -11,7 +11,7 @@ use Brain\Common\Exception\Prototype\PrototypeMethodException;
  */
 trait IdentityAwareTrait
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /**
@@ -21,7 +21,7 @@ trait IdentityAwareTrait
      */
     public function getId(): int
     {
-        if (!$this->hasId()) {
+        if ($this->id === null) {
             throw PrototypeMethodException::createForIdentityMissing($this);
         }
 

@@ -38,7 +38,7 @@ abstract class AbstractSortType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    final public function buildForm(FormBuilderInterface $builder, array $options)
+    final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->builder = $builder;
 
@@ -48,7 +48,7 @@ abstract class AbstractSortType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
@@ -60,7 +60,7 @@ abstract class AbstractSortType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return SharedableFilterType::class;
     }
@@ -71,7 +71,7 @@ abstract class AbstractSortType extends AbstractType
     protected function embed(string $field, string $column, string $sort): void
     {
         $listener = function (FormEvent $event) use ($field, $column, $sort): void {
-            /** @var array|string $data */
+            /** @var mixed[]|string $data */
             $data = $event->getData();
             $form = $event->getForm();
 
@@ -120,7 +120,7 @@ abstract class AbstractSortType extends AbstractType
                 /** @var string $choice */
                 $choice = strtoupper($value);
 
-                if (!in_array($choice, $choices)) {
+                if (in_array($choice, $choices, true) === false) {
                     return;
                 }
 

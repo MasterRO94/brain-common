@@ -11,6 +11,7 @@ use Ramsey\Uuid\UuidFactory;
  */
 final class UniqueIdentityFactory implements UniqueIdentityFactoryInterface
 {
+    /** @var UuidFactory */
     private $uuid;
 
     public function __construct(UuidFactory $uuid)

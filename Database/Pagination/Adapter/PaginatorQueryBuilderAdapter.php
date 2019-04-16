@@ -13,6 +13,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
  */
 final class PaginatorQueryBuilderAdapter extends DoctrineORMAdapter
 {
+    /** @var QueryBuilder */
     private $builder;
 
     public function __construct(QueryBuilder $builder, bool $fetchJoinCollection, ?bool $useOutputWalkers)

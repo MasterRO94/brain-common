@@ -10,13 +10,14 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber as ExternalPhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use RuntimeException;
 
 /**
  * {@inheritdoc}
  */
 final class PhoneNumber implements PhoneNumberInterface
 {
-    /** @var ExternalPhoneNumber */
+    /** @var ExternalPhoneNumber|null */
     private $parsed;
 
     /** @var bool */
@@ -39,7 +40,13 @@ final class PhoneNumber implements PhoneNumberInterface
      */
     public function getCountryCode(): int
     {
-        return $this->getExtensionInstance()->getCountryCode();
+        $code = $this->getExtensionInstance()->getCountryCode();
+
+        if ($code === null) {
+            throw new RuntimeException('Country code could not be determined.');
+        }
+
+        return $code;
     }
 
     /**
@@ -59,7 +66,13 @@ final class PhoneNumber implements PhoneNumberInterface
      */
     public function getNationalNumber(): string
     {
-        return $this->getExtensionInstance()->getNationalNumber();
+        $number = $this->getExtensionInstance()->getNationalNumber();
+
+        if ($number === null) {
+            throw new RuntimeException('National number could not be determined.');
+        }
+
+        return $number;
     }
 
     /**

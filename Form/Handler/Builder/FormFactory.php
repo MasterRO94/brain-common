@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormFactory as BaseFormFactory;
  */
 final class FormFactory extends BaseFormFactory
 {
+    /** @var mixed[] */
     private $options = [
         'error_bubbling' => false,
 

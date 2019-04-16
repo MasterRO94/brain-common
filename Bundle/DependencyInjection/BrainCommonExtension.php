@@ -15,7 +15,7 @@ final class BrainCommonExtension extends AbstractBundleExtension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         parent::load($configs, $container);
 

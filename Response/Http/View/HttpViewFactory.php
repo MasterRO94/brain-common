@@ -16,6 +16,7 @@ use FOS\RestBundle\View\View;
  */
 final class HttpViewFactory implements HttpViewFactoryInterface
 {
+    /** @var ResponseGenerator */
     private $generator;
 
     public function __construct(ResponseGenerator $generator)

@@ -15,6 +15,7 @@ use Symfony\Component\Stopwatch\StopwatchEvent;
  */
 final class Stopwatch implements StopwatchInterface
 {
+    /** @var SymfonyStopwatch|null */
     private $stopwatch;
 
     public function __construct(?SymfonyStopwatch $stopwatch = null)

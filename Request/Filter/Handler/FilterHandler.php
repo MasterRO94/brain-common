@@ -22,9 +22,16 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
  */
 final class FilterHandler implements FilterHandlerInterface
 {
+    /** @var RequestStack */
     private $requestStack;
+
+    /** @var FormFactory */
     private $formFactory;
+
+    /** @var PaginatorFactory */
     private $paginatorFactory;
+
+    /** @var FilterBuilderUpdater */
     private $filterBuilderUpdater;
 
     public function __construct(
@@ -47,10 +54,9 @@ final class FilterHandler implements FilterHandlerInterface
      */
     public function filterForPaginator(Paginator $paginator, ?string $filter = null, ?string $sort = null): Paginator
     {
-        /** @var PaginatorQueryBuilderAdapter $adapter */
         $adapter = $paginator->getAdapter();
 
-        if (!$adapter instanceof PaginatorQueryBuilderAdapter) {
+        if (!($adapter instanceof PaginatorQueryBuilderAdapter)) {
             throw FormHandlerException::createForInvalidPaginatorAdapter();
         }
 
@@ -105,10 +111,14 @@ final class FilterHandler implements FilterHandlerInterface
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        /** @var array $data */
-        $data = $request->query->get($type, []);
+        if ($request === null) {
+            return [];
+        }
 
-        if (!is_array($data)) {
+        /** @var mixed[]|null $data */
+        $data = $request->query->get($type, null);
+
+        if (is_array($data) === false) {
             return [];
         }
 

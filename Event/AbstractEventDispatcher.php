@@ -8,11 +8,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * An event dispatcher that can dispatch event classes.
- *
- * {@inheritdoc}
  */
 abstract class AbstractEventDispatcher
 {
+    /** @var EventDispatcherInterface */
     private $dispatcher;
 
     public function __construct(EventDispatcherInterface $dispatcher)

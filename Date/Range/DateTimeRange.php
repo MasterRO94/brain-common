@@ -11,7 +11,10 @@ use DateTimeInterface;
  */
 final class DateTimeRange implements DateTimeRangeInterface
 {
+    /** @var DateTimeInterface */
     private $from;
+
+    /** @var DateTimeInterface */
     private $to;
 
     public function __construct(DateTimeInterface $from, DateTimeInterface $to)

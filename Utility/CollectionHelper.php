@@ -7,7 +7,6 @@ namespace Brain\Common\Utility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use LogicException;
 use Traversable;
 
 /**
@@ -20,8 +19,6 @@ final class CollectionHelper
      *
      * @param Collection|mixed[]|Traversable $iterable
      *
-     * @throws LogicException When the $iterable cannot be handled.
-     *
      * @return Collection|mixed[]
      */
     public static function convert($iterable): Collection
@@ -30,17 +27,10 @@ final class CollectionHelper
             return $iterable;
         }
 
-        if ($iterable instanceof Traversable) {
-            return new ArrayCollection(iterator_to_array($iterable));
-        }
-
         if (is_array($iterable)) {
             return new ArrayCollection($iterable);
         }
 
-        throw new LogicException(implode(' ', [
-            'The iterable instance cannot be converted to a Collection.',
-            'Please check the variable given and make sure it is valid.',
-        ]));
+        return new ArrayCollection(iterator_to_array($iterable));
     }
 }

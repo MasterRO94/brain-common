@@ -11,8 +11,13 @@ use Exception;
  */
 final class TranslationInvalidForEnumException extends Exception
 {
+    /** @var string */
     private $enum;
+
+    /** @var string */
     private $translation;
+
+    /** @var string[] */
     private $translations;
 
     /**

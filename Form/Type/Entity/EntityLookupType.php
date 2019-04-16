@@ -25,6 +25,7 @@ final class EntityLookupType extends AbstractType
     public const COLUMN_ID = ['id' => 'publicId'];
     public const COLUMN_ID_ALIAS = ['id' => 'publicId', 'alias' => 'publicAlias'];
 
+    /** @var Database */
     private $db;
 
     public function __construct(Database $db)
@@ -35,7 +36,7 @@ final class EntityLookupType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $definitions = $this->createMappingDefinitions($options);
 
@@ -64,7 +65,7 @@ final class EntityLookupType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(['class', 'columns']);
         $resolver->setDefaults([
@@ -98,7 +99,7 @@ final class EntityLookupType extends AbstractType
             $definitions[$index] = $definition;
         }
 
-        if (!count($definitions)) {
+        if ($definitions === []) {
             throw new RuntimeException('No entity lookup definitions were created.');
         }
 

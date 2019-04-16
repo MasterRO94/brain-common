@@ -22,7 +22,10 @@ abstract class AbstractDatabaseQuery
     public const PARAM_INTEGER = PDO::PARAM_INT;
     public const PARAM_INTEGER_ARRAY = Connection::PARAM_INT_ARRAY;
 
+    /** @var mixed[] */
     private $parameters = [];
+
+    /** @var mixed[] */
     private $parameterTypes = [];
 
     /**

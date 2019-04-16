@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Brain\Common\Form\Type\Entity;
 
-use Brain\Common\Form\Helper\FormDataPreNormaliser;
-
 /**
  * A column lookup definition for the form event subscriber.
  */
 final class EntityLookupDefinition
 {
+    public const UUID_REGEX = '/^[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}$/';
+
+    /** @var string */
     private $column;
+
+    /** @var mixed|null */
     private $default;
 
     /** @var string */
@@ -87,7 +90,7 @@ final class EntityLookupDefinition
      */
     public function setRegexUUID(): self
     {
-        $this->regex = FormDataPreNormaliser::UUID_REGEX;
+        $this->regex = self::UUID_REGEX;
 
         return $this;
     }

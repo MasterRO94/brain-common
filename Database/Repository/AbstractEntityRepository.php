@@ -19,10 +19,10 @@ abstract class AbstractEntityRepository extends EntityRepository
     public const SORT_ASC = 'ASC';
     public const SORT_DESC = 'DESC';
 
-    /** @var PaginatorFactory */
+    /** @var PaginatorFactory|null */
     private $paginatorFactory;
 
-    /** @var AuthenticationStorageInterface */
+    /** @var AuthenticationStorageInterface|null */
     private $authenticationStorage;
 
     /**
@@ -61,7 +61,7 @@ abstract class AbstractEntityRepository extends EntityRepository
      */
     protected function getPaginatorFactory(): PaginatorFactory
     {
-        if (!$this->paginatorFactory instanceof PaginatorFactory) {
+        if ($this->paginatorFactory === null) {
             throw EntityRepositoryException::createForMissingPaginationFactory();
         }
 
@@ -73,7 +73,7 @@ abstract class AbstractEntityRepository extends EntityRepository
      */
     protected function getAuthenticationStorage(): AuthenticationStorageInterface
     {
-        if (!$this->authenticationStorage instanceof AuthenticationStorageInterface) {
+        if ($this->authenticationStorage === null) {
             throw EntityRepositoryException::createForMissingAuthenticationStorage();
         }
 

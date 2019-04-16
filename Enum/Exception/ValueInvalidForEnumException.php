@@ -11,8 +11,13 @@ use Exception;
  */
 final class ValueInvalidForEnumException extends Exception
 {
+    /** @var string */
     private $enum;
+
+    /** @var string */
     private $value;
+
+    /** @var string[] */
     private $values;
 
     /**

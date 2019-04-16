@@ -17,7 +17,10 @@ use FOS\RestBundle\View\View;
  */
 class ResponseHelper
 {
+    /** @var ResponseFactory */
     private $responseFactory;
+
+    /** @var RequestStack */
     private $requestStack;
 
     public function __construct(ResponseFactory $responseFactory, RequestStack $requestStack)

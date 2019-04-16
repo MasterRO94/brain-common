@@ -6,6 +6,7 @@ namespace Brain\Common\System;
 
 final class EnvironmentChecker
 {
+    /** @var string */
     private $environment;
 
     public function __construct(string $environment)

@@ -14,7 +14,11 @@ final class OpenEndedDateTimeRange implements OpenEndedDateTimeRangeInterface
 {
     /** @var DateTimeRange */
     private $dateTimeRange;
+
+    /** @var bool */
     private $isToOpenEnded = false;
+
+    /** @var bool */
     private $isFromOpenEnded = false;
 
     public function __construct(DateTimeInterface $from, DateTimeInterface $to)

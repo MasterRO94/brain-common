@@ -9,6 +9,8 @@ use Throwable;
 
 /**
  * A runtime exception for brain common.
+ *
+ * @deprecated
  */
 abstract class AbstractBrainRuntimeException extends RuntimeException
 {

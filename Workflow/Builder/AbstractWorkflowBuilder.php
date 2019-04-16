@@ -17,6 +17,7 @@ use Symfony\Component\Workflow\Workflow;
  */
 abstract class AbstractWorkflowBuilder implements WorkflowBuilderInterface
 {
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     /**

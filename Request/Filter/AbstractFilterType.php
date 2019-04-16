@@ -22,7 +22,6 @@ use DateTimeInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\SharedableFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Form\Type\TextFilterType;
 use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
-use RuntimeException;
 
 /**
  * {@inheritdoc}
@@ -42,7 +41,7 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    final public function buildForm(FormBuilderInterface $builder, array $options)
+    final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->builder = $builder;
 
@@ -52,7 +51,7 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
@@ -64,7 +63,7 @@ abstract class AbstractFilterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return SharedableFilterType::class;
     }
@@ -95,7 +94,7 @@ abstract class AbstractFilterType extends AbstractType
                 return;
             }
 
-            if (is_string($value) && in_array(strtolower($value), ['true', 'false'])) {
+            if (is_string($value) && in_array(strtolower($value), ['true', 'false'], true)) {
                 $value = strtolower($value);
 
                 // Should the child filter not be nullable we can return.
@@ -114,12 +113,8 @@ abstract class AbstractFilterType extends AbstractType
 
                         if ($value === 'false') {
                             $qb->andWhere($qb->expr()->isNull($field));
-                        } elseif ($value === 'true') {
-                            $qb->andWhere($qb->expr()->isNotNull($field));
                         } else {
-                            throw new RuntimeException(
-                                'Filter existence case is not covered!'
-                            );
+                            $qb->andWhere($qb->expr()->isNotNull($field));
                         }
                     },
                 ]);
@@ -488,12 +483,12 @@ abstract class AbstractFilterType extends AbstractType
             }
 
             // Fix positive.
-            if (in_array(strtolower($data), ['y', 'yes', 'true', 't', '1'])) {
+            if (in_array(strtolower($data), ['y', 'yes', 'true', 't', '1'], true)) {
                 $event->setData(1);
             }
 
             // Fix negative.
-            if (!in_array(strtolower($data), ['n', 'no', 'false', 'f', '0'])) {
+            if (!in_array(strtolower($data), ['n', 'no', 'false', 'f', '0'], true)) {
                 return;
             }
 

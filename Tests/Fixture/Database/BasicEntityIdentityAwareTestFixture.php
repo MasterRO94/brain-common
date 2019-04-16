@@ -19,6 +19,9 @@ final class BasicEntityIdentityAwareTestFixture implements
 {
     use IdentityAwareTrait;
 
+    /** @var int|null */
+    protected $id;
+
     /**
      * Fixture method for setting id.
      */

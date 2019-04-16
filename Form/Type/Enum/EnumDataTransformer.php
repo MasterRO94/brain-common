@@ -15,8 +15,13 @@ use Symfony\Component\Form\DataTransformerInterface;
 final class EnumDataTransformer implements
     DataTransformerInterface
 {
+    /** @var string */
     private $enum;
+
+    /** @var string|null */
     private $default;
+
+    /** @var bool */
     private $legacy;
 
     public function __construct(string $enum, ?string $default, bool $legacy)

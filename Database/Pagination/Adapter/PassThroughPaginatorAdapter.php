@@ -13,7 +13,10 @@ use Traversable;
  */
 final class PassThroughPaginatorAdapter implements AdapterInterface
 {
+    /** @var mixed[] */
     private $data;
+
+    /** @var int */
     private $total;
 
     /**

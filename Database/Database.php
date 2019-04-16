@@ -12,6 +12,8 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
+use RuntimeException;
+
 /**
  * A custom database class for handling doctrine.
  */
@@ -19,7 +21,11 @@ class Database implements DatabaseInterface
 {
     /** @var EntityManagerInterface */
     private $em;
+
+    /** @var PaginatorFactory */
     private $paginatorFactory;
+
+    /** @var AuthenticationStorageInterface */
     private $authenticationStorage;
 
     public function __construct(
@@ -56,14 +62,22 @@ class Database implements DatabaseInterface
      */
     public function getRepository(string $entity): AbstractEntityRepository
     {
-        /** @var AbstractEntityRepository $repository */
         $repository = $this->em->getRepository($entity);
 
         if ($repository instanceof AbstractEntityRepository) {
             $repository->setPaginatorFactory($this->paginatorFactory);
             $repository->setAuthenticationStorage($this->authenticationStorage);
+
+            return $repository;
         }
 
-        return $repository;
+        $message = implode(' ', [
+            'The entity "%s" should have a repository defined that extends "%s".',
+            'Please create this repository and assign it.',
+        ]);
+
+        $message = sprintf($message, $entity, AbstractEntityRepository::class);
+
+        throw new RuntimeException($message);
     }
 }

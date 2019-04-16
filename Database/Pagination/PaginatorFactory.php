@@ -20,8 +20,13 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 final class PaginatorFactory
 {
+    /** @var RequestStack */
     private $requestStack;
+
+    /** @var int */
     private $page;
+
+    /** @var int */
     private $limit;
 
     public function __construct(RequestStack $requestStack, int $page, int $limit)
@@ -57,7 +62,7 @@ final class PaginatorFactory
     {
         $joins = $qb->getDQLPart('join');
 
-        if (count($joins)) {
+        if (count($joins) > 0) {
             throw CannotUseSpecialisedPaginationException::create();
         }
 

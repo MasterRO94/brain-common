@@ -11,7 +11,10 @@ use Brain\Common\Dimension\TwoDimensionalInterface;
  */
 final class TwoDimensionalRange implements TwoDimensionalRangeInterface
 {
+    /** @var TwoDimensionalInterface */
     private $minimum;
+
+    /** @var TwoDimensionalInterface */
     private $maximum;
 
     public function __construct(TwoDimensionalInterface $minimum, TwoDimensionalInterface $maximum)

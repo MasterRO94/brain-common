@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormInterface;
 final class FilterFormValidationException extends AbstractBrainRuntimeException implements
     FormValidationExceptionInterface
 {
+    /** @var FormInterface */
     private $form;
 
     public function __construct(FormInterface $form)

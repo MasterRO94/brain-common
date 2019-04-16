@@ -18,7 +18,7 @@ final class FormDataAccessor extends PropertyAccessor
      *
      * Override to catch fatal exceptions when trying to set null.
      */
-    public function setValue(&$objectOrArray, $propertyPath, $value)
+    public function setValue(&$objectOrArray, $propertyPath, $value): void
     {
         try {
             parent::setValue($objectOrArray, $propertyPath, $value);

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class HttpResponseFactory implements HttpResponseFactoryInterface
 {
+    /** @var ResponseGenerator */
     private $generator;
 
     public function __construct(ResponseGenerator $generator)

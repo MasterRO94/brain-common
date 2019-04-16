@@ -14,7 +14,10 @@ final class TwoDimensional implements
 {
     use DebugTrait;
 
+    /** @var int */
     private $width;
+
+    /** @var int */
     private $height;
 
     /**

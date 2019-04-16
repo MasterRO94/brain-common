@@ -15,11 +15,22 @@ use Metadata\MetadataFactoryInterface;
 
 class SerializerFactory
 {
+    /** @var MetadataFactoryInterface */
     private $metadataFactory;
+
+    /** @var HandlerRegistryInterface */
     private $handlerRegistry;
+
+    /** @var ObjectConstructorInterface */
     private $objectConstructor;
+
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
+
+    /** @var ExpressionEvaluatorInterface */
     private $expressionEvaluator;
+
+    /** @var JsonSerializationVisitor */
     private $jsonSerializationVisitor;
 
     public function __construct(

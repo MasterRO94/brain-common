@@ -13,8 +13,13 @@ use Brain\Common\Utility\UniqueIdentityFactoryInterface;
  */
 abstract class AbstractEntityFactory
 {
+    /** @var string */
     private $entityClass;
+
+    /** @var DateTimeFactoryInterface */
     private $dateTimeFactory;
+
+    /** @var UniqueIdentityFactoryInterface */
     private $uniqueIdentityFactory;
 
     /**

@@ -18,7 +18,7 @@ abstract class AbstractEmbeddableFilterType extends AbstractFilterType implement
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return FormType::class;
     }

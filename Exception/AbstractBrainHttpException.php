@@ -9,12 +9,15 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 /**
- * {@inheritdoc}
+ * @deprecated
  */
 abstract class AbstractBrainHttpException extends AbstractBrainRuntimeException implements
     HttpExceptionInterface
 {
+    /** @var int */
     private $statusCode;
+
+    /** @var string[] */
     private $headers;
 
     /**

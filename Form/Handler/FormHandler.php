@@ -13,6 +13,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+use RuntimeException;
+
 /**
  * A better form handler.
  *
@@ -33,13 +35,27 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class FormHandler implements FormHandlerInterface
 {
+    /** @var Request */
     private $request;
+
+    /** @var FormFactory */
     private $factory;
+
+    /** @var StopwatchInterface */
     private $stopwatch;
 
     public function __construct(RequestStack $stack, FormFactory $factory, StopwatchInterface $stopwatch)
     {
-        $this->request = $stack->getCurrentRequest();
+        $current = $stack->getCurrentRequest();
+
+        if ($current === null) {
+            throw new RuntimeException(implode(' ', [
+                'The request stack must return a request!',
+                'Please make sure this code is called within the framework context!',
+            ]));
+        }
+
+        $this->request = $current;
         $this->factory = $factory;
         $this->stopwatch = $stopwatch;
     }
