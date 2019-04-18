@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Optional;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\Valid;
@@ -50,6 +51,14 @@ final class CommonValidatorFactory
         return new NotNull([
             'message' => CommonValidatorMessageEnum::MESSAGE_NOT_BLANK,
         ]);
+    }
+
+    /**
+     * Mark the field as optional.
+     */
+    public static function optional(): Optional
+    {
+        return new Optional();
     }
 
     /**
