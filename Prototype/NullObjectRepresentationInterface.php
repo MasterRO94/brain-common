@@ -9,5 +9,4 @@ namespace Brain\Common\Prototype;
  */
 interface NullObjectRepresentationInterface
 {
-
 }
