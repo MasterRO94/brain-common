@@ -275,9 +275,9 @@ final class PostCodeValidatorFormat
     /**
      * Return the postal code format.
      *
-     * @throws PostCodeFormatNotFoundException When the format does not exist.
-     *
      * @return string[]
+     *
+     * @throws PostCodeFormatNotFoundException When the format does not exist.
      */
     public static function getFormat(string $iso): array
     {

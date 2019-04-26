@@ -16,9 +16,9 @@ interface UpdatedAwareInterface
     /**
      * Return the updated date.
      *
-     * @throws PrototypeMethodException When updated date is not available.
-     *
      * @deprecated Use getUpdatedAt() instead.
+     *
+     * @throws PrototypeMethodException When updated date is not available.
      */
     public function getUpdated(): DateTimeInterface;
 

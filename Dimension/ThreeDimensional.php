@@ -19,26 +19,26 @@ use JMS\Serializer\Annotation as Serializer;
 final class ThreeDimensional implements ThreeDimensionalInterface
 {
     /**
-     * @var int
-     *
      * @Serializer\Expose()
      * @Serializer\Groups({"global"})
+     *
+     * @var int
      */
     protected $width;
 
     /**
-     * @var int
-     *
      * @Serializer\Expose()
      * @Serializer\Groups({"global"})
+     *
+     * @var int
      */
     protected $height;
 
     /**
-     * @var int
-     *
      * @Serializer\Expose()
      * @Serializer\Groups({"global"})
+     *
+     * @var int
      */
     protected $depth;
 

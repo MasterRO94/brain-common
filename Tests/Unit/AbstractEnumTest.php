@@ -35,9 +35,9 @@ abstract class AbstractEnumTest extends TestCase
     /**
      * Data provider.
      *
-     * @throws ReflectionException
-     *
      * @return mixed[]
+     *
+     * @throws ReflectionException
      */
     public function provideCheckAllConstantMentioned(): array
     {

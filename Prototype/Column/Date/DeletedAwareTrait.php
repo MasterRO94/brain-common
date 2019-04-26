@@ -19,9 +19,9 @@ trait DeletedAwareTrait
     /**
      * Return the deleted date.
      *
-     * @throws PrototypeMethodException When deleted date is not available.
-     *
      * @deprecated Use getDeletedAt() instead.
+     *
+     * @throws PrototypeMethodException When deleted date is not available.
      */
     public function getDeleted(): ?DateTimeInterface
     {

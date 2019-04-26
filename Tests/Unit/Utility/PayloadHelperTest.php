@@ -140,9 +140,9 @@ class PayloadHelperTest extends TestCase
      * @group unit
      * @group core
      *
-     * @covers \Brain\Common\Utility\PayloadHelper
-     *
      * @param mixed[] $expected
+     *
+     * @covers \Brain\Common\Utility\PayloadHelper
      */
     public function canHandleJsonStrings(string $json, array $expected): void
     {
