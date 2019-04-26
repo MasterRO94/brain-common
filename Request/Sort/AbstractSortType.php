@@ -70,7 +70,7 @@ abstract class AbstractSortType extends AbstractType
      */
     protected function embed(string $field, string $column, string $sort): void
     {
-        $listener = function (FormEvent $event) use ($field, $column, $sort): void {
+        $listener = static function (FormEvent $event) use ($field, $column, $sort): void {
             /** @var mixed[]|string $data */
             $data = $event->getData();
             $form = $event->getForm();
@@ -108,7 +108,7 @@ abstract class AbstractSortType extends AbstractType
         $choices = SortEnum::getAllValues();
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (ORMQuery $filter, string $field, array $values) use ($column, $choices): void {
+            'apply_filter' => static function (ORMQuery $filter, string $field, array $values) use ($column, $choices): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
@@ -133,7 +133,7 @@ abstract class AbstractSortType extends AbstractType
             'constraints' => [
                 new Assert\Choice([
                     'multiple' => false,
-                    'callback' => function () use ($choices) {
+                    'callback' => static function () use ($choices) {
                         $possible = $choices;
 
                         foreach ($choices as $choice) {

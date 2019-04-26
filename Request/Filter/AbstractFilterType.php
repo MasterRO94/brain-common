@@ -73,7 +73,7 @@ abstract class AbstractFilterType extends AbstractType
      */
     protected function embed(string $field, string $column, string $filter, bool $nullable): void
     {
-        $listener = function (FormEvent $event) use ($field, $column, $filter, $nullable): void {
+        $listener = static function (FormEvent $event) use ($field, $column, $filter, $nullable): void {
             /** @var array|string $data */
             $data = $event->getData();
             $form = $event->getForm();
@@ -105,7 +105,7 @@ abstract class AbstractFilterType extends AbstractType
 
                 // This form is simply going to run the query builder.
                 $form->add($field, TextFilterType::class, [
-                    'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column, $value): void {
+                    'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column, $value): void {
                         $alias = FilterDatabaseHelper::getAliasFromColumn($field);
                         $field = FilterDatabaseHelper::generateFieldName($alias, $column);
 
@@ -154,7 +154,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
@@ -178,7 +178,7 @@ abstract class AbstractFilterType extends AbstractType
 
         // Repair the data that is being sent.
         // In the cases where an array is not given we wrap the data in an array.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event): void {
             /** @var array|string|null $data */
             $data = $event->getData();
 
@@ -213,7 +213,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column, $choices, $modifier): void {
+            'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column, $choices, $modifier): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
@@ -282,7 +282,7 @@ abstract class AbstractFilterType extends AbstractType
 
         // Repair the data that is being sent.
         // In the cases where an array is not given we wrap the data in an array.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event): void {
             /** @var array|string|null $data */
             $data = $event->getData();
 
@@ -313,7 +313,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, DateWithinRangeFilterType::class, [
-            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): bool {
+            'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column): bool {
                 $value = $values['value'];
 
                 $alias = FilterDatabaseHelper::getAliasFromColumn($field);
@@ -408,7 +408,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 if (!FilterValueHelper::isValidSearchTerm($value)) {
@@ -448,7 +448,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 if (!FilterValueHelper::isValidInput($value)) {
@@ -472,7 +472,7 @@ abstract class AbstractFilterType extends AbstractType
         ]);
 
         // Standardise the data being sent.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event): void {
             /** @var string|null $data */
             $data = $event->getData();
 
@@ -501,7 +501,7 @@ abstract class AbstractFilterType extends AbstractType
         $column = $column ?: $field;
 
         $this->builder->add($field, TextFilterType::class, [
-            'apply_filter' => function (QueryInterface $filter, string $field, array $values) use ($column): void {
+            'apply_filter' => static function (QueryInterface $filter, string $field, array $values) use ($column): void {
                 $value = $values['value'] ?? '';
 
                 // The value can sometimes come through as a string.
@@ -539,7 +539,7 @@ abstract class AbstractFilterType extends AbstractType
 
         // Repair the data that is being sent.
         // In the cases where an array is not given we wrap the data in an array.
-        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+        $this->builder->get($field)->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event): void {
             /** @var array|string|null $data */
             $data = $event->getData();
 

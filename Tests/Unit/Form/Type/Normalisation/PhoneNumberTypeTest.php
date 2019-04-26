@@ -151,7 +151,7 @@ final class PhoneNumberTypeTest extends TypeTestCase
         $builder = $this->factory->createBuilder();
         $builder->add('number', PhoneNumberType::class, [
             'country_iso' => 'NL',
-            'country_iso_resolver' => function () {
+            'country_iso_resolver' => static function () {
                 return 'GB';
             },
         ]);
@@ -185,7 +185,7 @@ final class PhoneNumberTypeTest extends TypeTestCase
         $builder = $this->factory->createBuilder();
         $builder->add('iso', TextType::class);
         $builder->add('number', PhoneNumberType::class, [
-            'country_iso_resolver' => function (FormInterface $form) {
+            'country_iso_resolver' => static function (FormInterface $form) {
                 return $form->get('iso')->getData();
             },
         ]);

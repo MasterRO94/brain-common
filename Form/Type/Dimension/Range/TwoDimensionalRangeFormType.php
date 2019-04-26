@@ -41,7 +41,7 @@ final class TwoDimensionalRangeFormType extends AbstractType
         // A transformer needs to translate in coming instances to the one mentioned
         // in the configuration options for the form.
         $transformer = new CallbackTransformer(
-            function ($range) {
+            static function ($range) {
                 if (!$range instanceof TwoDimensionalRangeInterface) {
                     return new TwoDimensionalRangeFormModel();
                 }
@@ -56,7 +56,7 @@ final class TwoDimensionalRangeFormType extends AbstractType
 
                 return $model;
             },
-            function ($ignore) {
+            static function ($ignore) {
                 return $ignore;
             }
         );
@@ -72,7 +72,7 @@ final class TwoDimensionalRangeFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TwoDimensionalRangeFormModel::class,
-            'empty_data' => function () {
+            'empty_data' => static function () {
                 return new TwoDimensionalRangeFormModel();
             },
         ]);

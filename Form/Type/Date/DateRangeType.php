@@ -113,7 +113,7 @@ final class DateRangeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'empty_data' => function () {
+            'empty_data' => static function () {
                 return null;
             },
         ]);

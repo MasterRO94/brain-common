@@ -36,7 +36,7 @@ final class PostalCodeType extends AbstractType
          *
          * @param FormEvent $event
          */
-        $normaliser = function (FormEvent $event) use ($options): void {
+        $normaliser = static function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
             $data = $event->getData();
 
