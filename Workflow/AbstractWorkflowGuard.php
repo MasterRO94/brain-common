@@ -54,7 +54,7 @@ abstract class AbstractWorkflowGuard implements EventSubscriberInterface
     {
         $event->addTransitionBlocker(
             new TransitionBlocker(
-                get_called_class(),
+                static::class,
                 $canonical
             )
         );
