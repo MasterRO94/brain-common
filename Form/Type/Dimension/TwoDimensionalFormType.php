@@ -45,7 +45,7 @@ final class TwoDimensionalFormType extends AbstractType
         // A transformer needs to translate in coming instances to the one mentioned
         // in the configuration options for the form.
         $transformer = new CallbackTransformer(
-            function ($dimensional) {
+            static function ($dimensional) {
                 if (!$dimensional instanceof TwoDimensionalInterface) {
                     return new TwoDimensionalFormModel();
                 }
@@ -60,7 +60,7 @@ final class TwoDimensionalFormType extends AbstractType
 
                 return $model;
             },
-            function ($ignore) {
+            static function ($ignore) {
                 return $ignore;
             }
         );
@@ -76,7 +76,7 @@ final class TwoDimensionalFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TwoDimensionalFormModel::class,
-            'empty_data' => function () {
+            'empty_data' => static function () {
                 return new TwoDimensionalFormModel();
             },
         ]);

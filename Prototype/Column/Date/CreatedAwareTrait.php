@@ -19,9 +19,9 @@ trait CreatedAwareTrait
     /**
      * Return the created date.
      *
-     * @throws PrototypeMethodException When created date is not available.
-     *
      * @deprecated Use getCreatedAt() instead.
+     *
+     * @throws PrototypeMethodException When created date is not available.
      */
     public function getCreated(): DateTimeInterface
     {

@@ -58,7 +58,7 @@ abstract class AbstractDatabaseQuery
     final protected function runQueryForConnection(Connection $connection): ResultStatement
     {
         $sql = $this->build($connection);
-        $sql = sprintf("-- %s\n%s", get_called_class(), $sql);
+        $sql = sprintf("-- %s\n%s", static::class, $sql);
 
         try {
             return $connection->executeQuery($sql, $this->parameters, $this->parameterTypes);

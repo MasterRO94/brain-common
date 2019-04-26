@@ -16,11 +16,11 @@ interface DebugInterface
      * Things to consider representing are the id(s), if its persisted and various readable names.
      * Also information that is important to the context of the entity.
      *
+     * @see DebugHelper
+     *
      * @example User(id=xyz, email=bob@bob.com, name=Bob)
      * @example PrintDevice(id=xyz, manufacturer=Xeicon, model=T2000)
      * @example TwoDimensional{width=5, height=5}
-     *
-     * @see DebugHelper
      */
     public function toString(bool $short): string;
 

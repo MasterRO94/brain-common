@@ -57,7 +57,7 @@ abstract class AbstractWorkflowBuilder implements WorkflowBuilderInterface
      */
     final protected function expand(string $name, array $from, string $to): array
     {
-        return array_map(function ($from) use ($name, $to) {
+        return array_map(static function ($from) use ($name, $to) {
             return new Transition($name, $from, $to);
         }, $from);
     }

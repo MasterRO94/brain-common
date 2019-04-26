@@ -126,7 +126,7 @@ final class FormDataPreNormaliser
 
         // Validate the array is an array of column lookup definitions.
         // This will cause PHP errors and is expected.
-        array_walk($definitions, function (EntityLookupDefinition $definition): void {
+        array_walk($definitions, static function (EntityLookupDefinition $definition): void {
         });
 
         // Prepare the normalised array with all the mapped columns set as null.

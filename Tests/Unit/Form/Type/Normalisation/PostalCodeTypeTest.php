@@ -151,7 +151,7 @@ final class PostalCodeTypeTest extends TypeTestCase
         $builder = $this->factory->createBuilder();
         $builder->add('postcode', PostalCodeType::class, [
             'country_iso' => 'NL',
-            'country_iso_resolver' => function () {
+            'country_iso_resolver' => static function () {
                 return 'GB';
             },
         ]);
@@ -185,7 +185,7 @@ final class PostalCodeTypeTest extends TypeTestCase
         $builder = $this->factory->createBuilder();
         $builder->add('iso', TextType::class);
         $builder->add('postcode', PostalCodeType::class, [
-            'country_iso_resolver' => function (FormInterface $form) {
+            'country_iso_resolver' => static function (FormInterface $form) {
                 return $form->get('iso')->getData();
             },
         ]);

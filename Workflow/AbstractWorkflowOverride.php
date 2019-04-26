@@ -79,7 +79,7 @@ abstract class AbstractWorkflowOverride implements EventSubscriberInterface
             $event = sprintf(
                 'workflow.%s.%s.%s',
                 $workflow::getName(),
-                static::WORKFLOW_EVENT,
+                self::WORKFLOW_EVENT,
                 $transition
             );
             $events[$event] = [['handle']];
