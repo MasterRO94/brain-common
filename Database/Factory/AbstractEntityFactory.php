@@ -22,13 +22,6 @@ abstract class AbstractEntityFactory
     /** @var UniqueIdentityFactoryInterface */
     private $uniqueIdentityFactory;
 
-    /**
-     * Prepare the given entity.
-     *
-     * @return EntityInterface|EntityInterface
-     */
-    abstract public function prepare(EntityInterface $entity);
-
     public function __construct(
         string $entityClass,
         DateTimeFactoryInterface $dateTimeFactory,
@@ -41,8 +34,10 @@ abstract class AbstractEntityFactory
 
     /**
      * Construct an entity from a class name.
+     *
+     * @return mixed
      */
-    final public function construct(): EntityInterface
+    public function construct()
     {
         $class = $this->entityClass;
 
@@ -52,11 +47,21 @@ abstract class AbstractEntityFactory
     /**
      * Create and prepare a new instance.
      *
-     * @return EntityInterface|EntityInterface
+     * @return mixed
      */
     public function create()
     {
         return $this->prepare($this->construct());
+    }
+
+    /**
+     * Prepare the given entity.
+     *
+     * @return mixed
+     */
+    public function prepare(EntityInterface $entity)
+    {
+        return $entity;
     }
 
     /**

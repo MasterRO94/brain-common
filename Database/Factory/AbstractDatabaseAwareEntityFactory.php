@@ -10,8 +10,6 @@ use Brain\Common\Prototype\Column\Date\DeletedAwareInterface;
 use Brain\Common\Prototype\Column\Date\UpdatedAwareInterface;
 
 /**
- * {@inheritdoc}
- *
  * This factory implements some functionality based on the database column aware interfaces.
  */
 abstract class AbstractDatabaseAwareEntityFactory extends AbstractEntityFactory
@@ -19,7 +17,7 @@ abstract class AbstractDatabaseAwareEntityFactory extends AbstractEntityFactory
     /**
      * {@inheritdoc}
      */
-    public function prepare(EntityInterface $entity): EntityInterface
+    public function prepare(EntityInterface $entity)
     {
         $now = $this->getDateTimeFactory()->create();
 
@@ -35,6 +33,6 @@ abstract class AbstractDatabaseAwareEntityFactory extends AbstractEntityFactory
             $entity->setDeletedAt(null);
         }
 
-        return $entity;
+        return parent::prepare($entity);
     }
 }
