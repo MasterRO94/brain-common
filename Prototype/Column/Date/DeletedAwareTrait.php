@@ -13,7 +13,7 @@ use DateTimeInterface;
  */
 trait DeletedAwareTrait
 {
-    /** @var DateTimeInterface */
+    /** @var DateTimeInterface|null */
     protected $deleted;
 
     /**
@@ -35,7 +35,7 @@ trait DeletedAwareTrait
      */
     public function getDeletedAt(): ?DateTimeInterface
     {
-        if (!$this->hasDeleted()) {
+        if ($this->deleted === null) {
             throw PrototypeMethodException::createForDeletedDateMissing($this);
         }
 
