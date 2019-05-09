@@ -13,7 +13,7 @@ use DateTimeInterface;
  */
 trait CreatedAwareTrait
 {
-    /** @var DateTimeInterface */
+    /** @var DateTimeInterface|null */
     protected $created;
 
     /**
@@ -35,7 +35,7 @@ trait CreatedAwareTrait
      */
     public function getCreatedAt(): DateTimeInterface
     {
-        if (!$this->hasCreated()) {
+        if ($this->created === null) {
             throw PrototypeMethodException::createForCreatedDateMissing($this);
         }
 
