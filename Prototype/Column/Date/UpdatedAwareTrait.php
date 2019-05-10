@@ -13,7 +13,7 @@ use DateTimeInterface;
  */
 trait UpdatedAwareTrait
 {
-    /** @var DateTimeInterface */
+    /** @var DateTimeInterface|null */
     protected $updated;
 
     /**
@@ -35,7 +35,7 @@ trait UpdatedAwareTrait
      */
     public function getUpdatedAt(): DateTimeInterface
     {
-        if (!$this->hasUpdatedAt()) {
+        if ($this->updated === null) {
             throw PrototypeMethodException::createForUpdatedDateMissing($this);
         }
 
