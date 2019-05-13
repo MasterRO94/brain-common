@@ -19,7 +19,7 @@ abstract class AbstractDatabaseAwareEntityFactory extends AbstractEntityFactory
     /**
      * {@inheritdoc}
      */
-    public function prepare(EntityInterface $entity): EntityInterface
+    public function prepare(EntityInterface $entity)
     {
         $now = $this->getDateTimeFactory()->create();
 
