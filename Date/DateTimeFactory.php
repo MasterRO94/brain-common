@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brain\Common\Date;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 
 /**
@@ -20,5 +21,13 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     public function create(): DateTimeInterface
     {
         return new DateTime();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createImmutable(): DateTimeImmutable
+    {
+        return new DateTimeImmutable();
     }
 }
