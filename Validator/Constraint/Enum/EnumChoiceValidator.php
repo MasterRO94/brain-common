@@ -18,7 +18,7 @@ final class EnumChoiceValidator extends ConstraintValidator
 {
     /**
      * @param mixed $value
-     * @param EnumChoice $constraint
+     * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint): void
     {
@@ -34,6 +34,11 @@ final class EnumChoiceValidator extends ConstraintValidator
                 ->buildViolation(CommonValidatorMessageEnum::MESSAGE_TYPE_STRING)
                 ->addViolation();
 
+            return;
+        }
+
+        // This is a case that should never happen, but for type safety we check.
+        if (!($constraint instanceof EnumChoice)) {
             return;
         }
 
