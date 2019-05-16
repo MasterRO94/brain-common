@@ -17,7 +17,7 @@ final class CollectionHelper
     /**
      * Convert any collection-like in to an array collection.
      *
-     * @param Collection|mixed[]|Traversable $iterable
+     * @param mixed $iterable
      *
      * @return Collection|mixed[]
      */
