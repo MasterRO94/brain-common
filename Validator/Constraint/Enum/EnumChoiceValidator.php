@@ -17,7 +17,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 final class EnumChoiceValidator extends ConstraintValidator
 {
     /**
-     * @param string|null $value
+     * @param mixed $value
      * @param EnumChoice $constraint
      */
     public function validate($value, Constraint $constraint): void

@@ -7,8 +7,6 @@ namespace Brain\Common\Utility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Traversable;
-
 /**
  * A collection helper.
  */
@@ -17,7 +15,7 @@ final class CollectionHelper
     /**
      * Convert any collection-like in to an array collection.
      *
-     * @param Collection|mixed[]|Traversable $iterable
+     * @param mixed $iterable
      *
      * @return Collection|mixed[]
      */

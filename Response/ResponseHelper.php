@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\View\View;
+use RuntimeException;
 
 /**
  * A response helper for creating common view instances.
@@ -38,6 +39,10 @@ class ResponseHelper
     final public function generate(int $status, $data, array $groups = [], ?Request $request = null): View
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
+
+        if ($request === null) {
+            throw new RuntimeException('A request was expected!');
+        }
 
         return $this->responseFactory->view($request, $data, $groups, $status);
     }
