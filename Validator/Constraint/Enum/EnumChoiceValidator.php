@@ -18,7 +18,6 @@ final class EnumChoiceValidator extends ConstraintValidator
 {
     /**
      * @param mixed $value
-     * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint): void
     {
