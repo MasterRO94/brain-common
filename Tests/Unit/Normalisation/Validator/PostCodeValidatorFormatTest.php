@@ -39,7 +39,6 @@ final class PostCodeValidatorFormatTest extends TestCase
     {
         $formats = PostCodeValidatorFormat::getFormat('AE');
 
-        self::assertInternalType('array', $formats);
         self::assertCount(0, $formats);
     }
 

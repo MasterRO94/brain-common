@@ -16,11 +16,10 @@ final class DebugHelper
     /**
      * Return the entity in a debug representation.
      *
-     * @example ClassName(id=123, k=v, ...)
-     *
      * @param mixed $entity
-     *
      * @param mixed[] $data
+     *
+     * @example ClassName(id=123, k=v, ...)
      */
     public static function represent($entity, array $data, bool $short = false): string
     {
