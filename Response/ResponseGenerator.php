@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\View\View;
+use RuntimeException;
 
 /**
  * A response generator helper.
@@ -37,6 +38,10 @@ final class ResponseGenerator
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
+        if ($request === null) {
+            throw new RuntimeException('A request was expected!');
+        }
+
         return $this->responseFactory->view($request, $data, $groups, $status);
     }
 
@@ -49,6 +54,10 @@ final class ResponseGenerator
     public function generateResponse(int $status, $data, array $groups = [], ?Request $request = null): Response
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
+
+        if ($request === null) {
+            throw new RuntimeException('A request was expected!');
+        }
 
         $view = $this->responseFactory->view($request, $data, $groups, $status);
 

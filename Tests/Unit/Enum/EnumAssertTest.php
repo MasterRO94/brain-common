@@ -39,6 +39,8 @@ final class EnumAssertTest extends TestCase
     {
         EnumAssert::validate(ExampleTestFixtureEnum::class, 'valid');
 
-        self::assertTrue(true);
+        /** @var mixed $mixed */
+        $mixed = true;
+        self::assertTrue($mixed);
     }
 }
