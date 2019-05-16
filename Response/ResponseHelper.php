@@ -39,6 +39,10 @@ class ResponseHelper
     {
         $request = $request ?: $this->requestStack->getCurrentRequest();
 
+        if ($request === null) {
+            throw new \RuntimeException('A request was expected!');
+        }
+
         return $this->responseFactory->view($request, $data, $groups, $status);
     }
 
