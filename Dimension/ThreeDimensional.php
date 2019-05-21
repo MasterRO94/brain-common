@@ -4,51 +4,25 @@ declare(strict_types=1);
 
 namespace Brain\Common\Dimension;
 
-use JMS\Serializer\Annotation as Serializer;
+use Brain\Common\Debug\DebugTrait;
 
 /**
- * @Serializer\ExclusionPolicy("ALL")
- * @Serializer\AccessorOrder(
- *   order="custom",
- *   custom={
- *     "width",
- *     "height"
- *   }
- * )
+ * {@inheritdoc}
  */
-final class ThreeDimensional implements ThreeDimensionalInterface
+final class ThreeDimensional implements
+    ThreeDimensionalInterface
 {
-    /**
-     * @Serializer\Expose()
-     * @Serializer\Groups({"global"})
-     *
-     * @var int
-     */
+    use DebugTrait;
+
+    /** @var int */
     protected $width;
 
-    /**
-     * @Serializer\Expose()
-     * @Serializer\Groups({"global"})
-     *
-     * @var int
-     */
+    /** @var int */
     protected $height;
 
-    /**
-     * @Serializer\Expose()
-     * @Serializer\Groups({"global"})
-     *
-     * @var int
-     */
+    /** @var int */
     protected $depth;
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param int $width
-     * @param int $height
-     * @param int $depth
-     */
     public function __construct(int $width, int $height, int $depth)
     {
         $this->width = $width;
@@ -57,7 +31,7 @@ final class ThreeDimensional implements ThreeDimensionalInterface
     }
 
     /**
-     * Return the width in millimeters (mm).
+     * {@inheritdoc}
      */
     public function getWidth(): int
     {
@@ -65,7 +39,7 @@ final class ThreeDimensional implements ThreeDimensionalInterface
     }
 
     /**
-     * Return the height in millimeters (mm).
+     * {@inheritdoc}
      */
     public function getHeight(): int
     {
@@ -73,10 +47,30 @@ final class ThreeDimensional implements ThreeDimensionalInterface
     }
 
     /**
-     * Return the depth in millimeters (mm).
+     * {@inheritdoc}
      */
     public function getDepth(): int
     {
         return $this->depth;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSquare(): bool
+    {
+        return $this->width === $this->height;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function toStringParameters(): array
+    {
+        return [
+            'width' => $this->getWidth(),
+            'height' => $this->getHeight(),
+            'depth' => $this->getDepth(),
+        ];
     }
 }
