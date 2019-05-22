@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum;
 
+use Brain\Common\Enum\Exception\EmptyEnumException;
 use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 
@@ -51,7 +52,13 @@ abstract class AbstractEnum
      */
     final public static function getAllValues(): array
     {
-        return array_filter(array_values(static::getValues()));
+        $values = array_filter(array_values(static::getValues()));
+
+        if ($values === []) {
+            throw EmptyEnumException::create(static::class);
+        }
+
+        return $values;
     }
 
     /**

@@ -11,11 +11,9 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
- * {@inheritdoc}
- *
  * Tests enum classes for you.
  */
-abstract class AbstractEnumTest extends TestCase
+abstract class AbstractEnumTestCase extends TestCase
 {
     /**
      * Return the enum class for testing.

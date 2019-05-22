@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Tests\Unit\Enum;
 
+use Brain\Common\Enum\AbstractEnum;
+use Brain\Common\Enum\Exception\EmptyEnumException;
 use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Tests\Fixture\Enum\ExampleTestFixtureEnum;
@@ -15,8 +17,42 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers \Brain\Common\Enum\AbstractEnum
  */
-final class AbstractEnumTest extends TestCase
+final class EnumTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function withEmptyValuesThrow(): void
+    {
+        $enum = new class extends AbstractEnum {
+            /**
+             * {@inheritdoc}
+             */
+            protected static function getTranslationPrefix(): string
+            {
+                return '';
+            }
+
+            /**
+             * {@inheritdoc}
+             */
+            protected static function getValues(): array
+            {
+                return [];
+            }
+        };
+
+        self::expectException(EmptyEnumException::class);
+        self::expectExceptionMessage(
+            implode(' ', [
+                'An enum has no values, please make sure the enum is configured correctly.',
+                sprintf('The offending enum is: %s', get_class($enum)),
+            ])
+        );
+
+        $enum::getAllValues();
+    }
+
     /**
      * @test
      */
