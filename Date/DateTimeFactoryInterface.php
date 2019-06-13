@@ -11,6 +11,8 @@ interface DateTimeFactoryInterface
 {
     /**
      * Create a new date.
+     *
+     * @deprecated Please consider using immutable instances instead.
      */
     public function create(): DateTimeInterface;
 
