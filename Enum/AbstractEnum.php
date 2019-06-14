@@ -8,6 +8,8 @@ use Brain\Common\Enum\Exception\EmptyEnumException;
 use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Helper\LegacyEnumHelper;
+use Brain\Common\Enum\Type\Implementation\AbstractIntegerEnum;
+use Brain\Common\Enum\Type\Implementation\AbstractIntegerTranslationEnum;
 use Brain\Common\Enum\Type\Implementation\AbstractStringEnum;
 use Brain\Common\Enum\Type\Implementation\AbstractStringTranslationEnum;
 
@@ -20,6 +22,8 @@ use RuntimeException;
  *
  * @see AbstractStringEnum
  * @see AbstractStringTranslationEnum
+ * @see AbstractIntegerEnum
+ * @see AbstractIntegerTranslationEnum
  */
 abstract class AbstractEnum implements
     EnumInterface,
@@ -106,6 +110,7 @@ abstract class AbstractEnum implements
     /**
      * Revert a translated canonical value to its value.
      *
+     * @throws ValueInvalidForEnumException
      * @throws TranslationInvalidForEnumException
      */
     final public static function valueFromTranslation(string $translation): string
