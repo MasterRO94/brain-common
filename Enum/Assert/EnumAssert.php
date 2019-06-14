@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Enum;
+namespace Brain\Common\Enum\Assert;
 
+use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 
 /**
@@ -14,18 +15,20 @@ final class EnumAssert
     /**
      * Validate that the value is allowed for the given enum.
      *
+     * @param string|int $value
+     *
      * @throws ValueInvalidForEnumException
      */
-    public static function validate(string $enum, string $value): void
+    public static function validate(string $enum, $value): void
     {
-        /** @var AbstractEnum $class */
+        /** @var EnumInterface $class */
         $class = $enum;
 
-        if ($class::isValidValue($value)) {
+        if ($class::has($value)) {
             return;
         }
 
-        $values = $class::getAllValues();
+        $values = $class::all();
 
         throw ValueInvalidForEnumException::create($enum, $value, $values);
     }

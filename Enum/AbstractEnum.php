@@ -7,11 +7,23 @@ namespace Brain\Common\Enum;
 use Brain\Common\Enum\Exception\EmptyEnumException;
 use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
+use Brain\Common\Enum\Helper\LegacyEnumHelper;
+use Brain\Common\Enum\Type\Implementation\AbstractStringEnum;
+use Brain\Common\Enum\Type\Implementation\AbstractStringTranslationEnum;
+
+use RuntimeException;
 
 /**
  * An abstract ENUM class mainly for use with database columns and translation.
+ *
+ * @deprecated
+ *
+ * @see AbstractStringEnum
+ * @see AbstractStringTranslationEnum
  */
-abstract class AbstractEnum
+abstract class AbstractEnum implements
+    EnumInterface,
+    EnumTranslationInterface
 {
     /**
      * Return the translation prefix.
@@ -74,9 +86,11 @@ abstract class AbstractEnum
     /**
      * Return the translated value.
      *
+     * @param string $value
+     *
      * @throws ValueInvalidForEnumException
      */
-    final public static function translate(string $value): string
+    final public static function translate($value): string
     {
         $mapping = static::getMapping();
 
@@ -94,35 +108,46 @@ abstract class AbstractEnum
      *
      * @throws TranslationInvalidForEnumException
      */
-    final public static function value(string $translation): string
+    final public static function valueFromTranslation(string $translation): string
     {
-        $mapping = array_flip(static::getMapping());
+        /** @var string $value */
+        $value = LegacyEnumHelper::getValueFromTranslation(static::class, $translation);
 
-        if (isset($mapping[$translation]) === false) {
-            $translations = static::getAllTranslations();
-
-            throw TranslationInvalidForEnumException::create(static::class, $translation, $translations);
-        }
-
-        return $mapping[$translation];
+        return $value;
     }
 
     /**
-     * Check if the value given is in the enum.
+     * @return string[]
      */
-    final public static function isValidValue(string $value): bool
+    public static function all(bool $sort = false): array
+    {
+        /** @var string[] $values */
+        $values = static::getValues();
+
+        return $values;
+    }
+
+    /**
+     * @param string $value
+     */
+    public static function has($value): bool
     {
         return in_array($value, static::getAllValues(), true);
     }
 
     /**
-     * Check if the value given is in the enum as a translation.
-     * This is more for legacy enum uses where translations were used as form values.
-     *
-     * @deprecated This should not be needed. Translations should only be used one-way.
+     * {@inheritdoc}
      */
-    final public static function isValidTranslation(string $value): bool
+    public function value()
     {
-        return in_array($value, static::getAllTranslations(), true);
+        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function translation(): string
+    {
+        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
     }
 }

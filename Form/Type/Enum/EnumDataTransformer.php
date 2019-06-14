@@ -78,13 +78,13 @@ final class EnumDataTransformer implements
         // Legacy mode attempt to translate to a value.
         if ($this->legacy === true) {
             try {
-                $value = $enum::value($value);
+                $value = $enum::valueFromTranslation($value);
             } catch (TranslationInvalidForEnumException $exception) {
                 // Ignore.
             }
         }
 
-        if ($enum::isValidValue($value)) {
+        if ($enum::has($value)) {
             return $value;
         }
 
