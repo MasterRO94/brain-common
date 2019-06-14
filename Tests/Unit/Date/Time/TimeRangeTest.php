@@ -84,7 +84,7 @@ final class TimeRangeTest extends TestCase
      *
      * @return mixed[]
      */
-    public function provideCanCheckTimeWithinTimeRange(): array
+    public function provideCanCheckTimeWithinTimeRangeInclusive(): array
     {
         // First value is lower, second is higher, third is comparison.
         return [
@@ -112,7 +112,7 @@ final class TimeRangeTest extends TestCase
 
     /**
      * @test
-     * @dataProvider provideCanCheckTimeWithinTimeRange
+     * @dataProvider provideCanCheckTimeWithinTimeRangeInclusive
      *
      * @throws TimeInvalidHourException
      * @throws TimeInvalidMinuteException
@@ -120,7 +120,7 @@ final class TimeRangeTest extends TestCase
      * @throws TimeInvalidStringFormatException
      * @throws TimeRangeInvalidException
      */
-    public function canCheckTimeWithinTimeRange(bool $expected, string $lower, string $higher, string $comparison): void
+    public function canCheckTimeWithinTimeRangeInclusive(bool $expected, string $lower, string $higher, string $comparison): void
     {
         $a = Time::createFromStringFull($lower);
         $b = Time::createFromStringFull($higher);
@@ -128,7 +128,7 @@ final class TimeRangeTest extends TestCase
 
         $range = new TimeRange($a, $b);
 
-        $response = $range->isWithin($c);
+        $response = $range->isWithin($c, true);
 
         self::assertEquals($expected, $response);
     }
@@ -182,7 +182,211 @@ final class TimeRangeTest extends TestCase
 
         $range = new TimeRange($a, $b);
 
-        $response = $range->isWithinExclusive($c);
+        $response = $range->isWithin($c, false);
+
+        self::assertEquals($expected, $response);
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCheckTimeRangeWithinInclusive(): array
+    {
+        // First two values are range 1, second two are range 2.
+        return [
+            'zero' => [true, '00:00:00', '00:00:00', '00:00:00', '00:00:00'],
+
+            'within' => [true, '10:00:00', '20:00:00', '15:00:00', '16:00:00'],
+            'within-higher' => [true, '10:00:00', '20:00:00', '15:00:00', '20:00:00'],
+            'within-higher-exclusive' => [true, '10:00:00', '20:00:00', '15:00:00', '19:59:59'],
+            'within-lower' => [true, '10:00:00', '20:00:00', '10:00:00', '15:00:00'],
+            'within-lower-exclusive' => [true, '10:00:00', '20:00:00', '10:00:01', '15:00:00'],
+
+            'overlap-higher' => [false, '10:00:00', '20:00:00', '19:00:00', '21:00:00'],
+            'overlap-higher-inclusive' => [false, '10:00:00', '20:00:00', '20:00:00', '21:00:00'],
+            'overlap-lower' => [false, '10:00:00', '20:00:00', '09:00:00', '11:00:00'],
+            'overlap-lower-inclusive' => [false, '10:00:00', '20:00:00', '09:00:00', '10:00:00'],
+
+            'outside-lower' => [false, '10:00:00', '20:00:00', '01:00:00', '02:00:00'],
+            'outside-higher' => [false, '10:00:00', '20:00:00', '22:00:00', '23:00:00'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCheckTimeRangeWithinInclusive
+     *
+     * @throws TimeInvalidHourException
+     * @throws TimeInvalidMinuteException
+     * @throws TimeInvalidSecondException
+     * @throws TimeInvalidStringFormatException
+     * @throws TimeRangeInvalidException
+     */
+    public function canCheckTimeRangeWithinInclusive(bool $expected, string $a1, string $a2, string $b1, string $b2): void
+    {
+        $a1 = Time::createFromStringFull($a1);
+        $a2 = Time::createFromStringFull($a2);
+        $b1 = Time::createFromStringFull($b1);
+        $b2 = Time::createFromStringFull($b2);
+
+        $a = new TimeRange($a1, $a2);
+        $b = new TimeRange($b1, $b2);
+
+        $response = $a->isRangeWithin($b, true);
+
+        self::assertEquals($expected, $response);
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCheckTimeRangeWithinExclusive(): array
+    {
+        // First two values are range 1, second two are range 2.
+        return [
+            'zero' => [false, '00:00:00', '00:00:00', '00:00:00', '00:00:00'],
+
+            'within' => [true, '10:00:00', '20:00:00', '15:00:00', '16:00:00'],
+            'within-higher' => [false, '10:00:00', '20:00:00', '15:00:00', '20:00:00'],
+            'within-higher-exclusive' => [true, '10:00:00', '20:00:00', '15:00:00', '19:59:59'],
+            'within-lower' => [false, '10:00:00', '20:00:00', '10:00:00', '15:00:00'],
+            'within-lower-exclusive' => [true, '10:00:00', '20:00:00', '10:00:01', '15:00:00'],
+
+            'overlap-higher' => [false, '10:00:00', '20:00:00', '19:00:00', '21:00:00'],
+            'overlap-higher-inclusive' => [false, '10:00:00', '20:00:00', '20:00:00', '21:00:00'],
+            'overlap-lower' => [false, '10:00:00', '20:00:00', '09:00:00', '11:00:00'],
+            'overlap-lower-inclusive' => [false, '10:00:00', '20:00:00', '09:00:00', '10:00:00'],
+
+            'outside-lower' => [false, '10:00:00', '20:00:00', '01:00:00', '02:00:00'],
+            'outside-higher' => [false, '10:00:00', '20:00:00', '22:00:00', '23:00:00'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCheckTimeRangeWithinExclusive
+     *
+     * @throws TimeInvalidHourException
+     * @throws TimeInvalidMinuteException
+     * @throws TimeInvalidSecondException
+     * @throws TimeInvalidStringFormatException
+     * @throws TimeRangeInvalidException
+     */
+    public function canCheckTimeRangeWithinExclusive(bool $expected, string $a1, string $a2, string $b1, string $b2): void
+    {
+        $a1 = Time::createFromStringFull($a1);
+        $a2 = Time::createFromStringFull($a2);
+        $b1 = Time::createFromStringFull($b1);
+        $b2 = Time::createFromStringFull($b2);
+
+        $a = new TimeRange($a1, $a2);
+        $b = new TimeRange($b1, $b2);
+
+        $response = $a->isRangeWithin($b, false);
+
+        self::assertEquals($expected, $response);
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCheckTimeRangeOverlapInclusive(): array
+    {
+        // First two values are range 1, second two are range 2.
+        return [
+            'zero' => [true, '00:00:00', '00:00:00', '00:00:00', '00:00:00'],
+
+            'within' => [true, '10:00:00', '20:00:00', '15:00:00', '16:00:00'],
+            'within-higher' => [true, '10:00:00', '20:00:00', '15:00:00', '20:00:00'],
+            'within-lower' => [true, '10:00:00', '20:00:00', '10:00:00', '15:00:00'],
+
+            'overlap-higher' => [true, '10:00:00', '20:00:00', '19:00:00', '21:00:00'],
+            'overlap-higher-inclusive' => [true, '10:00:00', '20:00:00', '20:00:00', '21:00:00'],
+            'overlap-lower' => [true, '10:00:00', '20:00:00', '09:00:00', '11:00:00'],
+            'overlap-lower-inclusive' => [true, '10:00:00', '20:00:00', '09:00:00', '10:00:00'],
+
+            'outside-lower' => [false, '10:00:00', '20:00:00', '01:00:00', '02:00:00'],
+            'outside-higher' => [false, '10:00:00', '20:00:00', '22:00:00', '23:00:00'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCheckTimeRangeOverlapInclusive
+     *
+     * @throws TimeInvalidHourException
+     * @throws TimeInvalidMinuteException
+     * @throws TimeInvalidSecondException
+     * @throws TimeInvalidStringFormatException
+     * @throws TimeRangeInvalidException
+     */
+    public function canCheckTimeRangeOverlapInclusive(bool $expected, string $a1, string $a2, string $b1, string $b2): void
+    {
+        $a1 = Time::createFromStringFull($a1);
+        $a2 = Time::createFromStringFull($a2);
+        $b1 = Time::createFromStringFull($b1);
+        $b2 = Time::createFromStringFull($b2);
+
+        $a = new TimeRange($a1, $a2);
+        $b = new TimeRange($b1, $b2);
+
+        $response = $a->isOverlapping($b, true);
+
+        self::assertEquals($expected, $response);
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCheckTimeRangeOverlapExclusive(): array
+    {
+        // First two values are range 1, second two are range 2.
+        return [
+            'zero' => [false, '00:00:00', '00:00:00', '00:00:00', '00:00:00'],
+
+            'within' => [true, '10:00:00', '20:00:00', '15:00:00', '16:00:00'],
+            'within-higher' => [true, '10:00:00', '20:00:00', '15:00:00', '20:00:00'],
+            'within-lower' => [true, '10:00:00', '20:00:00', '10:00:00', '15:00:00'],
+
+            'overlap-higher' => [true, '10:00:00', '20:00:00', '19:00:00', '21:00:00'],
+            'overlap-higher-inclusive' => [false, '10:00:00', '20:00:00', '20:00:00', '21:00:00'],
+            'overlap-lower' => [true, '10:00:00', '20:00:00', '09:00:00', '11:00:00'],
+            'overlap-lower-inclusive' => [false, '10:00:00', '20:00:00', '09:00:00', '10:00:00'],
+
+            'outside-lower' => [false, '10:00:00', '20:00:00', '01:00:00', '02:00:00'],
+            'outside-higher' => [false, '10:00:00', '20:00:00', '22:00:00', '23:00:00'],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCheckTimeRangeOverlapExclusive
+     *
+     * @throws TimeInvalidHourException
+     * @throws TimeInvalidMinuteException
+     * @throws TimeInvalidSecondException
+     * @throws TimeInvalidStringFormatException
+     * @throws TimeRangeInvalidException
+     */
+    public function canCheckTimeRangeOverlapExclusive(bool $expected, string $a1, string $a2, string $b1, string $b2): void
+    {
+        $a1 = Time::createFromStringFull($a1);
+        $a2 = Time::createFromStringFull($a2);
+        $b1 = Time::createFromStringFull($b1);
+        $b2 = Time::createFromStringFull($b2);
+
+        $a = new TimeRange($a1, $a2);
+        $b = new TimeRange($b1, $b2);
+
+        $response = $a->isOverlapping($b, false);
 
         self::assertEquals($expected, $response);
     }
