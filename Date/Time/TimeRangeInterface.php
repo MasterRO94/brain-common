@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Date\Time;
+
+use Brain\Common\Representation\Type\StringRepresentationInterface;
 
 /**
  * A range of time.
  */
-interface TimeRangeInterface
+interface TimeRangeInterface extends
+    StringRepresentationInterface
 {
     /**
      * Return the lower boundary.

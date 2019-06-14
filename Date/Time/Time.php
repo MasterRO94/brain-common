@@ -179,20 +179,7 @@ final class Time implements
     }
 
     /**
-     * Return this object as an integer.
-     *
-     * The representation for a time as integer is a timestamp.
-     * The value should be the valid amount of seconds this time consists of.
-     * There are 86400 seconds in a day, but this number is zero based so 86399 is the highest value.
-     */
-    public function toInteger(): int
-    {
-        // Using the beginning of the epoch as the date, then we should be able to get seconds from that.
-        return gmmktime($this->hour, $this->minute, $this->second, 1, 1, 1970);
-    }
-
-    /**
-     * Return this object in string representation.
+     * {@inheritdoc}
      */
     public function toString(): string
     {
@@ -202,5 +189,18 @@ final class Time implements
             $this->minute,
             $this->second
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * The representation for a time as integer is a timestamp.
+     * The value should be the valid amount of seconds this time consists of.
+     * There are 86400 seconds in a day, but this number is zero based so 86399 is the highest value.
+     */
+    public function toInteger(): int
+    {
+        // Using the beginning of the epoch as the date, then we should be able to get seconds from that.
+        return gmmktime($this->hour, $this->minute, $this->second, 1, 1, 1970);
     }
 }

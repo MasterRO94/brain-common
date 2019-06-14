@@ -1,11 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Date\Time;
+
+use Brain\Common\Representation\Type\IntegerRepresentationInterface;
+use Brain\Common\Representation\Type\StringRepresentationInterface;
 
 /**
  * An instance of time.
  */
-interface TimeInterface
+interface TimeInterface extends
+    StringRepresentationInterface,
+    IntegerRepresentationInterface
 {
     /**
      * Return the hour.

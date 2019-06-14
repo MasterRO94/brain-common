@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Date\Exception\Time;
 
-use Brain\Common\Date\Time\Time;
-
 use Brain\Common\Date\Time\TimeInterface;
+
 use Exception;
 
 final class TimeRangeInvalidException extends Exception

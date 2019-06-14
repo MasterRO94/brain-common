@@ -84,7 +84,7 @@ final class TimeRange implements
     }
 
     /**
-     * Return this object in string representation.
+     * {@inheritdoc}
      */
     public function toString(): string
     {
