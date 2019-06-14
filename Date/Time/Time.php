@@ -11,12 +11,16 @@ use Brain\Common\Date\Exception\Time\TimeInvalidSecondException;
 use Brain\Common\Date\Exception\Time\TimeInvalidStringFormatException;
 use Brain\Common\Regex\RegexMatch;
 
+use Brain\Common\Representation\Type\IntegerRepresentationInterface;
+use Brain\Common\Representation\Type\StringRepresentationInterface;
 use DateTimeInterface;
 
 /**
  * An instance of time.
  */
-final class Time
+final class Time implements
+    StringRepresentationInterface,
+    IntegerRepresentationInterface
 {
     private const TIME_STRING_REGEX_FULL = '/[0-2]\d:[0-5]\d:[0-5]\d/';
     private const TIME_STRING_REGEX_SHORT = '/[0-2]\d:[0-5]\d/';
@@ -153,19 +157,6 @@ final class Time
     }
 
     /**
-     * Return this object as an integer.
-     *
-     * The representation for a time as integer is a timestamp.
-     * The value should be the valid amount of seconds this time consists of.
-     * There are 86400 seconds in a day, but this number is zero based so 86399 is the highest value.
-     */
-    public function toInteger(): int
-    {
-        // Using the beginning of the epoch as the date, then we should be able to get seconds from that.
-        return gmmktime($this->hour, $this->minute, $this->second, 1, 1, 1970);
-    }
-
-    /**
      * Check if this instance is greater than the given time.
      */
     public function isGreaterThan(Time $time): bool
@@ -191,7 +182,20 @@ final class Time
     }
 
     /**
-     * Return this object in string representation.
+     * {@inheritdoc}
+     *
+     * The representation for a time as integer is a timestamp.
+     * The value should be the valid amount of seconds this time consists of.
+     * There are 86400 seconds in a day, but this number is zero based so 86399 is the highest value.
+     */
+    public function toInteger(): int
+    {
+        // Using the beginning of the epoch as the date, then we should be able to get seconds from that.
+        return gmmktime($this->hour, $this->minute, $this->second, 1, 1, 1970);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function toString(): string
     {

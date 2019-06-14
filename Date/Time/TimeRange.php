@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Brain\Common\Date\Time;
 
 use Brain\Common\Date\Exception\Time\TimeRangeInvalidException;
+use Brain\Common\Representation\Type\StringRepresentationInterface;
 
 /**
  * A time range.
  */
-final class TimeRange
+final class TimeRange implements
+    StringRepresentationInterface
 {
     /** @var Time */
     private $lower;
@@ -95,7 +97,7 @@ final class TimeRange
     }
 
     /**
-     * Return this object in string representation.
+     * {@inheritdoc}
      */
     public function toString(): string
     {
