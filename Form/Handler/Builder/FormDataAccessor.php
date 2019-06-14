@@ -6,8 +6,6 @@ namespace Brain\Common\Form\Handler\Builder;
 
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-use Throwable;
-
 /**
  * {@inheritdoc}
  */
@@ -15,16 +13,18 @@ final class FormDataAccessor extends PropertyAccessor
 {
     /**
      * {@inheritdoc}
-     *
-     * Override to catch fatal exceptions when trying to set null.
      */
     public function setValue(&$objectOrArray, $propertyPath, $value): void
     {
         try {
             parent::setValue($objectOrArray, $propertyPath, $value);
 
-            // @todo change to \TypeError
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
+            // @todo this prevents calls to setFooBar(SomeClass $fooBar) with
+            // null from crashing the app, but delivery time frame forms rely
+            // on this being here as well, e.g. @see
+            // \Brain\Bundle\Delivery\Form\Type\DeliveryServiceDeliveryFinishTimeConfigurationFormType::buildForm
+            // \Brain\Bundle\Job\Form\Type\UpdateJobBatchBatchDeliveryFormType::setFormDataInJobBatch
             return;
         }
     }
