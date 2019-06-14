@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Date\Weekday;
+namespace Brain\Common\Date\OpeningTime;
 
 use Brain\Common\Date\Enum\WeekdayEnum;
 use Brain\Common\Date\Time\Time;
