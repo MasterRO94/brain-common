@@ -133,7 +133,7 @@ final class EnumTest extends TestCase
             'Please make sure its one of the following: prefix.valid, prefix.normal',
         ]));
 
-        ExampleTestFixtureEnum::value('asdf');
+        ExampleTestFixtureEnum::valueFromTranslation('asdf');
     }
 
     /**
@@ -141,7 +141,7 @@ final class EnumTest extends TestCase
      */
     public function canValueTranslation(): void
     {
-        $value = ExampleTestFixtureEnum::value('prefix.valid');
+        $value = ExampleTestFixtureEnum::valueFromTranslation('prefix.valid');
 
         self::assertEquals('valid', $value);
     }
