@@ -33,4 +33,11 @@ interface IntegerEnumInterface extends
      * Return the enum value.
      */
     public function value(): int;
+
+    /**
+     * Check the value matches the given enum value
+     *
+     * @param int $value
+     */
+    public function isValue($value): bool;
 }

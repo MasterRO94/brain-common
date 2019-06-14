@@ -155,4 +155,20 @@ abstract class AbstractEnum implements
     {
         throw new RuntimeException('This method is not supported on this enum as its deprecated.');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is(EnumInterface $value): bool
+    {
+        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isValue($value): bool
+    {
+        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+    }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum\Type\Implementation;
 
+use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Type\StringEnumInterface;
 
@@ -63,5 +64,25 @@ abstract class AbstractStringEnum implements
     final public function value(): string
     {
         return $this->value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is(EnumInterface $value): bool
+    {
+        if (!($value instanceof $this)) {
+            return false;
+        }
+
+        return $this->value === $value->value();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isValue($value): bool
+    {
+        return $this->value === $value;
     }
 }
