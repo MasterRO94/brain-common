@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum\Type\Implementation;
 
+use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Type\IntegerEnumInterface;
 
@@ -63,5 +64,25 @@ abstract class AbstractIntegerEnum implements
     final public function value(): int
     {
         return $this->value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is(EnumInterface $value): bool
+    {
+        if (!($value instanceof $this)) {
+            return false;
+        }
+
+        return $this->value === $value->value();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isValue($value): bool
+    {
+        return $this->value === $value;
     }
 }

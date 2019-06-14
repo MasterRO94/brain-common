@@ -29,4 +29,18 @@ interface EnumInterface
      * @return string|int
      */
     public function value();
+
+    /**
+     * Check this matches the given enum.
+     *
+     * This is essentially a wrapper around the {@link isValue()} method.
+     */
+    public function is(EnumInterface $value): bool;
+
+    /**
+     * Check the value matches the given enum value
+     *
+     * @param string|int $value
+     */
+    public function isValue($value): bool;
 }

@@ -33,4 +33,11 @@ interface StringEnumInterface extends
      * Return the enum value.
      */
     public function value(): string;
+
+    /**
+     * Check the value matches the given enum value
+     *
+     * @param string $value
+     */
+    public function isValue($value): bool;
 }

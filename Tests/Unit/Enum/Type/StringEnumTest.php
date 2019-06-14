@@ -6,7 +6,7 @@ namespace Brain\Common\Tests\Unit\Enum\Type;
 
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Type\Implementation\AbstractStringEnum;
-use Brain\Common\Enum\Type\Implementation\AbstractStringTranslationEnum;
+use Brain\Common\Tests\Fixture\Enum\Type\StringEnumTestFixture;
 
 use PHPUnit\Framework\TestCase;
 
@@ -22,43 +22,25 @@ final class StringEnumTest extends TestCase
 {
     /**
      * @test
+     *
+     * @throws ValueInvalidForEnumException
      */
     public function withInvalidValueConstructThrows(): void
     {
         self::expectException(ValueInvalidForEnumException::class);
         self::expectExceptionMessageRegExp('/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: foo, bar/');
 
-        new class('tony') extends AbstractStringEnum {
-            /**
-             * {@inheritdoc}
-             */
-            protected static function values(): array
-            {
-                return [
-                    'foo',
-                    'bar',
-                ];
-            }
-        };
+        new StringEnumTestFixture('tony');
     }
 
     /**
      * @test
+     *
+     * @throws ValueInvalidForEnumException
      */
     public function canConstructBasicStringEnum(): void
     {
-        $enum = new class('foo') extends AbstractStringEnum {
-            /**
-             * {@inheritdoc}
-             */
-            protected static function values(): array
-            {
-                return [
-                    'foo',
-                    'bar',
-                ];
-            }
-        };
+        $enum = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
 
         self::assertEquals('foo', $enum->value());
         self::assertTrue($enum::has('foo'));
@@ -81,29 +63,10 @@ final class StringEnumTest extends TestCase
      */
     public function canTranslateStringEnum(): void
     {
-        $enum = new class('foo') extends AbstractStringTranslationEnum {
-            /**
-             * {@inheritdoc}
-             */
-            protected static function values(): array
-            {
-                return [
-                    'foo',
-                    'bar',
-                ];
-            }
+        $enum = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
 
-            /**
-             * {@inheritdoc}
-             */
-            protected static function prefix(): string
-            {
-                return 'prefix';
-            }
-        };
-
-        self::assertEquals('prefix.foo', $enum->translation());
-        self::assertEquals('prefix.bar', $enum::translate('bar'));
+        self::assertEquals('enum.string.foo', $enum->translation());
+        self::assertEquals('enum.string.bar', $enum::translate('bar'));
     }
 
     /**
@@ -113,7 +76,20 @@ final class StringEnumTest extends TestCase
      */
     public function withInvalidValueTranslationThrows(): void
     {
-        $enum = new class('foo') extends AbstractStringTranslationEnum {
+        $enum = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
+
+        self::expectException(ValueInvalidForEnumException::class);
+        self::expectExceptionMessageRegExp('/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: foo, bar/');
+
+        $enum::translate('tony');
+    }
+
+    /**
+     * @test
+     */
+    public function withNonMatchingEnumCannotCompareValue(): void
+    {
+        $enum = new class('foo') extends AbstractStringEnum {
             /**
              * {@inheritdoc}
              */
@@ -121,22 +97,45 @@ final class StringEnumTest extends TestCase
             {
                 return [
                     'foo',
-                    'bar',
                 ];
-            }
-
-            /**
-             * {@inheritdoc}
-             */
-            protected static function prefix(): string
-            {
-                return 'prefix';
             }
         };
 
-        self::expectException(ValueInvalidForEnumException::class);
-        self::expectExceptionMessageRegExp('/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: foo, bar/');
+        $compare = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
 
-        $enum::translate('tony');
+        self::assertTrue($enum->isValue($compare->value()));
+        self::assertFalse($enum->is($compare));
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValueInvalidForEnumException
+     */
+    public function canCheckStringEnumIs(): void
+    {
+        $a = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
+        $b = new StringEnumTestFixture(StringEnumTestFixture::VALUE_BAR);
+        $c = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
+
+        self::assertFalse($a->is($b));
+        self::assertTrue($a->is($c));
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValueInvalidForEnumException
+     */
+    public function canCheckStringEnumIsValue(): void
+    {
+        $a = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
+        $b = new StringEnumTestFixture(StringEnumTestFixture::VALUE_BAR);
+
+        self::assertTrue($a->isValue(StringEnumTestFixture::VALUE_FOO));
+        self::assertFalse($a->isValue(StringEnumTestFixture::VALUE_BAR));
+
+        self::assertTrue($b->isValue(StringEnumTestFixture::VALUE_BAR));
+        self::assertFalse($b->isValue(StringEnumTestFixture::VALUE_FOO));
     }
 }
