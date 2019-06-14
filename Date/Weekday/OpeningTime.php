@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Date\Weekday;
 
-use Brain\Common\Date\Assert\WeekdayAssert;
 use Brain\Common\Date\Enum\WeekdayEnum;
-use Brain\Common\Date\Exception\Weekday\WeekdayInvalidException;
+use Brain\Common\Date\Time\Time;
 use Brain\Common\Date\Time\TimeRange;
 use Brain\Common\Representation\Type\StringRepresentationInterface;
 
@@ -14,6 +13,7 @@ use Brain\Common\Representation\Type\StringRepresentationInterface;
  * Represents an opening time period on a given weekday.
  */
 final class OpeningTime implements
+    OpeningTimeInterface,
     StringRepresentationInterface
 {
     /** @var WeekdayEnum */
@@ -29,7 +29,7 @@ final class OpeningTime implements
     }
 
     /**
-     * Return the weekday.
+     * {@inheritdoc}
      */
     public function getWeekday(): WeekdayEnum
     {
@@ -37,11 +37,27 @@ final class OpeningTime implements
     }
 
     /**
-     * Return the time opening range.
+     * {@inheritdoc}
      */
     public function getTimeRange(): TimeRange
     {
         return $this->range;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isWeekdayOpen(WeekdayEnum $weekday): bool
+    {
+        return $this->weekday->is($weekday);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isTimeOpen(Time $time): bool
+    {
+        return $this->range->isWithin($time, true);
     }
 
     /**

@@ -10,9 +10,9 @@ use Brain\Common\Date\Exception\Time\TimeInvalidMinuteException;
 use Brain\Common\Date\Exception\Time\TimeInvalidSecondException;
 use Brain\Common\Date\Exception\Time\TimeInvalidStringFormatException;
 use Brain\Common\Regex\RegexMatch;
-
 use Brain\Common\Representation\Type\IntegerRepresentationInterface;
 use Brain\Common\Representation\Type\StringRepresentationInterface;
+
 use DateTimeInterface;
 
 /**

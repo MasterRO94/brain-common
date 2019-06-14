@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Brain\Common\Date\Enum;
 
+use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Type\Implementation\AbstractIntegerTranslationEnum;
+use Brain\Common\Exception\Developer\DeveloperContractRuntimeException;
+
+use DateTimeInterface;
 
 /**
  * Enum of weekdays.
@@ -18,6 +22,24 @@ final class WeekdayEnum extends AbstractIntegerTranslationEnum
     public const DAY_THURSDAY = 4;
     public const DAY_FRIDAY = 5;
     public const DAY_SATURDAY = 6;
+
+    /**
+     * Create a weekday instance from the given date time interface.
+     */
+    public static function createFromDateTimeInterface(DateTimeInterface $date): WeekdayEnum
+    {
+        $weekday = (int) $date->format('w');
+
+        try {
+            $weekday = new self($weekday);
+        } catch (ValueInvalidForEnumException $exception) {
+            // It is technically impossible for the date time to return an invalid weekday.
+            // However to prevent the exception being considered by static analysis we wrap it.
+            throw DeveloperContractRuntimeException::create($exception);
+        }
+
+        return $weekday;
+    }
 
     /**
      * {@inheritdoc}
