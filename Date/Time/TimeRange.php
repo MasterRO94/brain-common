@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brain\Common\Date\Time;
 
 use Brain\Common\Date\Exception\Time\TimeRangeInvalidException;
-use Brain\Common\Representation\Type\StringRepresentationInterface;
 
 /**
  * A time range.
