@@ -9,18 +9,19 @@ use Brain\Common\Date\Exception\Time\TimeRangeInvalidException;
 /**
  * A time range.
  */
-final class TimeRange
+final class TimeRange implements
+    TimeRangeInterface
 {
-    /** @var Time */
+    /** @var TimeInterface */
     private $lower;
 
-    /** @var Time */
+    /** @var TimeInterface */
     private $higher;
 
     /**
      * @throws TimeRangeInvalidException
      */
-    public function __construct(Time $lower, Time $higher)
+    public function __construct(TimeInterface $lower, TimeInterface $higher)
     {
         if ($lower->isGreaterThan($higher)) {
             throw TimeRangeInvalidException::create($lower, $higher);
@@ -31,29 +32,25 @@ final class TimeRange
     }
 
     /**
-     * Return the lower boundary.
+     * {@inheritdoc}
      */
-    public function getLower(): Time
+    public function getLower(): TimeInterface
     {
         return $this->lower;
     }
 
     /**
-     * Return the higher boundary.
+     * {@inheritdoc}
      */
-    public function getHigher(): Time
+    public function getHigher(): TimeInterface
     {
         return $this->higher;
     }
 
     /**
-     * Check the time is within this time range.
-     *
-     * The inclusive flag will change the constraints of the check to be inclusive of the boundaries.
-     * This means that if the value is equal to the boundaries then its considered within.
-     * To have a check where the value must be within but not equal set inclusive to false.
+     * {@inheritdoc}
      */
-    public function isWithin(Time $time, bool $inclusive): bool
+    public function isWithin(TimeInterface $time, bool $inclusive): bool
     {
         if ($inclusive === true) {
             return $this->isWithinInclusive($time);
@@ -63,12 +60,9 @@ final class TimeRange
     }
 
     /**
-     * Check the time range given is within this time range.
-     *
-     * The inclusive flag will change the constraints of the check to be inclusive of the boundaries.
-     * This means that if the value is equal to the boundaries then its considered within.
+     * {@inheritdoc}
      */
-    public function isRangeWithin(TimeRange $range, bool $inclusive): bool
+    public function isRangeWithin(TimeRangeInterface $range, bool $inclusive): bool
     {
         if ($inclusive === true) {
             return $this->isRangeWithinInclusive($range);
@@ -78,14 +72,9 @@ final class TimeRange
     }
 
     /**
-     * Check the time range is overlapping the given range.
-     *
-     * The inclusive flag will change the constraints of the check to be inclusive of the boundaries.
-     * This means that if the ranges sit on the same boundary (on either side) its considered overlapping.
-     *
-     * @example 10:00-11:00 vs 11:00-12:00 with inclusive will return true.
+     * {@inheritdoc}
      */
-    public function isOverlapping(TimeRange $range, bool $inclusive): bool
+    public function isOverlapping(TimeRangeInterface $range, bool $inclusive): bool
     {
         if ($inclusive === true) {
             return $this->isOverlappingInclusive($range);
@@ -109,7 +98,7 @@ final class TimeRange
     /**
      * Check the time is within this range or equal to the boundaries.
      */
-    private function isWithinInclusive(Time $time): bool
+    private function isWithinInclusive(TimeInterface $time): bool
     {
         if ($this->lower->isGreaterThan($time)) {
             return false;
@@ -125,7 +114,7 @@ final class TimeRange
     /**
      * Check the time is within this range without being equal to the boundaries.
      */
-    private function isWithinExclusive(Time $time): bool
+    private function isWithinExclusive(TimeInterface $time): bool
     {
         if ($this->lower->isGreaterThanOrEqual($time)) {
             return false;
@@ -141,7 +130,7 @@ final class TimeRange
     /**
      * Check the given time range is within this time range inclusive boundaries.
      */
-    private function isRangeWithinInclusive(TimeRange $range): bool
+    private function isRangeWithinInclusive(TimeRangeInterface $range): bool
     {
         if ($this->lower->isGreaterThan($range->getLower())) {
             return false;
@@ -157,7 +146,7 @@ final class TimeRange
     /**
      * Check the given time range is within this time range excluding boundaries.
      */
-    private function isRangeWithinExclusive(TimeRange $range): bool
+    private function isRangeWithinExclusive(TimeRangeInterface $range): bool
     {
         if ($this->lower->isGreaterThanOrEqual($range->getLower())) {
             return false;
@@ -173,7 +162,7 @@ final class TimeRange
     /**
      * Check the given time range is overlapping this time range or sitting on the boundaries.
      */
-    private function isOverlappingInclusive(TimeRange $range): bool
+    private function isOverlappingInclusive(TimeRangeInterface $range): bool
     {
         if ($this->isRangeWithin($range, true)) {
             return true;
@@ -195,7 +184,7 @@ final class TimeRange
     /**
      * Check the given time range is overlapping this time range without sitting on the boundaries.
      */
-    private function isOverlappingExclusive(TimeRange $range): bool
+    private function isOverlappingExclusive(TimeRangeInterface $range): bool
     {
         if ($this->isRangeWithin($range, false)) {
             return true;
