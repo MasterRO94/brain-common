@@ -26,7 +26,7 @@ abstract class AbstractIntegerEnum implements
     /**
      * {@inheritdoc}
      */
-    public static function has($value): bool
+    final public static function has($value): bool
     {
         return in_array($value, static::values(), true);
     }
@@ -48,7 +48,7 @@ abstract class AbstractIntegerEnum implements
     /**
      * @throws ValueInvalidForEnumException
      */
-    public function __construct(int $value)
+    final public function __construct(int $value)
     {
         if (static::has($value) === false) {
             throw ValueInvalidForEnumException::create(static::class, $value, static::values());
@@ -60,7 +60,7 @@ abstract class AbstractIntegerEnum implements
     /**
      * {@inheritdoc}
      */
-    public function value(): int
+    final public function value(): int
     {
         return $this->value;
     }

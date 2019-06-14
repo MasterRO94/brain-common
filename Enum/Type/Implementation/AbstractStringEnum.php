@@ -48,7 +48,7 @@ abstract class AbstractStringEnum implements
     /**
      * @throws ValueInvalidForEnumException
      */
-    public function __construct(string $value)
+    final public function __construct(string $value)
     {
         if (static::has($value) === false) {
             throw ValueInvalidForEnumException::create(static::class, $value, static::values());
@@ -60,7 +60,7 @@ abstract class AbstractStringEnum implements
     /**
      * {@inheritdoc}
      */
-    public function value(): string
+    final public function value(): string
     {
         return $this->value;
     }
