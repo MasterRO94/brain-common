@@ -119,6 +119,47 @@ final class IntegerEnumTest extends TestCase
 
     /**
      * @test
+     */
+    public function canGetNonPrefixTranslation(): void
+    {
+        $enum = new class(0) extends AbstractIntegerTranslationEnum {
+            /**
+             * {@inheritdoc}
+             */
+            protected static function values(): array
+            {
+                return [
+                    0,
+                    1,
+                ];
+            }
+
+            /**
+             * {@inheritdoc}
+             */
+            protected static function prefix(): string
+            {
+                return 'prefix';
+            }
+
+            /**
+             * {@inheritdoc}
+             */
+            protected static function translations(): array
+            {
+                return [
+                    0 => 'zero',
+                    1 => 'one',
+                ];
+            }
+        };
+
+        self::assertEquals('zero', $enum->translation(false));
+        self::assertEquals('one', $enum::translate(1, false));
+    }
+
+    /**
+     * @test
      *
      * @throws ValueInvalidForEnumException
      */

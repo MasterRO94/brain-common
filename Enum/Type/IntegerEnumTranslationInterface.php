@@ -23,5 +23,10 @@ interface IntegerEnumTranslationInterface extends
      *
      * @throws ValueInvalidForEnumException
      */
-    public static function translate($value): string;
+    public static function translate($value, bool $prefix = true): string;
+
+    /**
+     * Return the translation for this enum instance.
+     */
+    public function translation(bool $prefix = true): string;
 }

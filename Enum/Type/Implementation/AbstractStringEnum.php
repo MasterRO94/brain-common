@@ -17,16 +17,11 @@ abstract class AbstractStringEnum implements
     private $value;
 
     /**
-     * @throws ValueInvalidForEnumException
+     * Define all the values within the enum.
+     *
+     * @return string[]
      */
-    public function __construct(string $value)
-    {
-        if (static::has($value) === false) {
-            throw ValueInvalidForEnumException::create(static::class, $value, static::values());
-        }
-
-        $this->value = $value;
-    }
+    abstract protected static function values(): array;
 
     /**
      * {@inheritdoc}
@@ -51,11 +46,16 @@ abstract class AbstractStringEnum implements
     }
 
     /**
-     * Define all the values within the enum.
-     *
-     * @return string[]
+     * @throws ValueInvalidForEnumException
      */
-    abstract protected static function values(): array;
+    public function __construct(string $value)
+    {
+        if (static::has($value) === false) {
+            throw ValueInvalidForEnumException::create(static::class, $value, static::values());
+        }
+
+        $this->value = $value;
+    }
 
     /**
      * {@inheritdoc}

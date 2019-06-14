@@ -17,19 +17,7 @@ abstract class AbstractIntegerTranslationEnum extends AbstractIntegerEnum implem
     /**
      * {@inheritdoc}
      */
-    public function translation(): string
-    {
-        try {
-            return static::translate($this->value());
-        } catch (ValueInvalidForEnumException $exception) {
-            throw DeveloperContractRuntimeException::create($exception);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function translate($value): string
+    public static function translate($value, bool $prefix = true): string
     {
         if (static::has($value) === false) {
             throw ValueInvalidForEnumException::create(static::class, $value, static::values());
@@ -43,7 +31,23 @@ abstract class AbstractIntegerTranslationEnum extends AbstractIntegerEnum implem
 
         $translated = $translations[$value];
 
+        if ($prefix === false) {
+            return $translated;
+        }
+
         return sprintf('%s.%s', static::prefix(), $translated);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function translation(bool $prefix = true): string
+    {
+        try {
+            return static::translate($this->value(), $prefix);
+        } catch (ValueInvalidForEnumException $exception) {
+            throw DeveloperContractRuntimeException::create($exception);
+        }
     }
 
     /**
