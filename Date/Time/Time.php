@@ -19,8 +19,7 @@ use DateTimeInterface;
  * An instance of time.
  */
 final class Time implements
-    StringRepresentationInterface,
-    IntegerRepresentationInterface
+    TimeInterface
 {
     private const TIME_STRING_REGEX_FULL = '/[0-2]\d:[0-5]\d:[0-5]\d/';
     private const TIME_STRING_REGEX_SHORT = '/[0-2]\d:[0-5]\d/';
@@ -116,7 +115,7 @@ final class Time implements
     }
 
     /**
-     * Return the hour.
+     * {@inheritdoc}
      */
     public function getHour(): int
     {
@@ -124,7 +123,7 @@ final class Time implements
     }
 
     /**
-     * Return the minute.
+     * {@inheritdoc}
      */
     public function getMinute(): int
     {
@@ -132,7 +131,7 @@ final class Time implements
     }
 
     /**
-     * Return the second.
+     * {@inheritdoc}
      */
     public function getSecond(): int
     {
@@ -140,58 +139,45 @@ final class Time implements
     }
 
     /**
-     * Check if this instance if greater than or equal to the given time.
+     * {@inheritdoc}
      */
-    public function isGreaterThanOrEqual(Time $time): bool
+    public function isGreaterThanOrEqual(TimeInterface $time): bool
     {
         return $this->isEqual($time)
             || $this->isGreaterThan($time);
     }
 
     /**
-     * Check if this instance is equal to the given time.
+     * {@inheritdoc}
      */
-    public function isEqual(Time $time): bool
+    public function isEqual(TimeInterface $time): bool
     {
         return $this->toInteger() === $time->toInteger();
     }
 
     /**
-     * Check if this instance is greater than the given time.
+     * {@inheritdoc}
      */
-    public function isGreaterThan(Time $time): bool
+    public function isGreaterThan(TimeInterface $time): bool
     {
         return $this->toInteger() > $time->toInteger();
     }
 
     /**
-     * Check if this instance if less than or equal to the given time.
+     * {@inheritdoc}
      */
-    public function isLessThanOrEqual(Time $time): bool
+    public function isLessThanOrEqual(TimeInterface $time): bool
     {
         return $this->isEqual($time)
             || $this->isLessThan($time);
     }
 
     /**
-     * Check if this instance is less than the given time.
+     * {@inheritdoc}
      */
-    public function isLessThan(Time $time): bool
+    public function isLessThan(TimeInterface $time): bool
     {
         return $this->toInteger() < $time->toInteger();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * The representation for a time as integer is a timestamp.
-     * The value should be the valid amount of seconds this time consists of.
-     * There are 86400 seconds in a day, but this number is zero based so 86399 is the highest value.
-     */
-    public function toInteger(): int
-    {
-        // Using the beginning of the epoch as the date, then we should be able to get seconds from that.
-        return gmmktime($this->hour, $this->minute, $this->second, 1, 1, 1970);
     }
 
     /**
@@ -205,5 +191,18 @@ final class Time implements
             $this->minute,
             $this->second
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * The representation for a time as integer is a timestamp.
+     * The value should be the valid amount of seconds this time consists of.
+     * There are 86400 seconds in a day, but this number is zero based so 86399 is the highest value.
+     */
+    public function toInteger(): int
+    {
+        // Using the beginning of the epoch as the date, then we should be able to get seconds from that.
+        return gmmktime($this->hour, $this->minute, $this->second, 1, 1, 1970);
     }
 }

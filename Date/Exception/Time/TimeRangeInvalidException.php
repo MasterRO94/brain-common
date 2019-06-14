@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Brain\Common\Date\Exception\Time;
 
-use Brain\Common\Date\Time\Time;
+use Brain\Common\Date\Time\TimeInterface;
 
 use Exception;
 
 final class TimeRangeInvalidException extends Exception
 {
-    public function __construct(Time $lower, Time $higher)
+    public function __construct(TimeInterface $lower, TimeInterface $higher)
     {
         $message = implode(' ', [
             'A time range cannot be constructed with lower "%s" and higher "%s".',
@@ -29,7 +29,7 @@ final class TimeRangeInvalidException extends Exception
     /**
      * @return TimeRangeInvalidException
      */
-    public static function create(Time $lower, Time $higher): self
+    public static function create(TimeInterface $lower, TimeInterface $higher): self
     {
         return new self($lower, $higher);
     }
