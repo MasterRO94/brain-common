@@ -25,7 +25,7 @@ abstract class AbstractStringTranslationEnum extends AbstractStringEnum implemen
     final public static function translate($value): string
     {
         if (static::has($value) === false) {
-            throw ValueInvalidForEnumException::create(static::class, $value, static::values());
+            throw ValueInvalidForEnumException::create(static::class, $value, static::all(true));
         }
 
         return sprintf('%s.%s', static::prefix(), $value);
@@ -38,8 +38,8 @@ abstract class AbstractStringTranslationEnum extends AbstractStringEnum implemen
     {
         try {
             return static::translate($this->value());
-        } catch (ValueInvalidForEnumException $exception) {
-            throw DeveloperContractRuntimeException::create($exception);
+        } catch (ValueInvalidForEnumException $exception) { // @codeCoverageIgnore
+            throw DeveloperContractRuntimeException::create($exception); // @codeCoverageIgnore
         }
     }
 }

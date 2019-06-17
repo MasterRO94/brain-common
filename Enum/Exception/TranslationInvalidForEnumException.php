@@ -14,16 +14,28 @@ final class TranslationInvalidForEnumException extends Exception
     /** @var string */
     private $enum;
 
-    /** @var string */
+    /** @var string|int */
     private $translation;
 
-    /** @var string[] */
+    /** @var string[]|int[] */
     private $translations;
 
     /**
-     * @param string[] $translations
+     * @param string|int $translation
+     * @param string[]|int[] $translations
+     *
+     * @return TranslationInvalidForEnumException
      */
-    public function __construct(string $enum, string $translation, array $translations)
+    public static function create(string $enum, $translation, array $translations): self
+    {
+        return new self($enum, $translation, $translations);
+    }
+
+    /**
+     * @param string|int $translation
+     * @param string[]|int[] $translations
+     */
+    public function __construct(string $enum, $translation, array $translations)
     {
         $message = implode(' ', [
             'The translation "%s" is not valid for enum %s.',
@@ -40,16 +52,6 @@ final class TranslationInvalidForEnumException extends Exception
     }
 
     /**
-     * @param string[] $translations
-     *
-     * @return TranslationInvalidForEnumException
-     */
-    public static function create(string $enum, string $translation, array $translations): self
-    {
-        return new self($enum, $translation, $translations);
-    }
-
-    /**
      * Return the enum class.
      */
     public function getEnumClass(): string
@@ -59,8 +61,10 @@ final class TranslationInvalidForEnumException extends Exception
 
     /**
      * Return the given invalid translation.
+     *
+     * @return string|int
      */
-    public function getInvalidTranslation(): string
+    public function getInvalidTranslation()
     {
         return $this->translation;
     }
@@ -68,7 +72,7 @@ final class TranslationInvalidForEnumException extends Exception
     /**
      * Return the valid translations.
      *
-     * @return string[]
+     * @return string[]|int[]
      */
     public function getTranslations(): array
     {

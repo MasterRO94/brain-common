@@ -20,8 +20,8 @@ final class IntegerEnumTestFixture extends AbstractIntegerTranslationEnum
     protected static function values(): array
     {
         return [
-            self::VALUE_ZERO,
             self::VALUE_ONE,
+            self::VALUE_ZERO,
         ];
     }
 

@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum\Type\Implementation;
 
-use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
+use Brain\Common\Enum\Type\AbstractEnum;
 use Brain\Common\Enum\Type\StringEnumInterface;
 
 /**
  * An enum of strings.
  */
-abstract class AbstractStringEnum implements
+abstract class AbstractStringEnum extends AbstractEnum implements
     StringEnumInterface
 {
-    /** @var string */
-    private $value;
-
     /**
      * Define all the values within the enum.
      *
@@ -51,11 +48,7 @@ abstract class AbstractStringEnum implements
      */
     final public function __construct(string $value)
     {
-        if (static::has($value) === false) {
-            throw ValueInvalidForEnumException::create(static::class, $value, static::values());
-        }
-
-        $this->value = $value;
+        parent::__construct($value);
     }
 
     /**
@@ -63,26 +56,9 @@ abstract class AbstractStringEnum implements
      */
     final public function value(): string
     {
-        return $this->value;
-    }
+        /** @var string $value */
+        $value = parent::value();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function is(EnumInterface $value): bool
-    {
-        if (!($value instanceof $this)) {
-            return false;
-        }
-
-        return $this->value === $value->value();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isValue($value): bool
-    {
-        return $this->value === $value;
+        return $value;
     }
 }

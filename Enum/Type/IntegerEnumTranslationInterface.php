@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brain\Common\Enum\Type;
 
 use Brain\Common\Enum\EnumTranslationInterface;
+use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 
 /**
@@ -22,6 +23,7 @@ interface IntegerEnumTranslationInterface extends
      * @param int $value
      *
      * @throws ValueInvalidForEnumException
+     * @throws TranslationInvalidForEnumException
      */
     public static function translate($value, bool $prefix = true): string;
 

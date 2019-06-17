@@ -28,8 +28,6 @@ final class EnumAssert
             return;
         }
 
-        $values = $class::all();
-
-        throw ValueInvalidForEnumException::create($enum, $value, $values);
+        throw ValueInvalidForEnumException::create($enum, $value, $class::all(true));
     }
 }
