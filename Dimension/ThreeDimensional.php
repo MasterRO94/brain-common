@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Dimension;
 
-use Brain\Common\Debug\DebugTrait;
+use Brain\Common\Debug\Representation\DebugRepresentationTrait;
 
 /**
  * {@inheritdoc}
@@ -12,7 +12,7 @@ use Brain\Common\Debug\DebugTrait;
 final class ThreeDimensional implements
     ThreeDimensionalInterface
 {
-    use DebugTrait;
+    use DebugRepresentationTrait;
 
     /** @var int */
     protected $width;
@@ -64,8 +64,10 @@ final class ThreeDimensional implements
 
     /**
      * {@inheritdoc}
+     *
+     * Parameters used for debug representations.
      */
-    protected function toStringParameters(): array
+    protected function toDebugParameters(): array
     {
         return [
             'width' => $this->getWidth(),
