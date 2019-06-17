@@ -11,11 +11,14 @@ use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Tests\Fixture\Enum\ExampleTestFixtureEnum;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * @group unit
  *
  * @covers \Brain\Common\Enum\AbstractEnum
+ * @covers \Brain\Common\Enum\Helper\LegacyEnumHelper
+ * @covers \Brain\Common\Enum\Exception\EmptyEnumException
  */
 final class EnumTest extends TestCase
 {
@@ -144,5 +147,69 @@ final class EnumTest extends TestCase
         $value = ExampleTestFixtureEnum::valueFromTranslation('prefix.valid');
 
         self::assertEquals('valid', $value);
+    }
+
+    /**
+     * @test
+     */
+    public function canCheckHasValue(): void
+    {
+        self::assertTrue(ExampleTestFixtureEnum::has('valid'));
+        self::assertFalse(ExampleTestFixtureEnum::has('missing'));
+    }
+
+    /**
+     * @test
+     */
+    public function withValueMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->value();
+    }
+
+    /**
+     * @test
+     */
+    public function withTranslationMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->translation();
+    }
+
+    /**
+     * @test
+     */
+    public function withIsMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->is(new ExampleTestFixtureEnum());
+    }
+
+    /**
+     * @test
+     */
+    public function withIsValueMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->isValue(1);
+    }
+
+    /**
+     * @test
+     */
+    public function withToStringValueMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->toString();
     }
 }

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum;
 
+use Brain\Common\Representation\Type\StringRepresentationInterface;
+
 /**
  * An enum of string or integers.
  */
-interface EnumInterface
+interface EnumInterface extends
+    StringRepresentationInterface
 {
     /**
      * Return all values within the enum.

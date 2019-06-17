@@ -145,7 +145,7 @@ abstract class AbstractEnum implements
      */
     public function value()
     {
-        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
     }
 
     /**
@@ -153,7 +153,7 @@ abstract class AbstractEnum implements
      */
     public function translation(): string
     {
-        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
     }
 
     /**
@@ -161,7 +161,7 @@ abstract class AbstractEnum implements
      */
     public function is(EnumInterface $value): bool
     {
-        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
     }
 
     /**
@@ -169,6 +169,14 @@ abstract class AbstractEnum implements
      */
     public function isValue($value): bool
     {
-        throw new RuntimeException('This method is not supported on this enum as its deprecated.');
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toString(): string
+    {
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
     }
 }

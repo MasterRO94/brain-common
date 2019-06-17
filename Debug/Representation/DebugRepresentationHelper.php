@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Debug;
+namespace Brain\Common\Debug\Representation;
 
 use Brain\Common\Prototype\Column\IdentityAwareInterface;
 
@@ -11,7 +11,7 @@ use Doctrine\Common\Persistence\Proxy;
 /**
  * A helper for serialising and representing entities in debug.
  */
-final class DebugHelper
+final class DebugRepresentationHelper
 {
     /**
      * Return the entity in a debug representation.
@@ -93,8 +93,8 @@ final class DebugHelper
 
         foreach ($data as $key => $value) {
             switch (true) {
-                case ($value instanceof DebugInterface):
-                    $processed[] = sprintf('%s=%s', $key, $value->toString(true));
+                case ($value instanceof DebugRepresentationInterface):
+                    $processed[] = sprintf('%s=%s', $key, $value->toDebug(true));
 
                     break;
                 case is_string($value):

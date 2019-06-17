@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum\Type\Implementation;
 
-use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
+use Brain\Common\Enum\Type\AbstractEnum;
 use Brain\Common\Enum\Type\IntegerEnumInterface;
 
 /**
  * An enum of integers.
  */
-abstract class AbstractIntegerEnum implements
+abstract class AbstractIntegerEnum extends AbstractEnum implements
     IntegerEnumInterface
 {
-    /** @var int */
-    private $value;
-
     /**
      * Define all the values within the enum.
      *
@@ -51,11 +48,7 @@ abstract class AbstractIntegerEnum implements
      */
     final public function __construct(int $value)
     {
-        if (static::has($value) === false) {
-            throw ValueInvalidForEnumException::create(static::class, $value, static::values());
-        }
-
-        $this->value = $value;
+        parent::__construct($value);
     }
 
     /**
@@ -63,26 +56,9 @@ abstract class AbstractIntegerEnum implements
      */
     final public function value(): int
     {
-        return $this->value;
-    }
+        /** @var int $value */
+        $value = parent::value();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function is(EnumInterface $value): bool
-    {
-        if (!($value instanceof $this)) {
-            return false;
-        }
-
-        return $this->value === $value->value();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isValue($value): bool
-    {
-        return $this->value === $value;
+        return $value;
     }
 }

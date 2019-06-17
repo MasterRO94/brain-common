@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brain\Common\Tests\Unit\Debug;
+namespace Brain\Common\Tests\Unit\Debug\Representation;
 
-use Brain\Common\Debug\DebugHelper;
+use Brain\Common\Debug\Representation\DebugRepresentationHelper;
 use Brain\Common\Tests\Fixture\Database\BasicEntityIdentityAwareTestFixture;
 use Brain\Common\Tests\Fixture\Database\BasicEntityProxyTestFixture;
 use Brain\Common\Tests\Fixture\Database\BasicEntityTestFixture;
@@ -15,9 +15,9 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group debug
  *
- * @covers \Brain\Common\Debug\DebugHelper
+ * @covers \Brain\Common\Debug\Representation\DebugRepresentationHelper
  */
-final class DebugHelperTest extends TestCase
+final class DebugRepresentationHelperTest extends TestCase
 {
     /**
      * @test
@@ -26,7 +26,7 @@ final class DebugHelperTest extends TestCase
     {
         $entity = new BasicEntityTestFixture();
 
-        $representation = DebugHelper::represent($entity, [], false);
+        $representation = DebugRepresentationHelper::represent($entity, [], false);
 
         $template = '%s{none}';
         $expected = sprintf($template, BasicEntityTestFixture::class);
@@ -41,7 +41,7 @@ final class DebugHelperTest extends TestCase
     {
         $entity = new BasicEntityTestFixture();
 
-        $representation = DebugHelper::represent($entity, [], true);
+        $representation = DebugRepresentationHelper::represent($entity, [], true);
 
         $expected = 'BasicEntityTestFixture{none}';
 
@@ -63,7 +63,7 @@ final class DebugHelperTest extends TestCase
             'e' => [],
         ];
 
-        $representation = DebugHelper::represent($entity, $data, false);
+        $representation = DebugRepresentationHelper::represent($entity, $data, false);
 
         $template = '%s{a="b", c=1, d=false, f=null}';
         $expected = sprintf($template, BasicEntityTestFixture::class);
@@ -86,7 +86,7 @@ final class DebugHelperTest extends TestCase
             'e' => [],
         ];
 
-        $representation = DebugHelper::represent($entity, $data, true);
+        $representation = DebugRepresentationHelper::represent($entity, $data, true);
 
         $expected = 'BasicEntityTestFixture{a="b", c=1, d=false, f=null}';
 
@@ -101,7 +101,7 @@ final class DebugHelperTest extends TestCase
         $entity = new BasicEntityIdentityAwareTestFixture();
         $entity->setId(123);
 
-        $representation = DebugHelper::represent($entity, [], false);
+        $representation = DebugRepresentationHelper::represent($entity, [], false);
 
         $template = '%s{id=123}';
         $expected = sprintf($template, BasicEntityIdentityAwareTestFixture::class);
@@ -117,7 +117,7 @@ final class DebugHelperTest extends TestCase
         $entity = new BasicEntityIdentityAwareTestFixture();
         $entity->setId(123);
 
-        $representation = DebugHelper::represent($entity, [], true);
+        $representation = DebugRepresentationHelper::represent($entity, [], true);
 
         $expected = 'BasicEntityIdentityAwareTestFixture{id=123}';
 
@@ -137,7 +137,7 @@ final class DebugHelperTest extends TestCase
             'c' => true,
         ];
 
-        $representation = DebugHelper::represent($entity, $data, false);
+        $representation = DebugRepresentationHelper::represent($entity, $data, false);
 
         $template = '%s{id=123, a="b", c=true}';
         $expected = sprintf($template, BasicEntityIdentityAwareTestFixture::class);
@@ -158,7 +158,7 @@ final class DebugHelperTest extends TestCase
             'c' => true,
         ];
 
-        $representation = DebugHelper::represent($entity, $data, true);
+        $representation = DebugRepresentationHelper::represent($entity, $data, true);
 
         $expected = 'BasicEntityIdentityAwareTestFixture{id=123, a="b", c=true}';
 
@@ -172,7 +172,7 @@ final class DebugHelperTest extends TestCase
     {
         $entity = new BasicEntityIdentityAwareTestFixture();
 
-        $representation = DebugHelper::represent($entity, [], false);
+        $representation = DebugRepresentationHelper::represent($entity, [], false);
 
         $template = '%s{id=null}';
         $expected = sprintf($template, BasicEntityIdentityAwareTestFixture::class);
@@ -187,7 +187,7 @@ final class DebugHelperTest extends TestCase
     {
         $entity = new BasicEntityIdentityAwareTestFixture();
 
-        $representation = DebugHelper::represent($entity, [], true);
+        $representation = DebugRepresentationHelper::represent($entity, [], true);
 
         $expected = 'BasicEntityIdentityAwareTestFixture{id=null}';
 
@@ -201,7 +201,7 @@ final class DebugHelperTest extends TestCase
     {
         $entity = new BasicEntityProxyTestFixture();
 
-        $representation = DebugHelper::represent($entity, [], false);
+        $representation = DebugRepresentationHelper::represent($entity, [], false);
 
         $template = '%s{none}';
         $expected = sprintf($template, BasicEntityTestFixture::class);
@@ -216,7 +216,7 @@ final class DebugHelperTest extends TestCase
     {
         $entity = new BasicEntityProxyTestFixture();
 
-        $representation = DebugHelper::represent($entity, [], true);
+        $representation = DebugRepresentationHelper::represent($entity, [], true);
 
         $expected = 'BasicEntityTestFixture{none}';
 
@@ -234,7 +234,7 @@ final class DebugHelperTest extends TestCase
             'a' => 'b',
         ];
 
-        $representation = DebugHelper::represent($entity, $data, false);
+        $representation = DebugRepresentationHelper::represent($entity, $data, false);
 
         $template = '%s{a="b"}';
         $expected = sprintf($template, BasicEntityTestFixture::class);
@@ -253,7 +253,7 @@ final class DebugHelperTest extends TestCase
             'a' => 'b',
         ];
 
-        $representation = DebugHelper::represent($entity, $data, true);
+        $representation = DebugRepresentationHelper::represent($entity, $data, true);
 
         $expected = 'BasicEntityTestFixture{a="b"}';
 

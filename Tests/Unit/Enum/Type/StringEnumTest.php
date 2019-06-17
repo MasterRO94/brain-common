@@ -15,8 +15,11 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group enum
  *
+ * @covers \Brain\Common\Enum\Type\AbstractEnum
  * @covers \Brain\Common\Enum\Type\Implementation\AbstractStringEnum
  * @covers \Brain\Common\Enum\Type\Implementation\AbstractStringTranslationEnum
+ * @covers \Brain\Common\Enum\Exception\ValueInvalidForEnumException
+ * @covers \Brain\Common\Enum\Exception\TranslationInvalidForEnumException
  */
 final class StringEnumTest extends TestCase
 {
@@ -28,7 +31,7 @@ final class StringEnumTest extends TestCase
     public function withInvalidValueConstructThrows(): void
     {
         self::expectException(ValueInvalidForEnumException::class);
-        self::expectExceptionMessageRegExp('/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: foo, bar/');
+        self::expectExceptionMessageRegExp('/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: bar, foo/');
 
         new StringEnumTestFixture('tony');
     }
@@ -47,13 +50,33 @@ final class StringEnumTest extends TestCase
         self::assertTrue($enum::has('bar'));
         self::assertFalse($enum::has('tony'));
         self::assertFalse($enum::has('stark'));
+    }
 
+    /**
+     * @test
+     */
+    public function canGetEnumAllValue(): void
+    {
         $expected = [
             'foo',
             'bar',
         ];
 
-        self::assertEquals($expected, $enum::all());
+        self::assertEquals($expected, StringEnumTestFixture::all());
+        self::assertEquals($expected, StringEnumTestFixture::all(false));
+    }
+
+    /**
+     * @test
+     */
+    public function canGetEnumAllValueSorted(): void
+    {
+        $expected = [
+            'bar',
+            'foo',
+        ];
+
+        self::assertEquals($expected, StringEnumTestFixture::all(true));
     }
 
     /**
@@ -71,17 +94,31 @@ final class StringEnumTest extends TestCase
 
     /**
      * @test
-     *
-     * @throws ValueInvalidForEnumException
      */
     public function withInvalidValueTranslationThrows(): void
     {
         $enum = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
 
-        self::expectException(ValueInvalidForEnumException::class);
-        self::expectExceptionMessageRegExp('/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: foo, bar/');
+        try {
+            $enum::translate('tony');
+        } catch (ValueInvalidForEnumException $exception) {
+            $regex = '/^The value "tony" is not valid for enum [^\s]+. Please make sure its one of the following: bar, foo/';
+            self::assertRegExp($regex, $exception->getMessage());
 
-        $enum::translate('tony');
+            self::assertEquals(StringEnumTestFixture::class, $exception->getEnumClass());
+            self::assertEquals('tony', $exception->getInvalidValue());
+
+            $expected = [
+                'bar',
+                'foo',
+            ];
+
+            self::assertEquals($expected, $exception->getValues());
+
+            return;
+        }
+
+        self::fail(sprintf('Expected exception: %s', ValueInvalidForEnumException::class));
     }
 
     /**
@@ -137,5 +174,19 @@ final class StringEnumTest extends TestCase
 
         self::assertTrue($b->isValue(StringEnumTestFixture::VALUE_BAR));
         self::assertFalse($b->isValue(StringEnumTestFixture::VALUE_FOO));
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValueInvalidForEnumException
+     */
+    public function canCastEnumToString(): void
+    {
+        $a = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
+        $b = new StringEnumTestFixture(StringEnumTestFixture::VALUE_BAR);
+
+        self::assertEquals('enum(StringEnumTestFixture:foo)', $a->toString());
+        self::assertEquals('enum(StringEnumTestFixture:bar)', $b->toString());
     }
 }
