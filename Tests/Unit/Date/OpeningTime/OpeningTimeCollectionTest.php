@@ -35,6 +35,43 @@ final class OpeningTimeCollectionTest extends TestCase
      * @throws TimeRangeInvalidException
      * @throws ValueInvalidForEnumException
      */
+    public function canRetrieveAllOpeningTimes(): void
+    {
+        $monday =  new OpeningTime(
+            new WeekdayEnum(WeekdayEnum::DAY_MONDAY),
+            new TimeRange(
+                new Time(10, 0, 0),
+                new Time(15, 0, 0)
+            )
+        );
+
+        $tuesday =  new OpeningTime(
+            new WeekdayEnum(WeekdayEnum::DAY_TUESDAY),
+            new TimeRange(
+                new Time(10, 0, 0),
+                new Time(15, 0, 0)
+            )
+        );
+
+        $collection = new OpeningTimeCollection([$monday, $tuesday]);
+
+        $expected = [
+            $monday,
+            $tuesday,
+        ];
+
+        self::assertEquals($expected, $collection->all());
+    }
+
+    /**
+     * @test
+     *
+     * @throws TimeInvalidHourException
+     * @throws TimeInvalidMinuteException
+     * @throws TimeInvalidSecondException
+     * @throws TimeRangeInvalidException
+     * @throws ValueInvalidForEnumException
+     */
     public function canCreateOpeningTimeCollection(): void
     {
         $monday =  new OpeningTime(
@@ -89,5 +126,40 @@ final class OpeningTimeCollectionTest extends TestCase
 
         self::assertTrue($collection->isWeekdayOpen(new WeekdayEnum(WeekdayEnum::DAY_MONDAY)));
         self::assertFalse($collection->isWeekdayOpen(new WeekdayEnum(WeekdayEnum::DAY_FRIDAY)));
+    }
+
+    /**
+     * @test
+     *
+     * @throws TimeInvalidHourException
+     * @throws TimeInvalidMinuteException
+     * @throws TimeInvalidSecondException
+     * @throws TimeRangeInvalidException
+     * @throws ValueInvalidForEnumException
+     */
+    public function canCheckIsOpen(): void
+    {
+        $monday =  new OpeningTime(
+            new WeekdayEnum(WeekdayEnum::DAY_MONDAY),
+            new TimeRange(
+                new Time(10, 0, 0),
+                new Time(15, 0, 0)
+            )
+        );
+
+        $tuesday =  new OpeningTime(
+            new WeekdayEnum(WeekdayEnum::DAY_TUESDAY),
+            new TimeRange(
+                new Time(10, 0, 0),
+                new Time(15, 0, 0)
+            )
+        );
+
+        $collection = new OpeningTimeCollection([$monday, $tuesday]);
+
+        self::assertTrue($collection->isOpen(new WeekdayEnum(WeekdayEnum::DAY_MONDAY), new Time(13, 30, 0)));
+        self::assertFalse($collection->isOpen(new WeekdayEnum(WeekdayEnum::DAY_MONDAY), new Time(20, 0, 0)));
+        self::assertFalse($collection->isOpen(new WeekdayEnum(WeekdayEnum::DAY_TUESDAY), new Time(20, 0, 0)));
+        self::assertFalse($collection->isOpen(new WeekdayEnum(WeekdayEnum::DAY_FRIDAY), new Time(13, 0, 0)));
     }
 }

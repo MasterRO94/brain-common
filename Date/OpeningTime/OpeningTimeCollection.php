@@ -45,6 +45,9 @@ final class OpeningTimeCollection implements
         $this->collection[] = $opening;
     }
 
+    /**
+     * Check to see if the weekday and time is open.
+     */
     public function isOpen(WeekdayEnum $weekday, Time $time): bool
     {
         if ($this->isWeekdayOpen($weekday) === false) {
@@ -72,6 +75,16 @@ final class OpeningTimeCollection implements
         $value = $weekday->value();
 
         return in_array($value, $this->weekdays, true);
+    }
+
+    /**
+     * Return all the opening times.
+     *
+     * @return OpeningTimeInterface[]
+     */
+    public function all(): array
+    {
+        return $this->collection;
     }
 
     /**
