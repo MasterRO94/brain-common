@@ -19,10 +19,12 @@ final class FormDataAccessor extends PropertyAccessor
         try {
             parent::setValue($objectOrArray, $propertyPath, $value);
 
+        } catch (\TypeError $exception) {
+            // this prevents calls to setFooBar(SomeType $fooBar) with null from
+            // crashing the app
+            return;
         } catch (\Throwable $exception) {
-            // @todo this prevents calls to setFooBar(SomeClass $fooBar) with
-            // null from crashing the app, but delivery time frame forms rely
-            // on this being here as well, e.g. @see
+            // @todo "delivery time frame" forms rely on this, e.g. @see
             // \Brain\Bundle\Delivery\Form\Type\DeliveryServiceDeliveryFinishTimeConfigurationFormType::buildForm
             // \Brain\Bundle\Job\Form\Type\UpdateJobBatchBatchDeliveryFormType::setFormDataInJobBatch
             return;
@@ -40,9 +42,12 @@ final class FormDataAccessor extends PropertyAccessor
         try {
             return parent::getValue($objectOrArray, $propertyPath);
 
-            // @todo change to \TypeError
-        } catch (Throwable $exception) {
+        } catch (\TypeError $exception) {
+            // this prevents calls to getFooBar(): SomeType returning null from
+            // crashing the app
             return null;
+        } catch (\Throwable $exception) {
+            throw $exception;
         }
     }
 }
