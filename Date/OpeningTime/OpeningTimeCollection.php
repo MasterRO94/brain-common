@@ -7,10 +7,13 @@ namespace Brain\Common\Date\OpeningTime;
 use Brain\Common\Date\Enum\WeekdayEnum;
 use Brain\Common\Date\Time\Time;
 
+use Countable;
+
 /**
  * A collection of opening times.
  */
-final class OpeningTimeCollection
+final class OpeningTimeCollection implements
+    Countable
 {
     /** @var int[] */
     private $weekdays = [];
@@ -69,5 +72,13 @@ final class OpeningTimeCollection
         $value = $weekday->value();
 
         return in_array($value, $this->weekdays, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
+    {
+        return count($this->collection);
     }
 }

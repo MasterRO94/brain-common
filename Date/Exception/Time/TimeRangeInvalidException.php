@@ -10,6 +10,14 @@ use Exception;
 
 final class TimeRangeInvalidException extends Exception
 {
+    /**
+     * @return TimeRangeInvalidException
+     */
+    public static function create(TimeInterface $lower, TimeInterface $higher): self
+    {
+        return new self($lower, $higher);
+    }
+
     public function __construct(TimeInterface $lower, TimeInterface $higher)
     {
         $message = implode(' ', [
@@ -24,13 +32,5 @@ final class TimeRangeInvalidException extends Exception
         );
 
         parent::__construct($message);
-    }
-
-    /**
-     * @return TimeRangeInvalidException
-     */
-    public static function create(TimeInterface $lower, TimeInterface $higher): self
-    {
-        return new self($lower, $higher);
     }
 }
