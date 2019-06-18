@@ -47,7 +47,10 @@ final class FormDataAccessor extends PropertyAccessor
             // crashing the app
             return null;
         } catch (Throwable $exception) {
-            throw $exception;
+            // @todo this should throw but currently a number of our forms rely
+            // on this failing silently, e.g. @see
+            // \Brain\Bundle\Job\Form\Type\JobComponentFormType::detectArtworkAndArtifactUsage
+            return null;
         }
     }
 }
