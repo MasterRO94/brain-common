@@ -14,16 +14,17 @@ final class ValueInvalidForEnumException extends Exception
     /** @var string */
     private $enum;
 
-    /** @var string */
+    /** @var string|int */
     private $value;
 
-    /** @var string[] */
+    /** @var string[]|int[] */
     private $values;
 
     /**
-     * @param string[] $values
+     * @param string|int $value
+     * @param string[]|int[] $values
      */
-    public function __construct(string $enum, string $value, array $values)
+    public function __construct(string $enum, $value, array $values)
     {
         $message = implode(' ', [
             'The value "%s" is not valid for enum %s.',
@@ -40,11 +41,12 @@ final class ValueInvalidForEnumException extends Exception
     }
 
     /**
-     * @param string[] $values
+     * @param string|int $value
+     * @param string[]|int[] $values
      *
      * @return ValueInvalidForEnumException
      */
-    public static function create(string $enum, string $value, array $values): self
+    public static function create(string $enum, $value, array $values): self
     {
         return new self($enum, $value, $values);
     }
@@ -59,8 +61,10 @@ final class ValueInvalidForEnumException extends Exception
 
     /**
      * Return the given invalid value.
+     *
+     * @return string|int
      */
-    public function getInvalidValue(): string
+    public function getInvalidValue()
     {
         return $this->value;
     }
@@ -68,7 +72,7 @@ final class ValueInvalidForEnumException extends Exception
     /**
      * Return the valid values.
      *
-     * @return string[]
+     * @return string[]|int[]
      */
     public function getValues(): array
     {

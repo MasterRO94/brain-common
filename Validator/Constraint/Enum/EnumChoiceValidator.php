@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Validator\Constraint\Enum;
 
-use Brain\Common\Enum\AbstractEnum;
+use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
 use Brain\Common\Validator\Helper\ValidatorTranslationHelper;
 
@@ -37,9 +37,9 @@ final class EnumChoiceValidator extends ConstraintValidator
             return;
         }
 
-        /** @var AbstractEnum $enum */
+        /** @var EnumInterface $enum */
         $enum = $constraint->enum;
-        $choices = $enum::getAllValues();
+        $choices = $enum::all();
 
         if (in_array($value, $choices, true)) {
             return;

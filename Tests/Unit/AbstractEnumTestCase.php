@@ -135,6 +135,6 @@ abstract class AbstractEnumTestCase extends TestCase
         /** @var AbstractEnum $enum */
         $enum = $this->getEnumClass();
 
-        self::assertEquals($expected, $enum::value($translation));
+        self::assertEquals($expected, $enum::valueFromTranslation($translation));
     }
 }
