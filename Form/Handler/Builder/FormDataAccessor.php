@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Brain\Common\Form\Handler\Builder;
 
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use TypeError;
+use Throwable;
 
 /**
  * {@inheritdoc}
@@ -18,12 +20,11 @@ final class FormDataAccessor extends PropertyAccessor
     {
         try {
             parent::setValue($objectOrArray, $propertyPath, $value);
-
-        } catch (\TypeError $exception) {
+        } catch (TypeError $exception) {
             // this prevents calls to setFooBar(SomeType $fooBar) with null from
             // crashing the app
             return;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             // @todo "delivery time frame" forms rely on this, e.g. @see
             // \Brain\Bundle\Delivery\Form\Type\DeliveryServiceDeliveryFinishTimeConfigurationFormType::buildForm
             // \Brain\Bundle\Job\Form\Type\UpdateJobBatchBatchDeliveryFormType::setFormDataInJobBatch
@@ -41,12 +42,11 @@ final class FormDataAccessor extends PropertyAccessor
     {
         try {
             return parent::getValue($objectOrArray, $propertyPath);
-
-        } catch (\TypeError $exception) {
+        } catch (TypeError $exception) {
             // this prevents calls to getFooBar(): SomeType returning null from
             // crashing the app
             return null;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             throw $exception;
         }
     }
