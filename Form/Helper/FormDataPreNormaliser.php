@@ -85,7 +85,7 @@ final class FormDataPreNormaliser
         // string value should just be normalised to that property.
         if (count($definitions) === 1) {
             foreach ($definitions as $property => $definition) {
-                $normalised[$property] = $data;
+                $normalised[$property] = self::cast($data, $definition);
 
                 return $normalised;
             }
@@ -98,11 +98,7 @@ final class FormDataPreNormaliser
 
             // No regex means we are greedy and accept anything.
             if ($regex === null) {
-                if ($definition->isTypeInteger() && is_numeric($data)) {
-                    $data = (int) $data;
-                }
-
-                $normalised[$property] = $data;
+                $normalised[$property] = self::cast($data, $definition);
                 break;
             }
 
@@ -130,6 +126,7 @@ final class FormDataPreNormaliser
         // Validate the array is an array of column lookup definitions.
         // This will cause PHP errors and is expected.
         array_walk($definitions, static function (EntityLookupDefinition $definition): void {
+            return;
         });
 
         // Prepare the normalised array with all the mapped columns set as null.
@@ -138,5 +135,29 @@ final class FormDataPreNormaliser
         }
 
         return $data;
+    }
+
+    /**
+     * Handle casting of the data.
+     *
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    private static function cast($data, EntityLookupDefinition $definition)
+    {
+        if ($definition->isTypeString()) {
+            return (string) $data;
+        }
+
+        if ($definition->isTypeInteger()) {
+            if (is_numeric($data)) {
+                return (int) $data;
+            }
+
+            return null;
+        }
+
+        return null;
     }
 }
