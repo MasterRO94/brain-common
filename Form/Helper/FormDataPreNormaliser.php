@@ -97,7 +97,11 @@ final class FormDataPreNormaliser
             $regex = $definition->getRegex();
 
             // No regex means we are greedy and accept anything.
-            if (!$regex) {
+            if ($regex === null) {
+                if ($definition->isTypeInteger() && is_numeric($data)) {
+                    $data = (int) $data;
+                }
+
                 $normalised[$property] = $data;
                 break;
             }

@@ -23,7 +23,7 @@ services:
       - '@form.registry'
 #    public: false
 
-  brain.common.form.entity.lookup:
+  Brain\Common\Form\Type\Entity\EntityLookupType:
     class: 'Brain\Common\Form\Type\Entity\EntityLookupType'
     arguments:
       - '@brain.common.database'
