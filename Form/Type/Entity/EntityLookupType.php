@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Form\Type\Entity;
 
-use Brain\Common\Database\Database;
+use Brain\Common\Database\DatabaseInterface;
 use Brain\Common\Form\Helper\FormDataPreNormaliser;
 
 use Symfony\Component\Form\AbstractType;
@@ -15,22 +15,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Doctrine\ORM\NonUniqueResultException;
 
-use RuntimeException;
-
 /**
  * {@inheritdoc}
  */
 final class EntityLookupType extends AbstractType
 {
-    public const COLUMN_ID = ['id' => 'publicId'];
-    public const COLUMN_ID_ALIAS = ['id' => 'publicId', 'alias' => 'publicAlias'];
+    /** @var DatabaseInterface */
+    private $database;
 
-    /** @var Database */
-    private $db;
-
-    public function __construct(Database $db)
+    public function __construct(DatabaseInterface $database)
     {
-        $this->db = $db;
+        $this->database = $database;
     }
 
     /**
@@ -38,7 +33,8 @@ final class EntityLookupType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $definitions = $this->createMappingDefinitions($options);
+        /** @var EntityLookupDefinition[] $definitions */
+        $definitions = $options['columns'];
 
         /**
          * Call the normaliser method.
@@ -70,40 +66,9 @@ final class EntityLookupType extends AbstractType
         $resolver->setRequired(['class', 'columns']);
         $resolver->setDefaults([
             'compound' => false,
-            'columns' => self::COLUMN_ID_ALIAS,
         ]);
 
         $resolver->addAllowedTypes('columns', ['array']);
-    }
-
-    /**
-     * Convert the column options to lookup definitions.
-     *
-     * @param mixed[] $options
-     *
-     * @return EntityLookupDefinition[]
-     */
-    private function createMappingDefinitions(array $options): array
-    {
-        $definitions = [];
-
-        $columns = $options['columns'];
-
-        foreach ($columns as $index => $column) {
-            $definition = EntityLookupDefinition::create($column);
-
-            if ($index === 'id') {
-                $definition->setRegexUUID();
-            }
-
-            $definitions[$index] = $definition;
-        }
-
-        if ($definitions === []) {
-            throw new RuntimeException('No entity lookup definitions were created.');
-        }
-
-        return $definitions;
     }
 
     /**
@@ -134,14 +99,16 @@ final class EntityLookupType extends AbstractType
         $event->setData(null);
 
         // Fetching the repository through the brain database manager.
-        $qb = $this->db->getRepository($options['class'])->createQueryBuilder('e');
+        $qb = $this->database->getRepository($options['class'])->createQueryBuilder('e');
 
         // The expressions will be a series of equality checks against the database.
         // These are build from the entity look up definitions.
         $expressions = [];
 
         foreach ($definitions as $index => $definition) {
-            if ($data[$index] === null) {
+            $value = $data[$index];
+
+            if ($value === null) {
                 continue;
             }
 
