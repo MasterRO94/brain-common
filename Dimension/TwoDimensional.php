@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Brain\Common\Dimension;
 
+use Brain\Common\Debug\Representation\DebugRepresentationInterface;
 use Brain\Common\Debug\Representation\DebugRepresentationTrait;
 
 /**
  * {@inheritdoc}
  */
 final class TwoDimensional implements
-    TwoDimensionalInterface
+    TwoDimensionalInterface,
+    DebugRepresentationInterface
 {
     use DebugRepresentationTrait;
 
@@ -57,15 +59,26 @@ final class TwoDimensional implements
      */
     public function isSquare(): bool
     {
+        // Nothing is not square, its nothing.
+        if ($this->width === 0 && $this->height === 0) {
+            return false;
+        }
+
         return $this->width === $this->height;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * Parameters used for debug representations.
      */
-    protected function toDebugParameters(): array
+    public function toString(): string
+    {
+        return sprintf('%sx%s', $this->width, $this->height);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array
     {
         return [
             'width' => $this->getWidth(),

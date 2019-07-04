@@ -6,6 +6,8 @@ namespace Brain\Common\Dimension;
 
 use Brain\Common\Dimension\Column\HeightDimensionInterface;
 use Brain\Common\Dimension\Column\WidthDimensionInterface;
+use Brain\Common\Representation\Type\ArrayRepresentationInterface;
+use Brain\Common\Representation\Type\StringRepresentationInterface;
 
 /**
  * Representing a two dimensional object.
@@ -16,10 +18,12 @@ use Brain\Common\Dimension\Column\WidthDimensionInterface;
 interface TwoDimensionalInterface extends
     DimensionInterface,
     WidthDimensionInterface,
-    HeightDimensionInterface
+    HeightDimensionInterface,
+    StringRepresentationInterface,
+    ArrayRepresentationInterface
 {
     /**
-     * Return the square.
+     * Check this object can be considered a square in two dimensional terms.
      */
     public function isSquare(): bool;
 }

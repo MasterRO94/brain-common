@@ -6,6 +6,8 @@ namespace Brain\Common\Prototype;
 
 /**
  * All things known as null.
+ *
+ * @deprecated
  */
 interface NullObjectRepresentationInterface
 {
