@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Type;
 
 use Brain\Common\Type\ArrayTypeHelper;
+
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -1,24 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Assert\Exception\Type;
+
+use Exception;
 
 /**
  * An array type assertion exception when the array is empty.
  */
-final class ArrayTypeEmptyAssertException extends \Exception
+final class ArrayTypeEmptyAssertException extends Exception
 {
-    public function __construct()
-    {
-        $message = 'The given array cannot be empty.';
-
-        parent::__construct($message);
-    }
-
     /**
      * @return ArrayTypeEmptyAssertException
      */
-    public static function create(): self
+    public static function create(string $property): self
     {
-        return new self();
+        return new self($property);
+    }
+
+    public function __construct(string $property)
+    {
+        $message = sprintf('The given array (%s) cannot be empty.', $property);
+
+        parent::__construct($message);
     }
 }

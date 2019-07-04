@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Type;
 
 /**
@@ -11,8 +13,6 @@ final class ArrayTypeHelper
      * Check the given array is only containing integers.
      *
      * @param mixed[] $array
-     *
-     * @return bool
      */
     public static function isIntegerArray(array $array): bool
     {
@@ -20,8 +20,8 @@ final class ArrayTypeHelper
             return true;
         }
 
-        foreach ($array as $value)  {
-            if (is_integer($value) === false) {
+        foreach ($array as $value) {
+            if (is_int($value) === false) {
                 return false;
             }
         }
@@ -33,8 +33,6 @@ final class ArrayTypeHelper
      * Check the given array is empty.
      *
      * @param mixed[] $array
-     *
-     * @return bool
      */
     public static function isEmpty(array $array): bool
     {

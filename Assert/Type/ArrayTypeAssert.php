@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Assert\Type;
 
 use Brain\Common\Assert\Exception\Type\ArrayTypeEmptyAssertException;
@@ -18,13 +20,13 @@ final class ArrayTypeAssert
      *
      * @throws ArrayTypeEmptyAssertException
      */
-    public static function assertNotEmpty(array $array): void
+    public static function assertNotEmpty(array $array, string $property): void
     {
         if ($array !== []) {
             return;
         }
 
-        throw ArrayTypeEmptyAssertException::create();
+        throw ArrayTypeEmptyAssertException::create($property);
     }
 
     /**
@@ -34,12 +36,12 @@ final class ArrayTypeAssert
      *
      * @throws ArrayTypeInvalidTypeAssertException
      */
-    public static function assertIntegerArray(array $array): void
+    public static function assertIntegerArray(array $array, string $property): void
     {
         if (ArrayTypeHelper::isIntegerArray($array) === true) {
             return;
         }
 
-        throw ArrayTypeInvalidTypeAssertException::create('integer');
+        throw ArrayTypeInvalidTypeAssertException::create($property, 'integer');
     }
 }

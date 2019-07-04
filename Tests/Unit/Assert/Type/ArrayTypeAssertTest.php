@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Tests\Unit\Assert\Type;
 
 use Brain\Common\Assert\Exception\Type\ArrayTypeEmptyAssertException;
 use Brain\Common\Assert\Exception\Type\ArrayTypeInvalidTypeAssertException;
 use Brain\Common\Assert\Type\ArrayTypeAssert;
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,9 +29,9 @@ final class ArrayTypeAssertTest extends TestCase
     public function withEmptyArrayAssertNotEmptyThrow(): void
     {
         self::expectException(ArrayTypeEmptyAssertException::class);
-        self::expectExceptionMessage('The given array cannot be empty.');
+        self::expectExceptionMessage('The given array (foo) cannot be empty.');
 
-        ArrayTypeAssert::assertNotEmpty([]);
+        ArrayTypeAssert::assertNotEmpty([], 'foo');
     }
 
     /**
@@ -38,7 +41,7 @@ final class ArrayTypeAssertTest extends TestCase
      */
     public function canAssertNotEmpty(): void
     {
-        ArrayTypeAssert::assertNotEmpty([1, 2, 3]);
+        ArrayTypeAssert::assertNotEmpty([1, 2, 3], 'foo');
 
         /** @var mixed $mixed */
         $mixed = true;
@@ -54,9 +57,9 @@ final class ArrayTypeAssertTest extends TestCase
     public function withInvalidTypeAssertIntegerArrayThrow(): void
     {
         self::expectException(ArrayTypeInvalidTypeAssertException::class);
-        self::expectExceptionMessage('The given array must be an array of integer(s).');
+        self::expectExceptionMessage('The given array (foo) must be an array of integer(s).');
 
-        ArrayTypeAssert::assertIntegerArray(['foo']);
+        ArrayTypeAssert::assertIntegerArray(['foo'], 'foo');
     }
 
     /**
@@ -66,7 +69,7 @@ final class ArrayTypeAssertTest extends TestCase
      */
     public function canAssertEmptyArrayIntegerArray(): void
     {
-        ArrayTypeAssert::assertIntegerArray([]);
+        ArrayTypeAssert::assertIntegerArray([], 'foo');
 
         /** @var mixed $mixed */
         $mixed = true;
@@ -81,7 +84,7 @@ final class ArrayTypeAssertTest extends TestCase
      */
     public function canAssertIntegerArrayIsIntegerArray(): void
     {
-        ArrayTypeAssert::assertIntegerArray([1, 2, 3]);
+        ArrayTypeAssert::assertIntegerArray([1, 2, 3], 'foo');
 
         /** @var mixed $mixed */
         $mixed = true;
