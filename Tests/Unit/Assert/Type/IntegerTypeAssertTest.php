@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Tests\Unit\Assert\Type;
 
+use Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueException;
 use Brain\Common\Assert\Exception\Type\IntegerTypeRangeException;
 use Brain\Common\Assert\Type\IntegerTypeAssert;
 
@@ -15,10 +16,39 @@ use PHPUnit\Framework\TestCase;
  * @group assert
  *
  * @covers \Brain\Common\Assert\Type\IntegerTypeAssert
+ * @covers \Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueException
  * @covers \Brain\Common\Assert\Exception\Type\IntegerTypeRangeException
  */
 final class IntegerTypeAssertTest extends TestCase
 {
+    /**
+     * @test
+     *
+     * @throws IntegerTypeAboveValueException
+     */
+    public function withInvalidValueAboveThresholdThrow(): void
+    {
+        self::expectException(IntegerTypeAboveValueException::class);
+        self::expectExceptionMessage('The given value (foo) 5 is above 10.');
+
+        IntegerTypeAssert::assertAboveThreshold(5, 10, 'foo');
+    }
+
+    /**
+     * @test
+     *
+     * @throws IntegerTypeAboveValueException
+     */
+    public function canAssertIntegerAboveThreshold(): void
+    {
+        IntegerTypeAssert::assertAboveThreshold(1, 0, 'foo');
+
+        /** @var mixed $mixed */
+        $mixed = true;
+
+        self::assertTrue($mixed);
+    }
+
     /**
      * @test
      *
