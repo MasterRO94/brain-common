@@ -9,7 +9,7 @@ use Brain\Common\Assert\Exception\Type\ArrayTypeInvalidTypeAssertException;
 use Brain\Common\Type\ArrayTypeHelper;
 
 /**
- * Assertion on internal array types.
+ * Assertions on internal array types.
  */
 final class ArrayTypeAssert
 {
