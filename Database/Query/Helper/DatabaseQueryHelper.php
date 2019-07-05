@@ -36,10 +36,10 @@ final class DatabaseQueryHelper
      */
     public static function ids(string $string): array
     {
-        /** @var int[] $output */
-        $output = explode(',', $string);
+        $exploded = explode(',', $string);
 
-        array_map([IntegerTypeHelper::class, 'asInteger'], $output);
+        /** @var int[] $output */
+        $output = array_map([IntegerTypeHelper::class, 'asInteger'], $exploded);
 
         return $output;
     }

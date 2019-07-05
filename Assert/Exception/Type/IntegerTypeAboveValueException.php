@@ -18,7 +18,7 @@ final class IntegerTypeAboveValueException extends Exception
 
     public function __construct(int $value, int $threshold, string $property)
     {
-        $message = 'The given value (%s) %d is above %d.';
+        $message = 'The given value (%s) %d is not above %d.';
         $message = sprintf($message, $property, $value, $threshold);
 
         parent::__construct($message);
