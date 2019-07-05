@@ -29,7 +29,7 @@ final class IntegerTypeAssertTest extends TestCase
     public function withInvalidValueAboveThresholdThrow(): void
     {
         self::expectException(IntegerTypeAboveValueException::class);
-        self::expectExceptionMessage('The given value (foo) 5 is above 10.');
+        self::expectExceptionMessage('The given value (foo) 5 is not above 10.');
 
         IntegerTypeAssert::assertAboveThreshold(5, 10, 'foo');
     }
