@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace Brain\Common\Dimension;
 
+use Brain\Common\Debug\Representation\DebugRepresentationInterface;
+use Brain\Common\Debug\Representation\DebugRepresentationTrait;
 use Brain\Common\Prototype\NullObjectRepresentationInterface;
 
 /**
  * A null instance of two dimensional that can be used in place of null.
+ *
+ * @deprecated
  */
 final class NullTwoDimensional implements
     NullObjectRepresentationInterface,
-    TwoDimensionalInterface
+    TwoDimensionalInterface,
+    DebugRepresentationInterface
 {
+    use DebugRepresentationTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -35,5 +42,32 @@ final class NullTwoDimensional implements
     public function isSquare(): bool
     {
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toString(): string
+    {
+        return '0x0';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array
+    {
+        return [
+            'width' => 0,
+            'height' => 0,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function toDebugParameters(): array
+    {
+        return [];
     }
 }

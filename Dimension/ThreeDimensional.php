@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Brain\Common\Dimension;
 
+use Brain\Common\Debug\Representation\DebugRepresentationInterface;
 use Brain\Common\Debug\Representation\DebugRepresentationTrait;
 
 /**
  * {@inheritdoc}
  */
 final class ThreeDimensional implements
-    ThreeDimensionalInterface
+    ThreeDimensionalInterface,
+    DebugRepresentationInterface
 {
     use DebugRepresentationTrait;
 
@@ -22,6 +24,16 @@ final class ThreeDimensional implements
 
     /** @var int */
     protected $depth;
+
+    /**
+     * Return a zero'd three dimensional.
+     *
+     * @return ThreeDimensional
+     */
+    public static function createZero(): self
+    {
+        return new self(0, 0, 0);
+    }
 
     public function __construct(int $width, int $height, int $depth)
     {
@@ -59,15 +71,39 @@ final class ThreeDimensional implements
      */
     public function isSquare(): bool
     {
+        // Nothing is not square, its nothing.
+        if ($this->width === 0 && $this->height === 0) {
+            return false;
+        }
+
         return $this->width === $this->height;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * Parameters used for debug representations.
      */
-    protected function toDebugParameters(): array
+    public function isCube(): bool
+    {
+        // Nothing is not cube, its nothing.
+        if ($this->width === 0 && $this->height === 0 && $this->depth === 0) {
+            return false;
+        }
+
+        return $this->width === $this->height && $this->height === $this->depth;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toString(): string
+    {
+        return sprintf('%sx%sx%s', $this->width, $this->height, $this->depth);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array
     {
         return [
             'width' => $this->getWidth(),

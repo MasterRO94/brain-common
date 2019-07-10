@@ -10,14 +10,19 @@ namespace Brain\Common\Form\Type\Entity;
 final class EntityLookupDefinition
 {
     public const UUID_REGEX = '/^[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}$/';
+    private const TYPE_STRING = 'string';
+    private const TYPE_INTEGER = 'integer';
 
     /** @var string */
     private $column;
 
+    /** @var string */
+    private $type;
+
     /** @var mixed|null */
     private $default;
 
-    /** @var string */
+    /** @var string|null */
     private $regex;
 
     /**
@@ -39,6 +44,8 @@ final class EntityLookupDefinition
     {
         $this->column = $column;
         $this->default = $default;
+
+        $this->setTypeString();
     }
 
     /**
@@ -47,6 +54,54 @@ final class EntityLookupDefinition
     public function getColumn(): string
     {
         return $this->column;
+    }
+
+    /**
+     * Return the value type.
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Check if the type is string.
+     */
+    public function isTypeString(): bool
+    {
+        return $this->type === self::TYPE_STRING;
+    }
+
+    /**
+     * Set the type to string.
+     *
+     * @return EntityLookupDefinition
+     */
+    public function setTypeString(): self
+    {
+        $this->type = self::TYPE_STRING;
+
+        return $this;
+    }
+
+    /**
+     * Check if the type is integer.
+     */
+    public function isTypeInteger(): bool
+    {
+        return $this->type === self::TYPE_INTEGER;
+    }
+
+    /**
+     * Set the type to integer.
+     *
+     * @return EntityLookupDefinition
+     */
+    public function setTypeInteger(): self
+    {
+        $this->type = self::TYPE_INTEGER;
+
+        return $this;
     }
 
     /**
@@ -88,7 +143,7 @@ final class EntityLookupDefinition
      *
      * @return EntityLookupDefinition
      */
-    public function setRegexUUID(): self
+    public function setRegexIdentity(): self
     {
         $this->regex = self::UUID_REGEX;
 

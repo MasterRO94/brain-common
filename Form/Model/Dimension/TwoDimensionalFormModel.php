@@ -11,7 +11,8 @@ use Brain\Common\Dimension\TwoDimensionalInterface;
  *
  * @internal
  */
-final class TwoDimensionalFormModel implements TwoDimensionalInterface
+final class TwoDimensionalFormModel implements
+    TwoDimensionalInterface
 {
     /** @var int */
     public $width;
@@ -41,5 +42,24 @@ final class TwoDimensionalFormModel implements TwoDimensionalInterface
     public function isSquare(): bool
     {
         return $this->width === $this->height;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toString(): string
+    {
+        return sprintf('%sx%s', $this->width, $this->height);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray(): array
+    {
+        return [
+            'width' => $this->width,
+            'height' => $this->height,
+        ];
     }
 }
