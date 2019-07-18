@@ -7,6 +7,7 @@ namespace Brain\Common\Form\Handler\Builder;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 use Throwable;
+use TypeError;
 
 /**
  * {@inheritdoc}
@@ -15,16 +16,19 @@ final class FormDataAccessor extends PropertyAccessor
 {
     /**
      * {@inheritdoc}
-     *
-     * Override to catch fatal exceptions when trying to set null.
      */
     public function setValue(&$objectOrArray, $propertyPath, $value): void
     {
         try {
             parent::setValue($objectOrArray, $propertyPath, $value);
-
-            // @todo change to \TypeError
+        } catch (TypeError $exception) {
+            // this prevents calls to setFooBar(SomeType $fooBar) with null from
+            // crashing the app
+            return;
         } catch (Throwable $exception) {
+            // @todo "delivery time frame" forms rely on this, e.g. @see
+            // \Brain\Bundle\Delivery\Form\Type\DeliveryServiceDeliveryFinishTimeConfigurationFormType::buildForm
+            // \Brain\Bundle\Job\Form\Type\UpdateJobBatchBatchDeliveryFormType::setFormDataInJobBatch
             return;
         }
     }
@@ -39,9 +43,14 @@ final class FormDataAccessor extends PropertyAccessor
     {
         try {
             return parent::getValue($objectOrArray, $propertyPath);
-
-            // @todo change to \TypeError
+        } catch (TypeError $exception) {
+            // this prevents calls to getFooBar(): SomeType returning null from
+            // crashing the app
+            return null;
         } catch (Throwable $exception) {
+            // @todo this should throw but currently a number of our forms rely
+            // on this failing silently, e.g. @see
+            // \Brain\Bundle\Job\Form\Type\JobComponentFormType::detectArtworkAndArtifactUsage
             return null;
         }
     }

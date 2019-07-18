@@ -145,7 +145,7 @@ final class CommonValidatorFactory
     /**
      * Choice.
      *
-     * @param string[] $choices
+     * @param int[]|string[] $choices
      */
     public static function choice(array $choices): Choice
     {
