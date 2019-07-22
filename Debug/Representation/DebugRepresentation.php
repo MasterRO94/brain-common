@@ -8,25 +8,41 @@ use Brain\Common\Prototype\Column\IdentityAwareInterface;
 
 use Doctrine\Common\Persistence\Proxy;
 
+use ReflectionObject;
+
 /**
  * A helper for serialising and representing entities in debug.
  */
-final class DebugRepresentationHelper
+final class DebugRepresentation
 {
+    /**
+     * Attempt to create a debug representation.
+     *
+     * @param mixed $object
+     */
+    public static function attempt($object, bool $short = false): string
+    {
+        if ($object instanceof DebugRepresentationInterface) {
+            return $object->toDebug($short);
+        }
+
+        return (new ReflectionObject($object))->getShortName();
+    }
+
     /**
      * Return the entity in a debug representation.
      *
-     * @param mixed $entity
+     * @param mixed $object
      * @param mixed[] $data
      *
      * @example ClassName(id=123, k=v, ...)
      */
-    public static function represent($entity, array $data, bool $short = false): string
+    public static function represent($object, array $data, bool $short = false): string
     {
-        $class = self::getClassName($entity, $short);
+        $class = self::getClassName($object, $short);
 
         $parameters = implode(', ', array_filter([
-            self::getAwareString($entity) ?: null,
+            self::getAwareString($object) ?: null,
             self::getParameterString($data) ?: null,
         ]));
 

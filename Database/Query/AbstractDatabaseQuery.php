@@ -37,6 +37,8 @@ abstract class AbstractDatabaseQuery
      * Execute the query and return the value object.
      *
      * @return mixed
+     *
+     * @throws DatabaseQueryException
      */
     abstract public function execute(Connection $connection);
 
@@ -54,6 +56,8 @@ abstract class AbstractDatabaseQuery
 
     /**
      * Run the query against the given connection.
+     *
+     * @throws DatabaseQueryException
      */
     final protected function runQueryForConnection(Connection $connection): ResultStatement
     {

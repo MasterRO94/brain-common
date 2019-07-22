@@ -16,4 +16,8 @@ interface ThreeDimensionalInterface extends
     TwoDimensionalInterface,
     DepthDimensionInterface
 {
+    /**
+     * Check this object can be considered a cube in three dimensional terms.
+     */
+    public function isCube(): bool;
 }

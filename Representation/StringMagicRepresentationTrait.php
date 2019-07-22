@@ -16,15 +16,23 @@ trait StringMagicRepresentationTrait
 {
     /**
      * Implements magic casting to string.
+     *
+     * @see https://github.com/phpstan/phpstan/issues/2271 For a reason as to why this code looks weird.
      */
     public function __toString(): string
     {
-        if ($this instanceof StringRepresentationInterface) {
-            return $this->toString();
+        /** @var object $object */
+        $object = $this;
+
+        if ($object instanceof StringRepresentationInterface) {
+            return $object->toString();
         }
 
-        if ($this instanceof DebugRepresentationInterface) {
-            return $this->toDebug(true);
+        /** @var object $object */
+        $object = $this;
+
+        if ($object instanceof DebugRepresentationInterface) {
+            return $object->toDebug(true);
         }
 
         return (new ReflectionObject($this))->getShortName();
