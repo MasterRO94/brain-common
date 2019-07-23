@@ -14,10 +14,13 @@ final class CommonValidatorMessageEnum
     public const MESSAGE_TYPE_STRING = 'value.type.string';
     public const MESSAGE_TYPE_INTEGER = 'value.type.integer';
 
-    public const MESSAGE_VALID_CHOICE = 'value.choices';
+    public const MESSAGE_STRING_URL = 'value.url';
+    public const MESSAGE_STRING_EMAIL = 'value.email';
 
     public const MESSAGE_STRING_LENGTH_MINIMUM = 'value.length.minimum';
     public const MESSAGE_STRING_LENGTH_MAXIMUM = 'value.length.maximum';
+
+    public const MESSAGE_VALID_CHOICE = 'value.choices';
 
     public const MESSAGE_INTEGER_GREATER_THAN = 'value.gt';
     public const MESSAGE_INTEGER_GREATER_THAN_EQUAL = 'value.gte';

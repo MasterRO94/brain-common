@@ -52,4 +52,11 @@ interface HttpViewFactoryInterface extends HttpFactoryInterface
      * @return View
      */
     public function notFound($data): View;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return View
+     */
+    public function notAcceptable($data): View;
 }
