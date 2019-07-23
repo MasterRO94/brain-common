@@ -71,4 +71,12 @@ final class HttpViewFactory implements HttpViewFactoryInterface
     {
         return $this->generator->generateView(Response::HTTP_NOT_FOUND, $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function notAcceptable($data): View
+    {
+        return $this->generator->generateView(Response::HTTP_NOT_ACCEPTABLE, $data);
+    }
 }

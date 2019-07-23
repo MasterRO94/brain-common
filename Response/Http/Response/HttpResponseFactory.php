@@ -69,4 +69,12 @@ final class HttpResponseFactory implements HttpResponseFactoryInterface
     {
         return $this->generator->generateResponse(Response::HTTP_NOT_FOUND, $data);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function notAcceptable($data): Response
+    {
+        return $this->generator->generateResponse(Response::HTTP_NOT_ACCEPTABLE, $data);
+    }
 }
