@@ -62,4 +62,13 @@ interface HttpFactoryInterface
      * @return Response|View
      */
     public function notFound($data);
+
+    /**
+     * Create a NOT ACCEPTABLE 406 response.
+     *
+     * @param mixed $data
+     *
+     * @return Response|View
+     */
+    public function notAcceptable($data);
 }

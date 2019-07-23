@@ -52,4 +52,11 @@ interface HttpResponseFactoryInterface extends HttpFactoryInterface
      * @return Response
      */
     public function notFound($data): Response;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return Response
+     */
+    public function notAcceptable($data): Response;
 }
