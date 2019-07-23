@@ -11,6 +11,7 @@ use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
 use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Length;
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Optional;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
@@ -93,6 +95,26 @@ final class CommonValidatorFactory
             'max' => $maximum,
             'minMessage' => CommonValidatorMessageEnum::MESSAGE_STRING_LENGTH_MINIMUM,
             'maxMessage' => CommonValidatorMessageEnum::MESSAGE_STRING_LENGTH_MAXIMUM,
+        ]);
+    }
+
+    /**
+     * Mark the field as a email
+     */
+    public static function stringEmail(): Email
+    {
+        return new Email([
+            'message' => CommonValidatorMessageEnum::MESSAGE_STRING_EMAIL,
+        ]);
+    }
+
+    /**
+     * Mark the field as an url.
+     */
+    public static function stringUrl(): Url
+    {
+        return new Url([
+            'message' => CommonValidatorMessageEnum::MESSAGE_STRING_URL,
         ]);
     }
 
