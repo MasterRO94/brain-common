@@ -6,6 +6,7 @@ namespace Brain\Common\Validator\Factory;
 
 use Brain\Common\Enum\AbstractEnum;
 use Brain\Common\Validator\Constraint\Enum\EnumChoice;
+use Brain\Common\Validator\Constraint\Remote\RemoteConstraint;
 use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
 
 use Symfony\Component\Validator\Constraints\Blank;
@@ -27,6 +28,14 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 final class CommonValidatorFactory
 {
+    /**
+     * Make the field validatable remotely.
+     */
+    public static function remote(): RemoteConstraint
+    {
+        return new RemoteConstraint();
+    }
+
     /**
      * Make the validator propagate to children.
      */

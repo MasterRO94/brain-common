@@ -11,6 +11,24 @@ final class FormDataPreNormaliser
     public const UUID_REGEX = '/^[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}$/';
 
     /**
+     * Check if the form data has the key.
+     *
+     * @param mixed $value
+     */
+    public static function hasFormDataKey($value, string $key): bool
+    {
+        if (is_array($value) === false) {
+            return false;
+        }
+
+        if (isset($value[$key]) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Normalise the form data for a standard id/alias form.
      *
      * @deprecated

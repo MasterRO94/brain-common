@@ -41,6 +41,7 @@ final class BrainCommonExtension extends AbstractBundleExtension
             'component/system',
             'component/translation',
             'component/utility',
+            'component/validator',
         ];
     }
 
