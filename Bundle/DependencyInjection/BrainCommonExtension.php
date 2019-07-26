@@ -36,6 +36,7 @@ final class BrainCommonExtension extends AbstractBundleExtension
             'component/debug',
             'component/enum',
             'component/form',
+            'component/prototype',
             'component/response',
             'component/serializer',
             'component/system',

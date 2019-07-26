@@ -1,0 +1,6 @@
+services:
+
+  brain.common.prototype.date.setup:
+    class: 'Brain\Common\Prototype\Column\Date\Setup\DatePrototypeSetup'
+    arguments:
+      - '@brain.common.date.factory'
