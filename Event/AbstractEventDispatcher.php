@@ -25,8 +25,8 @@ abstract class AbstractEventDispatcher
     final protected function dispatch(AbstractEvent $event): void
     {
         $this->dispatcher->dispatch(
-            $event::getEventName(),
-            $event
+            $event,
+            $event::getEventName()
         );
     }
 }
