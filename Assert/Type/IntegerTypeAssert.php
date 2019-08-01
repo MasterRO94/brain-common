@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Assert\Type;
 
-use Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueException;
-use Brain\Common\Assert\Exception\Type\IntegerTypeRangeException;
+use Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueAssertException;
+use Brain\Common\Assert\Exception\Type\IntegerTypeRangeAssertException;
 use Brain\Common\Type\IntegerTypeHelper;
 
 /**
@@ -16,7 +16,7 @@ final class IntegerTypeAssert
     /**
      * Assert the given number is above a given threshold.
      *
-     * @throws IntegerTypeAboveValueException
+     * @throws IntegerTypeAboveValueAssertException
      */
     public static function assertAboveThreshold(int $value, int $threshold, string $property): void
     {
@@ -24,13 +24,13 @@ final class IntegerTypeAssert
             return;
         }
 
-        throw IntegerTypeAboveValueException::create($value, $threshold, $property);
+        throw IntegerTypeAboveValueAssertException::create($value, $threshold, $property);
     }
 
     /**
      * Assert the given integer is within a given range.
      *
-     * @throws IntegerTypeRangeException
+     * @throws IntegerTypeRangeAssertException
      */
     public static function assertWithinRange(int $value, int $lower, int $upper): void
     {
@@ -38,6 +38,6 @@ final class IntegerTypeAssert
             return;
         }
 
-        throw IntegerTypeRangeException::create($value, $lower, $upper);
+        throw IntegerTypeRangeAssertException::create($value, $lower, $upper);
     }
 }
