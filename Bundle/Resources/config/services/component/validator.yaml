@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    tags:
+      - { name: validator.constraint_validator }
+
+  Brain\Common\Validator\Constraint\Generic\RequiredValidator:
+    class: 'Brain\Common\Validator\Constraint\Generic\RequiredValidator'

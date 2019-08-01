@@ -8,6 +8,14 @@ use Exception;
 
 final class TimeInvalidStringFormatException extends Exception
 {
+    /**
+     * @return TimeInvalidStringFormatException
+     */
+    public static function create(string $value, string $format): self
+    {
+        return new self($value, $format);
+    }
+
     public function __construct(string $value, string $format)
     {
         $message = implode(' ', [
@@ -18,13 +26,5 @@ final class TimeInvalidStringFormatException extends Exception
         $message = sprintf($message, $value, $format);
 
         parent::__construct($message);
-    }
-
-    /**
-     * @return TimeInvalidStringFormatException
-     */
-    public static function create(string $value, string $format): self
-    {
-        return new self($value, $format);
     }
 }

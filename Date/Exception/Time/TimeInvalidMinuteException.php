@@ -10,18 +10,6 @@ use Exception;
 
 final class TimeInvalidMinuteException extends Exception
 {
-    public function __construct(int $minute, int $minimum, int $maximum)
-    {
-        $message = implode(' ', [
-            'The value %d is not a valid minute.',
-            'Please provide a valid integer value between (inclusive) %d and %d.',
-        ]);
-
-        $message = sprintf($message, $minute, $minimum, $maximum);
-
-        parent::__construct($message);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -32,5 +20,17 @@ final class TimeInvalidMinuteException extends Exception
             TimeAssert::TIME_MINUTE_MINIMUM,
             TimeAssert::TIME_MINUTE_MAXIMUM
         );
+    }
+
+    public function __construct(int $minute, int $minimum, int $maximum)
+    {
+        $message = implode(' ', [
+            'The value %d is not a valid minute.',
+            'Please provide a valid integer value between (inclusive) %d and %d.',
+        ]);
+
+        $message = sprintf($message, $minute, $minimum, $maximum);
+
+        parent::__construct($message);
     }
 }

@@ -11,6 +11,8 @@ use Brain\Common\Prototype\Column\Date\UpdatedAwareInterface;
 
 /**
  * This factory implements some functionality based on the database column aware interfaces.
+ *
+ * @deprecated Do not use inheritance here, each factory should be unique and have its own interface.
  */
 abstract class AbstractDatabaseAwareEntityFactory extends AbstractEntityFactory
 {
