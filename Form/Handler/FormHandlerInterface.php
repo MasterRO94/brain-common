@@ -33,7 +33,7 @@ interface FormHandlerInterface
      * Handle the form for the given payload.
      *
      * @param mixed[] $payload
-     * @param null $data
+     * @param mixed $data
      * @param mixed[] $options
      *
      * @throws FormValidationException When form fails validation.

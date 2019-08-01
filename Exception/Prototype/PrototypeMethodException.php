@@ -33,8 +33,8 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
     public static function createForCreatedDateMissing($object): self
     {
         return new self(implode(' ', [
-            'The method "getCreated()" cannot be called because the created date is not available right now.',
-            'If you wish to test for the created date then make use of the "hasCreated()" method or capture this exception.',
+            'The method "getCreatedAt()" cannot be called because the created date is not available right now.',
+            'If you wish to test for the created date then make use of the "hasCreatedAt()" method or capture this exception.',
             sprintf('This was executed on the class "%s".', get_class($object)),
         ]));
     }
@@ -47,8 +47,8 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
     public static function createForUpdatedDateMissing($object): self
     {
         return new self(implode(' ', [
-            'The method "getUpdated()" cannot be called because the updated date is not available right now.',
-            'If you wish to test for the updated date then make use of the "hasUpdated()" method or capture this exception.',
+            'The method "getUpdatedAt()" cannot be called because the updated date is not available right now.',
+            'If you wish to test for the updated date then make use of the "hasUpdatedAt()" method or capture this exception.',
             sprintf('This was executed on the class "%s".', get_class($object)),
         ]));
     }
@@ -61,8 +61,8 @@ final class PrototypeMethodException extends AbstractBrainRuntimeException
     public static function createForDeletedDateMissing($object): self
     {
         return new self(implode(' ', [
-            'The method "getDeleted()" cannot be called because the deleted date is not available right now.',
-            'If you wish to test for the deleted date then make use of the "hasDeleted()" method or capture this exception.',
+            'The method "getDeletedAt()" cannot be called because the deleted date is not available right now.',
+            'If you wish to test for the deleted date then make use of the "hasDeletedAt()" method or capture this exception.',
             sprintf('This was executed on the class "%s".', get_class($object)),
         ]));
     }

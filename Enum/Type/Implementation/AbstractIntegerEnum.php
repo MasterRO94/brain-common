@@ -30,7 +30,9 @@ abstract class AbstractIntegerEnum extends AbstractEnum implements
     }
 
     /**
-     * {@inheritdoc}
+     * Return all values within the enum.
+     *
+     * @return int[]
      */
     final public static function all(bool $sort = false): array
     {
