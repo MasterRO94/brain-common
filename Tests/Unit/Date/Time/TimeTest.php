@@ -19,6 +19,10 @@ use PHPUnit\Framework\TestCase;
  * @group date
  *
  * @covers \Brain\Common\Date\Time\Time
+ * @covers \Brain\Common\Date\Exception\Time\TimeInvalidHourException
+ * @covers \Brain\Common\Date\Exception\Time\TimeInvalidMinuteException
+ * @covers \Brain\Common\Date\Exception\Time\TimeInvalidSecondException
+ * @covers \Brain\Common\Date\Exception\Time\TimeInvalidStringFormatException
  */
 final class TimeTest extends TestCase
 {

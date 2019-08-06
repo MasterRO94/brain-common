@@ -10,6 +10,8 @@ use Brain\Common\Utility\UniqueIdentityFactoryInterface;
 
 /**
  * An abstract factory for creating instances of entity interface.
+ *
+ * @deprecated Do not use inheritance here, each factory should be unique and have its own interface.
  */
 abstract class AbstractEntityFactory
 {

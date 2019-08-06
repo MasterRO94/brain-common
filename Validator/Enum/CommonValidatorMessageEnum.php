@@ -4,9 +4,36 @@ declare(strict_types=1);
 
 namespace Brain\Common\Validator\Enum;
 
+use Brain\Common\Validator\Constraint\Remote\RemoteConstraint;
+
+/**
+ * Common validation messages.
+ */
 final class CommonValidatorMessageEnum
 {
+    /**
+     * Unknown is used for validators that do not know how to respond.
+     * This should not be used directly but is used when configuration is wrong.
+     *
+     * @see RemoteConstraint
+     */
+    public const MESSAGE_UNKNOWN = 'value.unknown';
+
+    /**
+     * Blank indicates that a value is not expected.
+     * Usually used for scenarios where something gets disabled.
+     */
     public const MESSAGE_BLANK = 'value.blank';
+
+    /**
+     * Valid is used when the value given is not valid.
+     * This can be used by custom validators where a value was given but was resolved as invalid.
+     */
+    public const MESSAGE_VALID = 'value.valid';
+
+    /**
+     * Required is used when the value is not provided, but is required.
+     */
     public const MESSAGE_NOT_BLANK = 'value.required';
 
     public const MESSAGE_REGEX = 'value.regex';

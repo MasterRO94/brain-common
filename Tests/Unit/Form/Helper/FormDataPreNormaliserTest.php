@@ -294,4 +294,32 @@ final class FormDataPreNormaliserTest extends TestCase
         $normalised = FormDataPreNormaliser::normaliseForMappedColumns($data, $definitions);
         self::assertEquals($expected, $normalised);
     }
+
+    /**
+     * @test
+     */
+    public function withNullFormDataHasKeyReturnFalse(): void
+    {
+        self::assertFalse(FormDataPreNormaliser::hasFormDataKey(null, 'foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function withArrayButMissingKeyFormDataHasKeyReturnFalse(): void
+    {
+        self::assertFalse(FormDataPreNormaliser::hasFormDataKey([], 'foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function canDetectFormDataHasKey(): void
+    {
+        $array = [
+            'foo' => 'bar',
+        ];
+
+        self::assertTrue(FormDataPreNormaliser::hasFormDataKey($array, 'foo'));
+    }
 }
