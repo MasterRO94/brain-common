@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brain\Common\Exception\Developer;
 
-final class MethodNotImplementedRuntimeException extends \RuntimeException
+use RuntimeException;
+
+final class MethodNotImplementedRuntimeException extends RuntimeException
 {
     /**
      * @return MethodNotImplementedRuntimeException
