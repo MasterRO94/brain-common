@@ -11,6 +11,9 @@ use Brain\Common\Validator\Constraint\Remote\RemoteConstraint;
  */
 final class CommonValidatorMessageEnum
 {
+    public const MESSAGE_FORM_EXTRA = 'form.extra';
+    public const MESSAGE_FORM_INVALID = 'form.invalid';
+
     /**
      * Unknown is used for validators that do not know how to respond.
      * This should not be used directly but is used when configuration is wrong.
@@ -34,7 +37,7 @@ final class CommonValidatorMessageEnum
     /**
      * Required is used when the value is not provided, but is required.
      */
-    public const MESSAGE_NOT_BLANK = 'value.required';
+    public const MESSAGE_REQUIRED = 'value.required';
 
     public const MESSAGE_REGEX = 'value.regex';
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Form\Handler\Builder;
 
+use Brain\Common\Validator\Enum\CommonValidatorMessageEnum;
+
 use Symfony\Component\Form\Extension\Core\DataMapper\PropertyPathMapper;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactory as BaseFormFactory;
@@ -19,17 +21,14 @@ final class FormFactory extends BaseFormFactory
     private $options = [
         'error_bubbling' => false,
 
-        // This is removed as CSRF protection should be disabled in the framework configuration.
-        // The more you know I guess.
-        // 'csrf_protection' => false,
         // Never set this at this point, this will prevent objects given to forms as preset data
         // from being modified. Mainly we had an issue with job components not being added to a job
         // using the add() method but instead set directly on the collection.
         // 'by_reference' => false,
         'mapped' => true,
 
-        'extra_fields_message' => 'form.extra',
-        'invalid_message' => 'form.invalid',
+        'extra_fields_message' => CommonValidatorMessageEnum::MESSAGE_FORM_EXTRA,
+        'invalid_message' => CommonValidatorMessageEnum::MESSAGE_FORM_INVALID,
     ];
 
     /**

@@ -60,7 +60,7 @@ final class CommonValidatorFactory
     public static function required(): NotNull
     {
         return new NotNull([
-            'message' => CommonValidatorMessageEnum::MESSAGE_NOT_BLANK,
+            'message' => CommonValidatorMessageEnum::MESSAGE_REQUIRED,
         ]);
     }
 
