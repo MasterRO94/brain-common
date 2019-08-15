@@ -94,7 +94,7 @@ final class DateRangeType extends AbstractType
             }
         };
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, $normaliser, -1000);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, $normaliser);
     }
 
     /**
@@ -117,13 +117,5 @@ final class DateRangeType extends AbstractType
                 return null;
             },
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent(): string
-    {
-        return TextType::class;
     }
 }
