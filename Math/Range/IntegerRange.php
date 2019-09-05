@@ -148,6 +148,36 @@ final class IntegerRange implements
     }
 
     /**
+     * Check the given numeric value is within the range.
+     *
+     * This will return if the value is the same as the start of finish.
+     *
+     * @param int|float $numeric
+     */
+    public function isWithin($numeric): bool
+    {
+        if ($this->isForward()) {
+            if ($numeric < $this->start) {
+                return false;
+            }
+
+            if ($numeric > $this->finish) {
+                return false;
+            }
+        } else {
+            if ($numeric > $this->start) {
+                return false;
+            }
+
+            if ($numeric < $this->finish) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Return the distance between start and finish.
      */
     public function distance(): int

@@ -174,6 +174,52 @@ final class IntegerRangeTest extends TestCase
     }
 
     /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCheckValueWithinRange(): array
+    {
+        return [
+            [false, 1, 10, 0],
+            [false, 1, 10, 0.9],
+            [false, 1, 10, 11],
+            [false, 1, 10, 10.1],
+
+            [true, 1, 10, 1],
+            [true, 1, 10, 10],
+            [true, 1, 10, 2],
+            [true, 1, 10, 3],
+
+            // Reversed ranges, so facing backwards.
+            [true, 10, 1, 1],
+            [true, 10, 1, 10],
+            [true, 10, 1, 2],
+            [true, 10, 1, 3],
+
+            // Non ranges.
+            [true, 1, 1, 1],
+            [false, 1, 1, 1.1],
+            [false, 1, 1, 0.9],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCheckValueWithinRange
+     *
+     * @param int|float $numeric
+     */
+    public function canCheckValueWithinRange(bool $expected, int $start, int $finish, $numeric): void
+    {
+        $range = IntegerRange::create($start, $finish);
+
+        self::assertEquals($start, $range->start());
+        self::assertEquals($finish, $range->finish());
+        self::assertEquals($expected, $range->isWithin($numeric));
+    }
+
+    /**
      * @test
      */
     public function canCalculateDistanceBetweenNonRange(): void
