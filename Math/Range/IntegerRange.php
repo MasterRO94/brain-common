@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brain\Common\Math\Range;
 
 use Brain\Common\Math\Exception\Range\IntegerRangeNotPositiveException;
+use Brain\Common\Math\Percentage\Percentage;
 use Brain\Common\Representation\StringMagicRepresentationTrait;
 use Brain\Common\Representation\Type\ArrayRepresentationInterface;
 use Brain\Common\Representation\Type\StringRepresentationInterface;
@@ -180,13 +181,53 @@ final class IntegerRange implements
     /**
      * Return the distance between start and finish.
      */
-    public function distance(): int
+    public function difference(): int
     {
         if ($this->isRange() === false) {
             return 0;
         }
 
-        return abs($this->start - $this->finish);
+        if ($this->isForward()) {
+            $value = $this->start - $this->finish;
+        } else {
+            $value = $this->finish - $this->start;
+        }
+
+        return abs($value);
+    }
+
+    /**
+     * Return the range coverage.
+     *
+     * It is essentially the difference plus one as the first value is considered inclusive.
+     * Think about it, 1-100 is 99 in difference but in the context we want 100 returned.
+     */
+    public function range(): int
+    {
+        return $this->difference() + 1;
+    }
+
+    /**
+     * Return the percentage where the numeric position sits within the range.
+     *
+     * The value can be given normalised or not, this means it is inclusive of the lowest bound.
+     * A normalised value in a range of 100-200 would be 10 being 10%.
+     * Where as the value 150 would be 50%.
+     *
+     * When ranges are non-ranges this will always return 100%.
+     * When ranges are non-natural this will always return 100%.
+     *
+     * @param int|float $position
+     */
+    public function percentage($position, bool $normalised): Percentage
+    {
+        $range = $this->difference();
+
+        if ($normalised === false) {
+            $position -= $this->start;
+        }
+
+        return Percentage::createFromRange($position, $range);
     }
 
     /**

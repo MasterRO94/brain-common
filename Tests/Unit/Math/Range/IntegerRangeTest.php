@@ -6,6 +6,7 @@ namespace Brain\Common\Tests\Unit\Math\Range;
 
 use Brain\Common\Math\Exception\Range\IntegerRangeNotPositiveException;
 use Brain\Common\Math\Range\IntegerRange;
+use Brain\Common\Math\Rounding;
 
 use PHPUnit\Framework\TestCase;
 
@@ -224,17 +225,63 @@ final class IntegerRangeTest extends TestCase
      */
     public function canCalculateDistanceBetweenNonRange(): void
     {
-        self::assertEquals(0, IntegerRange::create(1, 1)->distance());
+        self::assertEquals(0, IntegerRange::create(1, 1)->difference());
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCalculateDistanceBetweenRange(): array
+    {
+        return [
+            [1, 0, 1],
+            [1, 1, 2],
+            [1, 2, 1],
+            [2, 0, 2],
+
+            [2, -1, 1],
+            [2, 1, -1],
+
+            [50, 50, 100],
+        ];
     }
 
     /**
      * @test
+     * @dataProvider provideCanCalculateDistanceBetweenRange
      */
-    public function canCalculateDistanceBetweenRange(): void
+    public function canCalculateDistanceBetweenRange(int $expected, int $start, int $finish): void
     {
-        self::assertEquals(1, IntegerRange::create(1, 2)->distance());
-        self::assertEquals(2, IntegerRange::create(1, 3)->distance());
-        self::assertEquals(2, IntegerRange::create(-1, 1)->distance());
+        self::assertEquals($expected, IntegerRange::create($start, $finish)->difference());
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCalculateRangeCoverage(): array
+    {
+        return [
+            [100, 1, 100],
+            [101, 0, 100],
+
+            [2, 0, 1],
+            [3, -1, 1],
+
+            [51, 50, 100],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCalculateRangeCoverage
+     */
+    public function canCalculateRangeCoverage(int $expected, int $start, int $finish): void
+    {
+        self::assertEquals($expected, IntegerRange::create($start, $finish)->range());
     }
 
     /**
@@ -331,5 +378,36 @@ final class IntegerRangeTest extends TestCase
 
         self::assertEquals(1, $range->start());
         self::assertEquals(10, $range->finish());
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanCreatePercentageFromPosition(): array
+    {
+        return [
+            [10, 0, 100, 10, true],
+            [10.1, 1, 100, 10, true],
+
+            [20, 50, 100, 10, true],
+            [20, 100, 50, 10, true],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanCreatePercentageFromPosition
+     *
+     * @param int|float $position
+     */
+    public function canCreatePercentageFromPosition(float $expected, int $start, int $finish, $position, bool $normalised): void
+    {
+        $range = IntegerRange::create($start, $finish);
+        $value = $range->percentage($position, $normalised)->toFloat();
+        $value = Rounding::roundTo($value, 1);
+
+        self::assertEquals($expected, $value);
     }
 }
