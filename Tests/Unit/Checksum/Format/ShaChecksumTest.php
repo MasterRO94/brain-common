@@ -36,7 +36,7 @@ final class ShaChecksumTest extends TestCase
     public function withInvalidSHA1throw(): void
     {
         try {
-            ShaChecksum::sha1('some-value', false);
+            ShaChecksum::sha1('some-value', true);
         } catch (ChecksumInvalidForFormatException $exception) {
             $message = 'The checksum value "some-value" is invalid for format "sha1".';
 
@@ -57,7 +57,7 @@ final class ShaChecksumTest extends TestCase
      */
     public function canCreateSHA1(): void
     {
-        $checksum = ShaChecksum::sha1('c1b24294f00e281605f9dd6a298612e3060062b4', false);
+        $checksum = ShaChecksum::sha1('c1b24294f00e281605f9dd6a298612e3060062b4', true);
 
         self::assertEquals('sha1', $checksum->format());
         self::assertEquals('c1b24294f00e281605f9dd6a298612e3060062b4', $checksum->toString());
@@ -70,7 +70,7 @@ final class ShaChecksumTest extends TestCase
      */
     public function canGenerateSHA1(): void
     {
-        $checksum = ShaChecksum::sha1('some-value', true);
+        $checksum = ShaChecksum::sha1('some-value', false);
 
         self::assertEquals('sha1', $checksum->format());
         self::assertEquals('c1b24294f00e281605f9dd6a298612e3060062b4', $checksum->toString());
@@ -82,7 +82,7 @@ final class ShaChecksumTest extends TestCase
     public function withInvalidSHA256throw(): void
     {
         try {
-            ShaChecksum::sha256('another-value', false);
+            ShaChecksum::sha256('another-value', true);
         } catch (ChecksumInvalidForFormatException $exception) {
             $message = 'The checksum value "another-value" is invalid for format "sha256".';
 
@@ -103,7 +103,7 @@ final class ShaChecksumTest extends TestCase
      */
     public function canCreateSHA256(): void
     {
-        $checksum = ShaChecksum::sha256('700f3c597d9a0db5fc2dcc41c8d9b650d64ba0ed979dc00f1e3dea17fca07a1f', false);
+        $checksum = ShaChecksum::sha256('700f3c597d9a0db5fc2dcc41c8d9b650d64ba0ed979dc00f1e3dea17fca07a1f', true);
 
         self::assertEquals('sha256', $checksum->format());
         self::assertEquals('700f3c597d9a0db5fc2dcc41c8d9b650d64ba0ed979dc00f1e3dea17fca07a1f', $checksum->toString());
@@ -116,7 +116,7 @@ final class ShaChecksumTest extends TestCase
      */
     public function canGenerateSHA256(): void
     {
-        $checksum = ShaChecksum::sha256('some-value', true);
+        $checksum = ShaChecksum::sha256('some-value', false);
 
         self::assertEquals('sha256', $checksum->format());
         self::assertEquals('700f3c597d9a0db5fc2dcc41c8d9b650d64ba0ed979dc00f1e3dea17fca07a1f', $checksum->toString());

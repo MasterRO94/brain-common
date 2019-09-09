@@ -24,9 +24,9 @@ final class ShaChecksum implements
     /**
      * @throws ChecksumInvalidForFormatException
      */
-    public static function sha1(string $value, bool $hash): ShaChecksum
+    public static function sha1(string $value, bool $hashed): ShaChecksum
     {
-        if ($hash === true) {
+        if ($hashed === false) {
             $value = hash('sha1', $value);
         } elseif (ChecksumRegex::isSHA1($value) === false) {
             throw ChecksumInvalidForFormatException::create(self::FORMAT_SHA1, $value);
@@ -38,9 +38,9 @@ final class ShaChecksum implements
     /**
      * @throws ChecksumInvalidForFormatException
      */
-    public static function sha256(string $value, bool $hash): ShaChecksum
+    public static function sha256(string $value, bool $hashed): ShaChecksum
     {
-        if ($hash === true) {
+        if ($hashed === false) {
             $value = hash('sha256', $value);
         } elseif (ChecksumRegex::isSHA256($value) === false) {
             throw ChecksumInvalidForFormatException::create(self::FORMAT_SHA256, $value);
