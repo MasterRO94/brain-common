@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Database\Query\Helper;
 
-use Brain\Common\Type\IntegerTypeHelper;
+use Brain\Common\Type\StringTypeHelper;
 
 final class DatabaseQueryHelper
 {
@@ -39,7 +39,7 @@ final class DatabaseQueryHelper
         $exploded = explode(',', $string);
 
         /** @var int[] $output */
-        $output = array_map([IntegerTypeHelper::class, 'asInteger'], $exploded);
+        $output = array_map([StringTypeHelper::class, 'toInteger'], $exploded);
 
         return $output;
     }

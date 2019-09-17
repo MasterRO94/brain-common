@@ -49,10 +49,38 @@ final class IntegerTypeHelperTest extends TestCase
     /**
      * @test
      */
-    public function canCastToInteger(): void
+    public function canCastIntegerToString(): void
     {
-        $casted = IntegerTypeHelper::asInteger('1');
+        $casted = IntegerTypeHelper::toString(123);
 
-        self::assertEquals(1, $casted);
+        self::assertEquals('123', $casted);
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanClampValue(): array
+    {
+        return [
+            [0, 0, 1, 0],
+            [1, 0, 1, 1],
+            [2, 0, 1, 1],
+
+            [10, 5, 15, 10],
+            [4, 5, 15, 5],
+            [16, 5, 15, 15],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanClampValue
+     */
+    public function canClampValue(int $input, int $lower, int $upper, int $expected): void
+    {
+        $output = IntegerTypeHelper::clamp($input, $lower, $upper);
+        self::assertEquals($expected, $output);
     }
 }
