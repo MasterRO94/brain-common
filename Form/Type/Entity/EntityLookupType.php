@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * {@inheritdoc}
@@ -66,9 +67,12 @@ final class EntityLookupType extends AbstractType
         $resolver->setRequired(['class', 'columns']);
         $resolver->setDefaults([
             'compound' => false,
+            'filter' => static function (QueryBuilder $qb) {
+            },
         ]);
 
         $resolver->addAllowedTypes('columns', ['array']);
+        $resolver->addAllowedTypes('filter', ['callable']);
     }
 
     /**
@@ -130,6 +134,10 @@ final class EntityLookupType extends AbstractType
             $qb->where($qb->expr()->orX(...$expressions));
         } else {
             $qb->where($expressions[0]);
+        }
+
+        if (is_callable($options['filter'])) {
+            $options['filter']($qb);
         }
 
         try {
