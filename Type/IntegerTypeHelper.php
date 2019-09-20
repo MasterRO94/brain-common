@@ -26,14 +26,28 @@ final class IntegerTypeHelper
     }
 
     /**
-     * Cast the value as integer.
+     * Cast the given integer to a string.
      *
      * This method exists so it can be used with internal functions like array_map().
-     *
-     * @param string $in
      */
-    public static function asInteger($in): int
+    public static function toString(int $value): string
     {
-        return (int) $in;
+        return (string) $value;
+    }
+
+    /**
+     * Clamp the value within boundaries.
+     */
+    public static function clamp(int $value, int $lower, int $upper): int
+    {
+        if ($value < $lower) {
+            return $lower;
+        }
+
+        if ($value > $upper) {
+            return $upper;
+        }
+
+        return $value;
     }
 }

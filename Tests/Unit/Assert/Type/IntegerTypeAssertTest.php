@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Brain\Common\Tests\Unit\Assert\Type;
 
-use Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueException;
-use Brain\Common\Assert\Exception\Type\IntegerTypeRangeException;
+use Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueAssertException;
+use Brain\Common\Assert\Exception\Type\IntegerTypeRangeAssertException;
 use Brain\Common\Assert\Type\IntegerTypeAssert;
 
 use PHPUnit\Framework\TestCase;
@@ -16,20 +16,20 @@ use PHPUnit\Framework\TestCase;
  * @group assert
  *
  * @covers \Brain\Common\Assert\Type\IntegerTypeAssert
- * @covers \Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueException
- * @covers \Brain\Common\Assert\Exception\Type\IntegerTypeRangeException
+ * @covers \Brain\Common\Assert\Exception\Type\IntegerTypeAboveValueAssertException
+ * @covers \Brain\Common\Assert\Exception\Type\IntegerTypeRangeAssertException
  */
 final class IntegerTypeAssertTest extends TestCase
 {
     /**
      * @test
      *
-     * @throws IntegerTypeAboveValueException
+     * @throws IntegerTypeAboveValueAssertException
      */
     public function withInvalidValueAboveThresholdThrow(): void
     {
-        self::expectException(IntegerTypeAboveValueException::class);
-        self::expectExceptionMessage('The given value (foo) 5 is not above 10.');
+        self::expectException(IntegerTypeAboveValueAssertException::class);
+        self::expectExceptionMessage('The given integer value (foo) 5 is not above 10');
 
         IntegerTypeAssert::assertAboveThreshold(5, 10, 'foo');
     }
@@ -37,7 +37,7 @@ final class IntegerTypeAssertTest extends TestCase
     /**
      * @test
      *
-     * @throws IntegerTypeAboveValueException
+     * @throws IntegerTypeAboveValueAssertException
      */
     public function canAssertIntegerAboveThreshold(): void
     {
@@ -52,12 +52,12 @@ final class IntegerTypeAssertTest extends TestCase
     /**
      * @test
      *
-     * @throws IntegerTypeRangeException
+     * @throws IntegerTypeRangeAssertException
      */
     public function withInvalidValueAssertWithinRangeThrow(): void
     {
-        self::expectException(IntegerTypeRangeException::class);
-        self::expectExceptionMessage('The given value 0 is not within the expected range 10 to 20.');
+        self::expectException(IntegerTypeRangeAssertException::class);
+        self::expectExceptionMessage('The given value 0 is not within the expected range 10 to 20');
 
         IntegerTypeAssert::assertWithinRange(0, 10, 20);
     }
@@ -65,7 +65,7 @@ final class IntegerTypeAssertTest extends TestCase
     /**
      * @test
      *
-     * @throws IntegerTypeRangeException
+     * @throws IntegerTypeRangeAssertException
      */
     public function canAssertIntegerWithinRange(): void
     {

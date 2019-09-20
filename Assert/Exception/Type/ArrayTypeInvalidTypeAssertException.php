@@ -21,7 +21,7 @@ final class ArrayTypeInvalidTypeAssertException extends Exception
 
     public function __construct(string $property, string $type)
     {
-        $message = sprintf('The given array (%s) must be an array of %s(s).', $property, $type);
+        $message = sprintf('The given array (%s) must be an array of %s', $property, $type);
 
         parent::__construct($message);
     }

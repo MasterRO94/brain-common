@@ -6,13 +6,10 @@ namespace Brain\Common\Assert\Exception\Type;
 
 use Exception;
 
-/**
- * An array type assertion exception when the array is empty.
- */
-final class ArrayTypeEmptyAssertException extends Exception
+final class StringTypeNotEmptyAssertException extends Exception
 {
     /**
-     * @return ArrayTypeEmptyAssertException
+     * @return StringTypeNotEmptyAssertException
      */
     public static function create(string $property): self
     {
@@ -21,7 +18,8 @@ final class ArrayTypeEmptyAssertException extends Exception
 
     public function __construct(string $property)
     {
-        $message = sprintf('The given array (%s) cannot be empty', $property);
+        $message = 'The given string value (%s) cannot be empty';
+        $message = sprintf($message, $property);
 
         parent::__construct($message);
     }
