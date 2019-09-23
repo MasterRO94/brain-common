@@ -7,8 +7,9 @@ namespace Brain\Common\Form\Type\Entity;
 use Brain\Common\Database\DatabaseInterface;
 
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 
-final class EntityLookupDoctrineResolver
+class EntityLookupDoctrineResolver
 {
     /** @var DatabaseInterface */
     private $database;
@@ -27,6 +28,27 @@ final class EntityLookupDoctrineResolver
      * @return mixed
      */
     public function resolve(string $class, $data, array $definitions)
+    {
+        $qb = $this->getQueryBuilder($class, $data, $definitions);
+
+        if ($qb instanceof QueryBuilder) {
+            try {
+                return $qb->getQuery()->getOneOrNullResult();
+            } catch (NonUniqueResultException $exception) {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $data
+     * @param array $definitions
+     *
+     * @return QueryBuilder|null
+     */
+    protected function getQueryBuilder(string $class, $data, array $definitions)
     {
         $qb = $this->database->getRepository($class)->createQueryBuilder('e');
 
@@ -61,10 +83,6 @@ final class EntityLookupDoctrineResolver
             $qb->where($expressions[0]);
         }
 
-        try {
-            return $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $exception) {
-            return null;
-        }
+        return $qb;
     }
 }
