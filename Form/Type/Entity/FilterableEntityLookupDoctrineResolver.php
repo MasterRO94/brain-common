@@ -6,6 +6,8 @@ namespace Brain\Common\Form\Type\Entity;
 
 use Brain\Common\Database\DatabaseInterface;
 
+use Doctrine\ORM\QueryBuilder;
+
 final class FilterableEntityLookupDoctrineResolver extends EntityLookupDoctrineResolver
 {
     /** @var array */
@@ -17,12 +19,18 @@ final class FilterableEntityLookupDoctrineResolver extends EntityLookupDoctrineR
         $this->filter = $filter;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getQueryBuilder(string $class, $data, array $definitions)
     {
         $qb = parent::getQueryBuilder($class, $data, $definitions);
-        foreach ($this->filter as $column => $value) {
-            $qb->andWhere($qb->expr()->eq('e.' . $column, ':' . $column));
-            $qb->setParameter($column, $value);
+
+        if ($qb instanceof QueryBuilder) {
+            foreach ($this->filter as $column => $value) {
+                $qb->andWhere($qb->expr()->eq('e.' . $column, ':' . $column));
+                $qb->setParameter($column, $value);
+            }
         }
 
         return $qb;

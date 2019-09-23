@@ -43,7 +43,7 @@ class EntityLookupDoctrineResolver
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      * @param array $definitions
      *
      * @return QueryBuilder|null
