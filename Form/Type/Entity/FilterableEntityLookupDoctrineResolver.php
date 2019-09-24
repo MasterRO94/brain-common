@@ -10,9 +10,12 @@ use Doctrine\ORM\QueryBuilder;
 
 final class FilterableEntityLookupDoctrineResolver extends EntityLookupDoctrineResolver
 {
-    /** @var array */
+    /** @var mixed[] */
     private $filter;
 
+    /**
+     * @param mixed[] $filter
+     */
     public function __construct(DatabaseInterface $database, array $filter)
     {
         parent::__construct($database);
