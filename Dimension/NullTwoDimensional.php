@@ -7,6 +7,8 @@ namespace Brain\Common\Dimension;
 use Brain\Common\Debug\Representation\DebugRepresentationInterface;
 use Brain\Common\Debug\Representation\DebugRepresentationTrait;
 use Brain\Common\Prototype\NullObjectRepresentationInterface;
+use Brain\Common\Spacial\Area;
+use Brain\Common\Spacial\AreaInterface;
 
 /**
  * A null instance of two dimensional that can be used in place of null.
@@ -34,6 +36,14 @@ final class NullTwoDimensional implements
     public function getHeight(): int
     {
         return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea(): AreaInterface
+    {
+        return Area::createZero();
     }
 
     /**

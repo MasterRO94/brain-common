@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Brain\Common\Form\Model\Dimension;
 
 use Brain\Common\Dimension\TwoDimensionalInterface;
+use Brain\Common\Spacial\Area;
+use Brain\Common\Spacial\AreaInterface;
 
 /**
  * {@inheritdoc}
@@ -34,6 +36,14 @@ final class TwoDimensionalFormModel implements
     public function getHeight(): int
     {
         return $this->height;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea(): AreaInterface
+    {
+        return Area::createFromTwoDimensional($this);
     }
 
     /**

@@ -40,6 +40,34 @@ final class TwoDimensionalTest extends TestCase
     }
 
     /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanGetArea(): array
+    {
+        return [
+            [0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1],
+
+            [100, 10, 10],
+            [1000, 20, 50],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanGetArea
+     */
+    public function canGetArea(int $expected, int $width, int $height): void
+    {
+        $dimension = new TwoDimensional($width, $height);
+
+        self::assertEquals($expected, $dimension->getArea()->toInteger());
+    }
+
+    /**
      * @test
      */
     public function canDetectZeroIsNotSquare(): void

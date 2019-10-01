@@ -42,6 +42,65 @@ final class ThreeDimensionalTest extends TestCase
     }
 
     /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanGetArea(): array
+    {
+        return [
+            [0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1],
+
+            [100, 10, 10],
+            [1000, 20, 50],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanGetArea
+     */
+    public function canGetArea(int $expected, int $width, int $height): void
+    {
+        $dimension = new ThreeDimensional($width, $height, 159342);
+
+        self::assertEquals($expected, $dimension->getArea()->toInteger());
+    }
+
+    /**
+     * Data provider.
+     *
+     * @return mixed[]
+     */
+    public function provideCanGetVolume(): array
+    {
+        return [
+            [0, 0, 0, 1],
+            [0, 1, 0, 1],
+            [0, 0, 1, 1],
+
+            [100, 10, 10, 1],
+            [1000, 20, 50, 1],
+
+            [1000, 10, 10, 10],
+            [210, 5, 6, 7],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideCanGetVolume
+     */
+    public function canGetVolume(int $expected, int $width, int $height, int $depth): void
+    {
+        $dimension = new ThreeDimensional($width, $height, $depth);
+
+        self::assertEquals($expected, $dimension->getVolume()->toInteger());
+    }
+
+    /**
      * @test
      */
     public function canDetectZeroIsNotSquare(): void

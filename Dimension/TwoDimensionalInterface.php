@@ -8,6 +8,7 @@ use Brain\Common\Dimension\Column\HeightDimensionInterface;
 use Brain\Common\Dimension\Column\WidthDimensionInterface;
 use Brain\Common\Representation\Type\ArrayRepresentationInterface;
 use Brain\Common\Representation\Type\StringRepresentationInterface;
+use Brain\Common\Spacial\AreaInterface;
 
 /**
  * Representing a two dimensional object.
@@ -22,6 +23,13 @@ interface TwoDimensionalInterface extends
     StringRepresentationInterface,
     ArrayRepresentationInterface
 {
+    /**
+     * Return the two dimensional area of width and height.
+     *
+     * Note, any depth is ignored.
+     */
+    public function getArea(): AreaInterface;
+
     /**
      * Check this object can be considered a square in two dimensional terms.
      */

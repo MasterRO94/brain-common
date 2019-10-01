@@ -6,6 +6,8 @@ namespace Brain\Common\Dimension;
 
 use Brain\Common\Debug\Representation\DebugRepresentationInterface;
 use Brain\Common\Debug\Representation\DebugRepresentationTrait;
+use Brain\Common\Spacial\Area;
+use Brain\Common\Spacial\AreaInterface;
 
 /**
  * {@inheritdoc}
@@ -52,6 +54,14 @@ final class TwoDimensional implements
     public function getHeight(): int
     {
         return $this->height;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea(): AreaInterface
+    {
+        return Area::createFromTwoDimensional($this);
     }
 
     /**

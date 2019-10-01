@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brain\Common\Dimension;
 
 use Brain\Common\Dimension\Column\DepthDimensionInterface;
+use Brain\Common\Spacial\VolumeInterface;
 
 /**
  * Representing a three dimensional object.
@@ -16,6 +17,11 @@ interface ThreeDimensionalInterface extends
     TwoDimensionalInterface,
     DepthDimensionInterface
 {
+    /**
+     * Return the volume of the three dimensional.
+     */
+    public function getVolume(): VolumeInterface;
+
     /**
      * Check this object can be considered a cube in three dimensional terms.
      */

@@ -6,6 +6,10 @@ namespace Brain\Common\Dimension;
 
 use Brain\Common\Debug\Representation\DebugRepresentationInterface;
 use Brain\Common\Debug\Representation\DebugRepresentationTrait;
+use Brain\Common\Spacial\Area;
+use Brain\Common\Spacial\AreaInterface;
+use Brain\Common\Spacial\Volume;
+use Brain\Common\Spacial\VolumeInterface;
 
 /**
  * {@inheritdoc}
@@ -64,6 +68,22 @@ final class ThreeDimensional implements
     public function getDepth(): int
     {
         return $this->depth;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea(): AreaInterface
+    {
+        return Area::createFromTwoDimensional($this);
+    }
+
+    /**
+     * Return the volume of the three dimensional.
+     */
+    public function getVolume(): VolumeInterface
+    {
+        return Volume::createFromThreeDimensional($this);
     }
 
     /**
