@@ -175,6 +175,22 @@ abstract class AbstractEnum implements
     /**
      * {@inheritdoc}
      */
+    public function in(array $values): bool
+    {
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inValues(array $values): bool
+    {
+        throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toString(): string
     {
         throw new RuntimeException('This method is not supported on this enum, please upgrade to a strict typed enum.');
