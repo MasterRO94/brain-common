@@ -205,6 +205,32 @@ final class EnumTest extends TestCase
     /**
      * @test
      */
+    public function withInMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->in([
+            new ExampleTestFixtureEnum(),
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function withInValueMethodUpgradeRequiredThrow(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('This method is not supported on this enum, please upgrade to a strict typed enum.');
+
+        (new ExampleTestFixtureEnum())->inValues([
+            1,
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function withToStringValueMethodUpgradeRequiredThrow(): void
     {
         self::expectException(RuntimeException::class);

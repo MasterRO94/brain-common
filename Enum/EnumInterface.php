@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brain\Common\Enum;
 
+use Brain\Common\Assert\Exception\Type\ArrayTypeInvalidTypeAssertException;
 use Brain\Common\Representation\Type\StringRepresentationInterface;
 
 /**
@@ -46,4 +47,20 @@ interface EnumInterface extends
      * @param string|int $value
      */
     public function isValue($value): bool;
+
+    /**
+     * Check the value matches any of the given enums.
+     *
+     * @param EnumInterface[] $values
+     *
+     * @throws ArrayTypeInvalidTypeAssertException
+     */
+    public function in(array $values): bool;
+
+    /**
+     * Check the value matches any of the given enum values.
+     *
+     * @param string[]|int[] $values
+     */
+    public function inValues(array $values): bool;
 }

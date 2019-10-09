@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Brain\Common\Tests\Unit\Enum\Type;
 
+use Brain\Common\Assert\Exception\Type\ArrayTypeInvalidTypeAssertException;
+use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\TranslationInvalidForEnumException;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Type\Implementation\AbstractIntegerEnum;
 use Brain\Common\Enum\Type\Implementation\AbstractIntegerTranslationEnum;
 use Brain\Common\Exception\Developer\DeveloperContractRuntimeException;
 use Brain\Common\Tests\Fixture\Enum\Type\IntegerEnumTestFixture;
+use Brain\Common\Tests\Fixture\Enum\Type\StringEnumTestFixture;
 
 use PHPUnit\Framework\TestCase;
 
@@ -195,6 +198,73 @@ final class IntegerEnumTest extends TestCase
 
         self::assertTrue($b->isValue(IntegerEnumTestFixture::VALUE_ONE));
         self::assertFalse($b->isValue(IntegerEnumTestFixture::VALUE_ZERO));
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValueInvalidForEnumException
+     */
+    public function withInvalidInArrayThrow(): void
+    {
+        $a = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
+
+        try {
+            /** @var EnumInterface[] $invalid */
+            $invalid = [1, 2, 3];
+
+            $a->in($invalid);
+        } catch (ArrayTypeInvalidTypeAssertException $exception) {
+            $message = 'The given array ($values) must be an array of %s';
+            $message = sprintf($message, EnumInterface::class);
+
+            self::assertEquals($message, $exception->getMessage());
+
+            return;
+        }
+
+        self::fail(sprintf('Expected exception: %s', ArrayTypeInvalidTypeAssertException::class));
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValueInvalidForEnumException
+     * @throws ArrayTypeInvalidTypeAssertException
+     */
+    public function canCheckStringEnumIn(): void
+    {
+        $a = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
+        $b = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ONE);
+        $c = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
+        $d = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
+
+        self::assertFalse($a->in([]));
+        self::assertFalse($a->in([$b]));
+        self::assertFalse($a->in([$d]));
+        self::assertFalse($a->in([$b, $d]));
+
+        self::assertTrue($a->in([$a]));
+        self::assertTrue($a->in([$c]));
+        self::assertTrue($a->in([$b, $c]));
+        self::assertTrue($a->in([$a, $b]));
+    }
+
+    /**
+     * @test
+     *
+     * @throws ValueInvalidForEnumException
+     */
+    public function canCheckStringEnumInValue(): void
+    {
+        $a = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
+        $b = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ONE);
+
+        self::assertTrue($a->inValues([IntegerEnumTestFixture::VALUE_ZERO]));
+        self::assertFalse($a->inValues([IntegerEnumTestFixture::VALUE_ONE]));
+
+        self::assertTrue($b->inValues([IntegerEnumTestFixture::VALUE_ONE]));
+        self::assertFalse($b->inValues([IntegerEnumTestFixture::VALUE_ZERO]));
     }
 
     /**

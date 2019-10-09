@@ -40,4 +40,18 @@ interface IntegerEnumInterface extends
      * @param int $value
      */
     public function isValue($value): bool;
+
+    /**
+     * Check the value matches any of the given enums.
+     *
+     * @param IntegerEnumInterface[] $values
+     */
+    public function in(array $values): bool;
+
+    /**
+     * Check the value matches any of the given enum values.
+     *
+     * @param int[] $values
+     */
+    public function inValues(array $values): bool;
 }
