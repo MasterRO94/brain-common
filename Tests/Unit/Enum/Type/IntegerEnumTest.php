@@ -12,7 +12,6 @@ use Brain\Common\Enum\Type\Implementation\AbstractIntegerEnum;
 use Brain\Common\Enum\Type\Implementation\AbstractIntegerTranslationEnum;
 use Brain\Common\Exception\Developer\DeveloperContractRuntimeException;
 use Brain\Common\Tests\Fixture\Enum\Type\IntegerEnumTestFixture;
-use Brain\Common\Tests\Fixture\Enum\Type\StringEnumTestFixture;
 
 use PHPUnit\Framework\TestCase;
 
@@ -216,7 +215,7 @@ final class IntegerEnumTest extends TestCase
             $a->in($invalid);
         } catch (ArrayTypeInvalidTypeAssertException $exception) {
             $message = 'The given array ($values) must be an array of %s';
-            $message = sprintf($message, EnumInterface::class);
+            $message = sprintf($message, IntegerEnumTestFixture::class);
 
             self::assertEquals($message, $exception->getMessage());
 
@@ -232,17 +231,14 @@ final class IntegerEnumTest extends TestCase
      * @throws ValueInvalidForEnumException
      * @throws ArrayTypeInvalidTypeAssertException
      */
-    public function canCheckStringEnumIn(): void
+    public function canCheckIntegerEnumIn(): void
     {
         $a = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
         $b = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ONE);
         $c = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
-        $d = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
 
         self::assertFalse($a->in([]));
         self::assertFalse($a->in([$b]));
-        self::assertFalse($a->in([$d]));
-        self::assertFalse($a->in([$b, $d]));
 
         self::assertTrue($a->in([$a]));
         self::assertTrue($a->in([$c]));
@@ -255,7 +251,7 @@ final class IntegerEnumTest extends TestCase
      *
      * @throws ValueInvalidForEnumException
      */
-    public function canCheckStringEnumInValue(): void
+    public function canCheckIntegerEnumInValue(): void
     {
         $a = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ZERO);
         $b = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ONE);

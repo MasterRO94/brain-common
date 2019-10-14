@@ -8,7 +8,6 @@ use Brain\Common\Assert\Exception\Type\ArrayTypeInvalidTypeAssertException;
 use Brain\Common\Enum\EnumInterface;
 use Brain\Common\Enum\Exception\ValueInvalidForEnumException;
 use Brain\Common\Enum\Type\Implementation\AbstractStringEnum;
-use Brain\Common\Tests\Fixture\Enum\Type\IntegerEnumTestFixture;
 use Brain\Common\Tests\Fixture\Enum\Type\StringEnumTestFixture;
 
 use PHPUnit\Framework\TestCase;
@@ -195,7 +194,7 @@ final class StringEnumTest extends TestCase
             $a->in($invalid);
         } catch (ArrayTypeInvalidTypeAssertException $exception) {
             $message = 'The given array ($values) must be an array of %s';
-            $message = sprintf($message, EnumInterface::class);
+            $message = sprintf($message, StringEnumTestFixture::class);
 
             self::assertEquals($message, $exception->getMessage());
 
@@ -216,12 +215,9 @@ final class StringEnumTest extends TestCase
         $a = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
         $b = new StringEnumTestFixture(StringEnumTestFixture::VALUE_BAR);
         $c = new StringEnumTestFixture(StringEnumTestFixture::VALUE_FOO);
-        $d = new IntegerEnumTestFixture(IntegerEnumTestFixture::VALUE_ONE);
 
-        self::assertFalse($a->in([$b]));
-        self::assertFalse($a->in([$d]));
-        self::assertFalse($a->in([$b, $d]));
         self::assertFalse($a->in([]));
+        self::assertFalse($a->in([$b]));
 
         self::assertTrue($a->in([$a]));
         self::assertTrue($a->in([$c]));
