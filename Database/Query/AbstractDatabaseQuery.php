@@ -8,7 +8,7 @@ use Brain\Common\Database\Exception\DatabaseQueryException;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\Result;
 
 use PDO;
 
@@ -59,7 +59,7 @@ abstract class AbstractDatabaseQuery
      *
      * @throws DatabaseQueryException
      */
-    final protected function runQueryForConnection(Connection $connection): ResultStatement
+    final protected function runQueryForConnection(Connection $connection): Result
     {
         $sql = $this->build($connection);
         $sql = sprintf("-- %s\n%s", static::class, $sql);
